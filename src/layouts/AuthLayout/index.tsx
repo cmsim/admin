@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import Copyright from '@/components/Copyright'
-import styles from './index.less'
+import styles from './index.module.less'
 
 export const AuthLayout: FC = props => {
   const { children } = props

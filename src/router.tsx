@@ -1,6 +1,7 @@
 import { Router as IRouter, RouterAPI, router as dvaRouter } from 'dva'
 import React, { Suspense, lazy } from 'react'
 import { ConfigProvider } from 'antd'
+import { ConfigProviderLocal } from '@/contexts'
 import zhCN from 'antd/es/locale/zh_CN'
 
 const Home = lazy(() => import('@/pages/Home'))
@@ -12,15 +13,17 @@ const router: IRouter = (routerApi?: RouterAPI) => {
   if (!routerApi) return {}
   return (
     <ConfigProvider locale={zhCN}>
-      <Router history={routerApi.history}>
-        <Suspense fallback={null}>
-          <Switch>
-            <Route path='/home' component={Home} />
-            <Route path='/auth' component={Auth} />
-            <Redirect to='/home/overview' />
-          </Switch>
-        </Suspense>
-      </Router>
+      <ConfigProviderLocal>
+        <Router history={routerApi.history}>
+          <Suspense fallback={null}>
+            <Switch>
+              <Route path='/home' component={Home} />
+              <Route path='/auth' component={Auth} />
+              <Redirect to='/home/overview' />
+            </Switch>
+          </Suspense>
+        </Router>
+      </ConfigProviderLocal>
     </ConfigProvider>
   )
 }
