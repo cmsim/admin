@@ -10,6 +10,6 @@
     // For Stylelint
     "source.fixAll.stylelint": true
   },
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.enablePromptUseWorkspaceTsdk": true
+  "css.validate": false,
+  "less.validate": false
 }

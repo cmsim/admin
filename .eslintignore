@@ -1,3 +1,8 @@
-/build/
-/node_modules/
-/src/utils/
+/lambda/
+/scripts
+/config
+.history
+public
+dist
+.umi
+mock
