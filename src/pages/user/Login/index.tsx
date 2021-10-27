@@ -79,8 +79,6 @@ const Login: React.FC = () => {
   };
   const { status, type: loginType } = userLoginState;
 
-  console.log(md5('DXh19880611'));
-
   return (
     <div className={styles.container}>
       <div className={styles.lang} data-lang>

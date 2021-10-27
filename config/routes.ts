@@ -25,6 +25,24 @@
     component: './Welcome',
   },
   {
+    path: '/subject',
+    name: 'subject',
+    icon: 'crown',
+    access: 'canAdmin',
+    component: './Subject',
+    routes: [
+      {
+        path: '/subject/list',
+        name: 'list',
+        icon: 'smile',
+        component: './Subject',
+      },
+      {
+        component: './404',
+      },
+    ],
+  },
+  {
     path: '/admin',
     name: 'admin',
     icon: 'crown',

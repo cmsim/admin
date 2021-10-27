@@ -1,6 +1,5 @@
 declare module 'slash2';
 declare module '*.css';
-declare module '*.less';
 declare module '*.scss';
 declare module '*.sass';
 declare module '*.svg';
@@ -25,4 +24,9 @@ declare const REACT_APP_ENV: 'test' | 'dev' | 'pre' | false;
 
 declare interface Window {
   g_app: any;
+}
+
+declare module '*.less' {
+  const classes: Record<string, any>;
+  export default classes;
 }
