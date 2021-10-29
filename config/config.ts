@@ -13,6 +13,8 @@ export default defineConfig({
   antd: {},
   dva: {
     hmr: true,
+    immer: true,
+    lazyLoad: true,
   },
   layout: {
     // https://umijs.org/zh-CN/plugins/plugin-layout
