@@ -1,17 +1,18 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FooterToolbar, PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
+import type { FC } from 'react';
 import ProTable from '@ant-design/pro-table';
 import { Button, Popover } from 'antd';
 import { subjectList } from '@/services/subject';
 import { mcatList } from '@/services/mcat';
 
 import { useIntl, FormattedMessage } from 'umi';
-import type { IMcat, ISubject, ISubjectList } from '@/services/typings';
+import type { IMcat, ISubject } from '@/services/typings';
 import { PlusOutlined } from '@ant-design/icons';
 import { findMcat } from '@/utils';
 
-export default (): React.ReactNode => {
+const Subject: FC = () => {
   const intl = useIntl();
   const actionRef = useRef<ActionType>();
   const [selectedRowsState, setSelectedRows] = useState<ISubject[]>([]);
@@ -38,6 +39,7 @@ export default (): React.ReactNode => {
     {
       title: <FormattedMessage id="pages.searchTable.name" />,
       dataIndex: 'name',
+      copyable: true,
       render: (_, entity) => (
         <Popover content={<img src={entity.pic} style={{ width: 200 }} />}>{entity.name}</Popover>
       ),
@@ -82,6 +84,7 @@ export default (): React.ReactNode => {
     {
       title: <FormattedMessage id="pages.searchTable.hits" />,
       sorter: true,
+      search: false,
       dataIndex: 'hits',
     },
     {
@@ -106,7 +109,7 @@ export default (): React.ReactNode => {
   ];
   return (
     <PageContainer>
-      <ProTable<ISubject, ISubjectList>
+      <ProTable<ISubject, ISubject & { updated_at: any }>
         headerTitle={intl.formatMessage({
           id: 'pages.searchTable.title',
           defaultMessage: 'Enquiry form',
@@ -118,9 +121,27 @@ export default (): React.ReactNode => {
             <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="New" />
           </Button>,
         ]}
-        request={(params) => {
+        request={async (params) => {
           console.log(params, 'params');
-          return subjectList(params);
+          const { current, pageSize, name: wd, mcid, language, area, isend, updated_at } = params;
+          const param = {
+            current,
+            pageSize,
+            filter: JSON.stringify({
+              wd,
+              mcid,
+              language,
+              area,
+              isend,
+              created_at: updated_at.join(','),
+            }),
+          };
+          const res = await subjectList(param);
+          return {
+            data: res.data?.list,
+            total: res.data?.total,
+            success: true,
+          };
         }}
         columns={columns}
         rowSelection={{
@@ -150,3 +171,5 @@ export default (): React.ReactNode => {
     </PageContainer>
   );
 };
+
+export default Subject;

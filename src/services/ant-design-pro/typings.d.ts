@@ -11,7 +11,7 @@ declare namespace API {
     title?: string;
     group?: string;
     tags?: { key?: string; label?: string }[];
-    admin?: number;
+    admin?: string | number;
     unreadCount?: number;
     country?: string;
     access?: string;
@@ -24,10 +24,12 @@ declare namespace API {
   };
 
   type LoginResult = {
+    data?: {
+      token?: string;
+    };
     status?: number;
     message?: string;
     type?: string;
-    data?: { refreshToken: string; token: string };
   };
 
   type PageParams = {

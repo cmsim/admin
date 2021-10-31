@@ -166,10 +166,12 @@ export interface ISubject extends IHits, IDate, Omit<IId, 'sid' | 'aid'> {
 }
 
 export interface ISubjectList extends IResponse {
-  data?: ISubject[];
-  /** 列表的内容总数 */
-  total?: number;
-  success?: boolean;
+  data?: {
+    list?: ISubject[];
+    current?: number | string;
+    pageSize?: number | string;
+    total?: number;
+  };
 }
 
 export interface IAttachment extends IDate, Omit<IId, 'cid'> {

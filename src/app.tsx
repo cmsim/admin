@@ -7,8 +7,7 @@ import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
 import { currentUser as queryCurrentUser } from './services/user';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
-import { message, notification } from 'antd';
-import { createLogger } from 'redux-logger';
+import { notification } from 'antd';
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -16,15 +15,6 @@ const loginPath = '/user/login';
 /** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {
   loading: <PageLoading />,
-};
-/** dva 配置 */
-export const dva = {
-  config: {
-    onAction: createLogger(),
-    onError(e: Error) {
-      message.error(e.message, 3);
-    },
-  },
 };
 
 /**

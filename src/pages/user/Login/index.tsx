@@ -50,14 +50,14 @@ const Login: React.FC = () => {
   const handleSubmit = async (values: API.LoginParams) => {
     try {
       // 登录
-      const msg = await login({ ...values, password: md5(values.password!), type });
-      if (msg.status === 200) {
+      const res = await login({ ...values, password: md5(values.password!), type });
+      if (res.status === 200) {
         const defaultLoginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',
           defaultMessage: '登录成功！',
         });
         message.success(defaultLoginSuccessMessage);
-        localStorage.token = msg.data?.token;
+        localStorage.token = res?.data?.token;
         await fetchUserInfo();
         /** 此方法会跳转到 redirect 参数所在的位置 */
         if (!history) return;
@@ -66,9 +66,9 @@ const Login: React.FC = () => {
         history.push(redirect || '/');
         return;
       }
-      console.log(msg);
+      console.log(res);
       // 如果失败去设置用户错误信息
-      setUserLoginState(msg);
+      setUserLoginState(res);
     } catch (error) {
       const defaultLoginFailureMessage = intl.formatMessage({
         id: 'pages.login.failure',
