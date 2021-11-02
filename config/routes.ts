@@ -29,13 +29,28 @@
     name: 'subject',
     icon: 'crown',
     access: 'canAdmin',
-    component: './Subject',
     routes: [
+      { path: '/subject', redirect: '/subject/list' },
       {
         path: '/subject/list',
         name: 'list',
         icon: 'smile',
         component: './Subject',
+        parentKeys: ['/subject/list'],
+      },
+      {
+        hideInMenu: true,
+        path: '/subject/add',
+        name: 'create',
+        component: './Subject/edit',
+        parentKeys: ['/subject/list'],
+      },
+      {
+        hideInMenu: true,
+        path: '/subject/edit/:id',
+        name: 'edit',
+        component: './Subject/edit',
+        parentKeys: ['/subject/list'],
       },
       {
         component: './404',

@@ -7,13 +7,14 @@ import { Button, Popover } from 'antd';
 import { subjectList } from '@/services/subject';
 import { mcatList } from '@/services/mcat';
 
-import { useIntl, FormattedMessage } from 'umi';
+import { useIntl, FormattedMessage, Link, useHistory } from 'umi';
 import type { IMcat, ISubject } from '@/services/typings';
 import { PlusOutlined } from '@ant-design/icons';
 import { findMcat } from '@/utils';
 
 const Subject: FC = () => {
   const intl = useIntl();
+  const history = useHistory();
   const actionRef = useRef<ActionType>();
   const [selectedRowsState, setSelectedRows] = useState<ISubject[]>([]);
   const [mcat, setMcat] = useState<IMcat[]>([]);
@@ -91,16 +92,16 @@ const Subject: FC = () => {
       title: <FormattedMessage id="pages.searchTable.updatedAt" />,
       sorter: true,
       dataIndex: 'updated_at',
-      valueType: 'dateTimeRange',
+      valueType: 'dateRange',
     },
     {
       title: <FormattedMessage id="pages.searchTable.titleOption" />,
       dataIndex: 'option',
       valueType: 'option',
-      render: () => [
-        <a key="edit">
+      render: (_, entity) => [
+        <Link key="edit" to={`edit/${entity.id}`}>
           <FormattedMessage id="pages.searchTable.edit" />
-        </a>,
+        </Link>,
         <a key="delete">
           <FormattedMessage id="pages.searchTable.delete" />
         </a>,
@@ -117,7 +118,13 @@ const Subject: FC = () => {
         actionRef={actionRef}
         rowKey="id"
         toolBarRender={() => [
-          <Button type="primary" key="primary" onClick={() => {}}>
+          <Button
+            type="primary"
+            key="primary"
+            onClick={() => {
+              history.push('add');
+            }}
+          >
             <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="New" />
           </Button>,
         ]}
@@ -133,7 +140,7 @@ const Subject: FC = () => {
               language,
               area,
               isend,
-              created_at: updated_at.join(','),
+              created_at: updated_at?.join(','),
             }),
           };
           const res = await subjectList(param);

@@ -100,6 +100,7 @@ export interface IPlay {
 
 export interface IList extends Omit<IId, 'uid' | 'aid' | 'cid'> {
   rank: number;
+  pid: number;
   name: string;
   dir: string;
   icon: string;
