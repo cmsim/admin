@@ -6,115 +6,119 @@ import ProTable from '@ant-design/pro-table';
 import { Button, Popover } from 'antd';
 import { subjectList } from '@/services/subject';
 import { mcatList } from '@/services/mcat';
-
-import { useIntl, FormattedMessage, Link, useHistory } from 'umi';
+import { Link, useHistory } from 'umi';
 import type { IMcat, ISubject } from '@/services/typings';
 import { PlusOutlined } from '@ant-design/icons';
 import { findMcat } from '@/utils';
 
 const Subject: FC = () => {
-  const intl = useIntl();
   const history = useHistory();
   const actionRef = useRef<ActionType>();
   const [selectedRowsState, setSelectedRows] = useState<ISubject[]>([]);
   const [mcat, setMcat] = useState<IMcat[]>([]);
-
   const getMcat = useCallback(async () => {
     const res = await mcatList();
     setMcat(res.data);
   }, []);
-
   useEffect(() => {
     getMcat();
   }, [getMcat]);
-
   const mcatEnum = useMemo(() => {
     let obj = {};
     mcat.forEach((item) => {
-      obj = { ...obj, [item.id]: { text: item.name, status: item.id } };
+      obj = {
+        ...obj,
+        [item.id]: {
+          text: item.name,
+          status: item.id,
+        },
+      };
     });
     return obj;
   }, [mcat]);
-
   const columns: ProColumns<ISubject>[] = [
     {
-      title: <FormattedMessage id="pages.searchTable.name" />,
+      title: '名称',
       dataIndex: 'name',
       copyable: true,
       render: (_, entity) => (
-        <Popover content={<img src={entity.pic} style={{ width: 200 }} />}>{entity.name}</Popover>
+        <Popover
+          content={
+            <img
+              src={entity.pic}
+              style={{
+                width: 200,
+              }}
+            />
+          }
+        >
+          {entity.name}
+        </Popover>
       ),
     },
     {
-      title: <FormattedMessage id="pages.searchTable.mcid" />,
+      title: '小分类',
       dataIndex: 'mcid',
       render: (_, entity) => findMcat(mcat, entity.mcid, true),
       valueEnum: mcatEnum,
     },
     {
-      title: <FormattedMessage id="pages.searchTable.language" />,
+      title: '语言',
       dataIndex: 'language',
     },
     {
-      title: <FormattedMessage id="pages.searchTable.area" />,
+      title: '地区',
       dataIndex: 'area',
     },
     {
-      title: <FormattedMessage id="pages.searchTable.isend" />,
+      title: '连载',
       dataIndex: 'isend',
       hideInForm: true,
-      render: (_, entity) =>
-        entity.isend ? (
-          <>
-            <FormattedMessage id="pages.searchTable.isend.default" />({entity.serialized})
-          </>
-        ) : (
-          <FormattedMessage id="pages.searchTable.isend.done" />
-        ),
+      render: (_, entity) => (entity.isend ? <>"连载"({entity.serialized})</> : '完结'),
       valueEnum: {
         1: {
-          text: <FormattedMessage id="pages.searchTable.isend.default" />,
+          text: '连载',
           status: true,
         },
         0: {
-          text: <FormattedMessage id="pages.searchTable.isend.done" />,
+          text: '完结',
           status: false,
         },
       },
     },
     {
-      title: <FormattedMessage id="pages.searchTable.hits" />,
+      title: '人气',
       sorter: true,
       search: false,
       dataIndex: 'hits',
     },
     {
-      title: <FormattedMessage id="pages.searchTable.updatedAt" />,
+      title: '更新时间',
       sorter: true,
       dataIndex: 'updated_at',
       valueType: 'dateRange',
     },
     {
-      title: <FormattedMessage id="pages.searchTable.titleOption" />,
+      title: '操作',
       dataIndex: 'option',
       valueType: 'option',
       render: (_, entity) => [
         <Link key="edit" to={`edit/${entity.id}`}>
-          <FormattedMessage id="pages.searchTable.edit" />
+          编辑
         </Link>,
-        <a key="delete">
-          <FormattedMessage id="pages.searchTable.delete" />
-        </a>,
+        <a key="delete">删除</a>,
       ],
     },
   ];
   return (
     <PageContainer>
-      <ProTable<ISubject, ISubject & { updated_at: any }>
-        headerTitle={intl.formatMessage({
-          id: 'pages.searchTable.title',
-          defaultMessage: 'Enquiry form',
-        })}
+      <ProTable<
+        ISubject,
+        ISubject & {
+          updated_at: any;
+        }
+      >
+        headerTitle={'查询表格'}
         actionRef={actionRef}
         rowKey="id"
         toolBarRender={() => [
@@ -125,7 +129,7 @@ const Subject: FC = () => {
               history.push('add');
             }}
           >
-            <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="New" />
+            <PlusOutlined /> 新建
           </Button>,
         ]}
         request={async (params) => {
@@ -161,18 +165,19 @@ const Subject: FC = () => {
         <FooterToolbar
           extra={
             <div>
-              <FormattedMessage id="pages.searchTable.chosen" defaultMessage="Chosen" />{' '}
-              <a style={{ fontWeight: 600 }}>{selectedRowsState.length}</a>{' '}
-              <FormattedMessage id="pages.searchTable.item" defaultMessage="项" />
+              已选择{' '}
+              <a
+                style={{
+                  fontWeight: 600,
+                }}
+              >
+                {selectedRowsState.length}
+              </a>{' '}
+              项
             </div>
           }
         >
-          <Button type="primary">
-            <FormattedMessage
-              id="pages.searchTable.batchApproval"
-              defaultMessage="Batch approval"
-            />
-          </Button>
+          <Button type="primary">批量审批</Button>
         </FooterToolbar>
       )}
     </PageContainer>

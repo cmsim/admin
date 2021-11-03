@@ -1,6 +1,5 @@
 import type { FC } from 'react';
-import { useCallback, useEffect } from 'react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { message, Cascader, Form } from 'antd';
 import ProForm, {
   ProFormCheckbox,
@@ -17,12 +16,11 @@ import ProForm, {
 import { PageContainer } from '@ant-design/pro-layout';
 import { EditableProTable } from '@ant-design/pro-table';
 import type { ProColumns } from '@ant-design/pro-table';
-import { list } from '@/services/list';
-import type { IList } from '@/services/typings';
-import { mcatList } from '@/services/mcat';
 import Field from '@ant-design/pro-field';
 
 import styles from './style.less';
+import { useModel } from 'umi';
+import { getListFormat } from '@/utils';
 
 const { Item } = Form;
 
@@ -85,44 +83,23 @@ const columns: ProColumns<DataSourceType>[] = [
   },
 ];
 
-type ITypeList = { value: number; label: string; children?: any }[];
-
 const SubjectEdit: FC = () => {
   const [form] = ProForm.useForm();
   const [editableKeys, setEditableRowKeys] = useState<React.Key[]>(() =>
     defaultData.map((item) => item.id),
   );
-  const [typelist, setTypelist] = useState<ITypeList>([]);
-  const [mcat, setMcat] = useState<{ label: string; value: string }[]>([]);
   const [color, setColor] = useState('');
   const [bgColor, setBgColor] = useState('');
-  const getList = useCallback(async () => {
-    const res = await list();
-    const data: ITypeList = [];
-    res.data.forEach((item) => {
-      if (item.pid === 0) {
-        data.push({ value: item.id, label: item.name });
-      }
-    });
-    data.forEach((item) => {
-      const d: IList[] = res.data.filter((s) => s.pid === item.value);
-      item.children = d.map((s) => {
-        return { value: s.id, label: s.name };
-      });
-    });
-    setTypelist(data);
-  }, []);
-  const getMcat = useCallback(async () => {
-    const res = await mcatList();
-    const data: any = res.data.map((item) => {
-      return { label: item.name, value: item.id };
-    });
-    setMcat(data);
-  }, []);
+  const { categoryList, getCategoryList } = useModel('useList');
+  const { mcat, getMcat } = useModel('useMcat');
+
   useEffect(() => {
-    getList();
     getMcat();
-  }, [getList, getMcat]);
+  }, [getMcat]);
+
+  useEffect(() => {
+    getCategoryList();
+  }, [getCategoryList]);
 
   useEffect(() => {
     form.setFieldsValue({ color });
@@ -148,7 +125,11 @@ const SubjectEdit: FC = () => {
       >
         <ProForm.Group size={5}>
           <Item label="分类" name="cid">
-            <Cascader options={typelist} placeholder="分类" style={{ width: 130 }} />
+            <Cascader
+              options={getListFormat(categoryList)}
+              placeholder="分类"
+              style={{ width: 130 }}
+            />
           </Item>
           <ProFormSelect
             name="area"
@@ -229,7 +210,13 @@ const SubjectEdit: FC = () => {
           <ProFormText width={100} name="inputer" placeholder="编辑" />
           <ProFormSwitch name="isend" label="是否完结" />
         </ProForm.Group>
-        <ProFormCheckbox.Group name="checkbox" label="小类" options={mcat} />
+        <ProFormCheckbox.Group
+          name="checkbox"
+          label="小类"
+          options={mcat.map((item) => {
+            return { label: item.name, value: item.id };
+          })}
+        />
         <ProForm.Group size={5}>
           <ProFormText width="lg" name="name" label="名称" placeholder="名称" />
           <ProFormText width="lg" name="foreign" placeholder="外文名" />
@@ -328,75 +315,6 @@ const SubjectEdit: FC = () => {
         <ProFormTextArea name="other" label="其他" placeholder="其他" />
         <ProFormTextArea name="url" label="播放" placeholder="播放" />
         <ProFormTextArea name="content" label="简介" placeholder="简介" />
-
-        {/**
-         * id: { type: INTEGER.UNSIGNED, primaryKey: true, autoIncrement: true, comment: '自增id' },
-      cid: { type: INTEGER.UNSIGNED, allowNull: false, defaultValue: 0, comment: '分类id' },
-      uid: { type: INTEGER.UNSIGNED, defaultValue: 0, comment: '用户id' },
-      mcid: { type: STRING(255), defaultValue: '', comment: '小分类' },
-      name: { type: STRING(255), allowNull: false, defaultValue: '', comment: '名字' },
-      foreign: { type: STRING(255), defaultValue: '', comment: '外文名' },
-      aliases: { type: STRING(255), defaultValue: '', comment: '别名' },
-      title: { type: STRING(255), allowNull: false, defaultValue: '', comment: '副标题' },
-      tag: { type: STRING(255), defaultValue: '', comment: '标签' },
-      label: { type: STRING(255), defaultValue: '', comment: '关联别名例:第1季|第2季' },
-      color: { type: CHAR(8), defaultValue: '', comment: '标题颜色' },
-      bg_color: { type: CHAR(8), defaultValue: '', comment: '背景颜色' },
-      star: { type: TEXT, defaultValue: '', comment: '明星' },
-      director: { type: STRING(255), defaultValue: '', comment: '导演' },
-      pic: { type: STRING(255), defaultValue: '', comment: '封面' },
-      pic_thumb: { type: STRING(255), defaultValue: '', comment: '小图' },
-      bigpic: { type: STRING(255), defaultValue: '', comment: '大图' },
-      website: { type: STRING(255), defaultValue: '', comment: '官网' },
-      original: { type: STRING(255), defaultValue: '', comment: '漫画原作' },
-      company: { type: STRING(255), defaultValue: '', comment: '制作公司' },
-      remark: { type: STRING(255), defaultValue: '', comment: '简评' },
-      baike: { type: STRING(255), defaultValue: '', comment: '百科网址' },
-      time: { type: CHAR(10), defaultValue: '', comment: '放送时间' },
-      area: { type: CHAR(10), defaultValue: '', comment: '地区' },
-      language: { type: CHAR(10), defaultValue: '', comment: '语言' },
-      play: { type: STRING(255), defaultValue: '', comment: '播放源英文名，以$$$分隔' },
-      inputer: { type: STRING(30), defaultValue: '', comment: '录入人' },
-      jumpurl: { type: STRING(150), defaultValue: '', comment: '跳转url' },
-      letter: { type: CHAR(2), defaultValue: '', comment: '首字母' },
-      letters: { type: STRING(255), defaultValue: '', comment: '拼音' },
-      seo_title: { type: STRING(255), defaultValue: '', comment: 'seo标题' },
-      seo_keywords: { type: STRING(255), defaultValue: '', comment: 'seo关键字' },
-      seo_description: { type: STRING(255), defaultValue: '', comment: 'seo简介' },
-      filmtime: { type: STRING(255), defaultValue: '', comment: '上映日期' },
-      length: { type: STRING(255), defaultValue: '', comment: '片长' },
-      url: { type: TEXT('long'), defaultValue: '', comment: '播放集合，以$$$分隔' },
-      content: { type: TEXT, defaultValue: '', allowNull: false, comment: '简介' },
-      other: { type: TEXT('long'), defaultValue: '', allowNull: false, comment: '其他项' },
-      prty: { type: TINYINT.UNSIGNED, defaultValue: 0, comment: '推荐级别' },
-      year: { type: INTEGER.UNSIGNED, defaultValue: 0, comment: '年份' },
-      serialized: { type: INTEGER.UNSIGNED, defaultValue: 0, comment: '连载' },
-      total: { type: INTEGER.UNSIGNED, defaultValue: 0, comment: '总集数' },
-      isend: { type: TINYINT.UNSIGNED, defaultValue: 0, comment: '是否完结' },
-      stars: { type: TINYINT.UNSIGNED, defaultValue: 0, comment: '星级' },
-      up: { type: INTEGER.UNSIGNED, defaultValue: 0, comment: '顶' },
-      down: { type: INTEGER.UNSIGNED, defaultValue: 0, comment: '踩' },
-      rank: { type: TINYINT.UNSIGNED, defaultValue: 0, comment: '播放源排序' },
-      gold: { type: DECIMAL(3, 1), defaultValue: 0.0, comment: '评分' },
-      weekday: { type: TINYINT.UNSIGNED, defaultValue: 0, comment: '星期' },
-      douban: { type: INTEGER.UNSIGNED, defaultValue: 0, comment: '豆瓣id' },
-      imdb: { type: INTEGER.UNSIGNED, defaultValue: 0, comment: 'IMDB' },
-      broadcast: { type: TINYINT.UNSIGNED, defaultValue: 1, comment: '是否开播0:未放送1:已放送' },
-      ip: { type: INTEGER.UNSIGNED, allowNull: false, defaultValue: 0, comment: 'IP' },
-      status: { type: INTEGER.UNSIGNED, allowNull: true, defaultValue: 0, comment: '状态：0正常 1禁用 2审核中 3审核拒绝 4审核忽略 -1删除' },
-      comment_count: { type: BIGINT.UNSIGNED, allowNull: false, defaultValue: 0, comment: '评论数' },
-      like_count: { type: BIGINT.UNSIGNED, allowNull: false, defaultValue: 0, comment: '点赞数' },
-      forward_count: { type: BIGINT.UNSIGNED, allowNull: false, defaultValue: 0, comment: '转发数' },
-      hits: { type: BIGINT.UNSIGNED, allowNull: true, defaultValue: 0, comment: '总' },
-      hits_day: { type: BIGINT.UNSIGNED, allowNull: true, defaultValue: 0, comment: '日' },
-      hits_week: { type: BIGINT.UNSIGNED, allowNull: true, defaultValue: 0, comment: '周' },
-      hits_month: { type: BIGINT.UNSIGNED, allowNull: true, defaultValue: 0, comment: '月' },
-      hits_lasttime: { type: DATE, allowNull: false, defaultValue: NOW, comment: '热度更新时间' },
-      created_at: { type: DATE, allowNull: false, defaultValue: NOW, comment: '创建时间' },
-      updated_at: { type: DATE, allowNull: false, defaultValue: NOW, comment: '更新时间' },
-      deleted_at: { type: DATE, defaultValue: 'NULL', comment: '删除时间' }
-         *
-         */}
 
         <ProForm.Item
           label="数组数据"

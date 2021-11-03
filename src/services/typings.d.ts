@@ -27,12 +27,12 @@ export interface IHits {
 }
 
 export interface IId {
-  id: number;
-  cid: number;
-  uid: number;
-  sid: number;
-  aid: number;
-  status: number;
+  id?: number;
+  cid?: number;
+  uid?: number;
+  sid?: number;
+  aid?: number;
+  status?: number;
 }
 
 export interface IUser extends IDate {
@@ -99,14 +99,14 @@ export interface IPlay {
 }
 
 export interface IList extends Omit<IId, 'uid' | 'aid' | 'cid'> {
-  rank: number;
-  pid: number;
-  name: string;
-  dir: string;
-  icon: string;
-  seo_title: string;
-  seo_keywords: string;
-  seo_description: string;
+  rank?: number;
+  pid?: number;
+  name?: string;
+  dir?: string;
+  icon?: string;
+  seo_title?: string;
+  seo_keywords?: string;
+  seo_description?: string;
 }
 
 export interface ISubject extends IHits, IDate, Omit<IId, 'sid' | 'aid'> {
