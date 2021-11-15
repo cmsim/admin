@@ -21,6 +21,7 @@ import Field from '@ant-design/pro-field';
 import styles from './style.less';
 import { useModel } from 'umi';
 import { getListFormat } from '@/utils';
+import UploadImage from '@/components/Upload';
 
 const { Item } = Form;
 
@@ -123,6 +124,7 @@ const SubjectEdit: FC = () => {
         layout="horizontal"
         style={{ backgroundColor: '#fff', padding: 16 }}
       >
+        <UploadImage btnName="上传图片" />
         <ProForm.Group size={5}>
           <Item label="分类" name="cid">
             <Cascader

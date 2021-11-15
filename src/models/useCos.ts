@@ -1,0 +1,17 @@
+import { stsInit } from '@/services/common';
+import type { ISts } from '@/services/typings';
+import { useState, useCallback } from 'react';
+
+export default function useMcat() {
+  const [sts, setSts] = useState<ISts>();
+
+  const getSts = useCallback(async () => {
+    const res = await stsInit();
+    setSts(res.data);
+  }, []);
+
+  return {
+    sts,
+    getSts,
+  };
+}

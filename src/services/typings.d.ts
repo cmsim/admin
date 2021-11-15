@@ -1,29 +1,29 @@
 export interface IDate {
   // 创建时间
-  readonly created_at: Date;
+  readonly created_at?: string;
   // 修改时间
-  readonly updated_at: Date;
+  readonly updated_at?: string;
   // 删除时间
-  readonly deleted_at: Date;
+  readonly deleted_at?: string;
 }
 
 export interface IResponse {
-  status: number;
-  message: string;
+  status?: number;
+  message?: string;
 }
 
 type IPages = {
-  current: number;
-  pageSize: number;
-  total: number;
+  current?: number;
+  pageSize?: number;
+  total?: number;
 };
 
 export interface IHits {
-  hits: number;
-  hits_day: number;
-  hits_week: number;
-  hits_month: number;
-  hits_lasttime: string;
+  hits?: number;
+  hits_day?: number;
+  hits_week?: number;
+  hits_month?: number;
+  hits_lasttime?: string;
 }
 
 export interface IId {
@@ -166,23 +166,15 @@ export interface ISubject extends IHits, IDate, Omit<IId, 'sid' | 'aid'> {
   forward_count: number;
 }
 
-export interface ISubjectList extends IResponse {
-  data?: {
-    list?: ISubject[];
-    current?: number | string;
-    pageSize?: number | string;
-    total?: number;
-  };
-}
-
 export interface IAttachment extends IDate, Omit<IId, 'cid'> {
-  attachment: string;
-  file_path: string;
-  file_name: string;
-  file_type: string;
-  file_size: string;
-  ip: number;
-  is_remote: number;
+  attachment?: string;
+  file_path?: string;
+  file_name?: string;
+  file_type?: string;
+  file_size?: number;
+  is_remote?: boolean;
+  url?: string;
+  ip?: number;
 }
 
 export interface IAssociation extends IDate, IId {
@@ -391,4 +383,34 @@ export interface IDigg extends Omit<IDate, 'updated_at'>, Omit<IId, 'status'> {
   up: number;
   down: number;
   ip: number;
+}
+
+export interface ISts {
+  credentials: {
+    sessionToken: string;
+    tmpSecretId: string;
+    tmpSecretKey: string;
+  };
+  startTime: number;
+  expiredTime: number;
+  region: string;
+  bucket: string;
+}
+
+export interface ISubjectList extends IResponse {
+  data?: {
+    list?: ISubject[];
+    current?: number | string;
+    pageSize?: number | string;
+    total?: number;
+  };
+}
+
+export interface IAttachmentList extends IResponse {
+  data?: {
+    list?: IAttachment[];
+    current?: number | string;
+    pageSize?: number | string;
+    total?: number;
+  };
 }

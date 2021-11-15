@@ -56,6 +56,7 @@
     "@umijs/route-utils": "^1.0.36",
     "antd": "^4.16.13",
     "classnames": "^2.3.1",
+    "cos-js-sdk-v5": "^1.2.21",
     "lodash": "^4.17.21",
     "md5": "^2.3.0",
     "moment": "^2.29.1",
@@ -66,6 +67,7 @@
     "react-dev-inspector": "^1.7.0",
     "react-dom": "^17.0.2",
     "react-helmet-async": "^1.1.2",
+    "spark-md5": "^3.0.2",
     "umi": "^3.5.20",
     "umi-serve": "^1.9.10"
   },
@@ -79,6 +81,7 @@
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
     "@types/react-helmet": "^6.1.4",
+    "@types/spark-md5": "^3.0.2",
     "@umijs/fabric": "^2.8.1",
     "@umijs/openapi": "^1.1.14",
     "@umijs/plugin-blocks": "^2.0.5",
