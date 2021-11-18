@@ -50,7 +50,6 @@ const Login: React.FC = () => {
       if (res.status === 200) {
         const defaultLoginSuccessMessage = '登录成功！';
         message.success(defaultLoginSuccessMessage);
-        debugger;
         localStorage.token = res?.data;
         await fetchUserInfo();
         /** 此方法会跳转到 redirect 参数所在的位置 */

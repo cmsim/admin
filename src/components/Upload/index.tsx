@@ -215,7 +215,7 @@ const UploadImage: FC<IUploadImage> = (props) => {
     <Upload accept={accept} beforeUpload={beforeUpload}>
       {btnName ? (
         <Button type="primary">
-          {btnName} {percent > 0 && percent <= 1 ? '' : `${percent * 100}%`}
+          {btnName} {percent > 0 && percent < 1 ? `${percent * 100}%` : ''}
         </Button>
       ) : (
         children

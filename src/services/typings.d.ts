@@ -38,7 +38,7 @@ export interface IId {
 export interface IUser extends IDate {
   id: number;
   username: string;
-  password: string;
+  password?: string;
   pay_password: string;
   avatar: string;
   email: string;
@@ -51,7 +51,7 @@ export interface IUser extends IDate {
   salt: string;
   amount: number;
   sex: number;
-  admin: number;
+  admin?: number;
   score: number;
   login: number;
   email_confirmed: number;

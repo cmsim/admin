@@ -1,9 +1,9 @@
 import { request } from 'umi';
 import type { IAttachment, IAttachmentList, ISts } from './typings';
 
-/** 异步获取临时密钥 GET /api/sts/init */
+/** 异步获取临时密钥 GET /backend/sts/init */
 export async function stsInit(params?: { prefix?: string }, options?: Record<string, any>) {
-  return request<{ data: ISts }>('/api/sts/init', {
+  return request<{ data: ISts }>('/backend/sts/init', {
     method: 'GET',
     params: {
       ...params,
@@ -12,16 +12,16 @@ export async function stsInit(params?: { prefix?: string }, options?: Record<str
   });
 }
 
-/** 添加附件 POST /api/attachment/add */
+/** 添加附件 POST /backend/attachment/add */
 export async function attachmentAdd(body: IAttachment, options?: Record<string, any>) {
-  return request<{ data: IAttachment }>('/api/attachment/add', {
+  return request<{ data: IAttachment }>('/backend/attachment/add', {
     method: 'POST',
     data: body,
     ...(options || {}),
   });
 }
 
-/** 获取附件列表 GET /api/attachment/list */
+/** 获取附件列表 GET /backend/attachment/list */
 export async function attachmentList(
   params: {
     // query
@@ -32,7 +32,7 @@ export async function attachmentList(
   },
   options?: Record<string, any>,
 ) {
-  return request<IAttachmentList>('/api/attachment/list', {
+  return request<IAttachmentList>('/backend/attachment/list', {
     method: 'GET',
     params: {
       ...params,

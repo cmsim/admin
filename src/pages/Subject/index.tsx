@@ -1,13 +1,12 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { FooterToolbar, PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import type { FC } from 'react';
 import ProTable from '@ant-design/pro-table';
 import { Button, Popover } from 'antd';
 import { subjectList } from '@/services/subject';
-import { mcatList } from '@/services/mcat';
-import { Link, useHistory } from 'umi';
-import type { IMcat, ISubject } from '@/services/typings';
+import { Link, useHistory, useModel } from 'umi';
+import type { ISubject } from '@/services/typings';
 import { PlusOutlined } from '@ant-design/icons';
 import { findMcat } from '@/utils';
 
@@ -15,14 +14,12 @@ const Subject: FC = () => {
   const history = useHistory();
   const actionRef = useRef<ActionType>();
   const [selectedRowsState, setSelectedRows] = useState<ISubject[]>([]);
-  const [mcat, setMcat] = useState<IMcat[]>([]);
-  const getMcat = useCallback(async () => {
-    const res = await mcatList();
-    setMcat(res.data);
-  }, []);
+  const { mcat, getMcat } = useModel('useMcat');
+
   useEffect(() => {
     getMcat();
   }, [getMcat]);
+
   const mcatEnum = useMemo(() => {
     let obj = {};
     mcat.forEach((item) => {

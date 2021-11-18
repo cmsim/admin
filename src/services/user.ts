@@ -2,27 +2,27 @@
 /* eslint-disable */
 import { request } from 'umi';
 
-/** 获取当前的用户 GET /api/user/info */
+/** 获取当前的用户 GET /backend/user/info */
 export async function currentUser(options?: { [key: string]: any }) {
   return request<{
     data: API.CurrentUser;
-  }>('/api/user/info', {
+  }>('/backend/user/info', {
     method: 'GET',
     ...(options || {}),
   });
 }
 
-/** 退出登录接口 POST /api/user/logout */
+/** 退出登录接口 POST /backend/user/logout */
 export async function outLogin(options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/user/logout', {
+  return request<Record<string, any>>('/backend/user/logout', {
     method: 'POST',
     ...(options || {}),
   });
 }
 
-/** 登录接口 POST /api/user/login */
+/** 登录接口 POST /backend/user/login */
 export async function login(body: API.LoginParams, options?: { [key: string]: any }) {
-  return request<API.LoginResult>('/api/user/login', {
+  return request<API.LoginResult>('/backend/user/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
