@@ -8,6 +8,7 @@ export default [
     ],
   },
   { path: '/welcome', name: '欢迎', icon: 'smile', component: './Welcome' },
+  { path: '/chat', name: 'chat', icon: 'smile', component: './Chat' },
   {
     path: '/subject',
     name: '剧集',
