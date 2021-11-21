@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { io } from 'socket.io-client';
+import io from 'socket.io-client';
 
 const log = console.log;
 // init
@@ -20,18 +20,18 @@ const Chat = () => {
       log('#connect,', id, socket);
 
       // 监听自身 id 以实现 p2p 通讯
-      socket.on(id, (msg) => {
+      socket.on(id, (msg: any) => {
         log('#receive,', msg);
       });
     });
 
     // 接收在线用户信息
-    socket.on('online', (msg) => {
+    socket.on('online', (msg: any) => {
       log('#online,', msg);
     });
 
     // 系统事件
-    socket.on('disconnect', (msg) => {
+    socket.on('disconnect', (msg: any) => {
       log('#disconnect', msg);
     });
 

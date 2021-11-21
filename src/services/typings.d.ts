@@ -27,7 +27,7 @@ export interface IHits {
 }
 
 export interface IId {
-  id?: number;
+  id?: number | string;
   cid?: number;
   uid?: number;
   sid?: number;
@@ -75,7 +75,7 @@ export interface IFeed extends IHits, IDate, IId {
 }
 
 export interface IMcat {
-  id: number;
+  id: number | string;
   cid: number;
   name: string;
   title: string;

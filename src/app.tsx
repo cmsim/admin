@@ -107,9 +107,8 @@ const errorHandler = (error: ResponseError) => {
 const authHeaderInterceptor = (url: string, options: RequestOptionsInit) => {
   const token = localStorage.getItem('token');
   const authHeader = { Authorization: `Bearer ${token}` };
-  console.log(url, authHeader, 'auth', options);
   return {
-    url: `${url}`,
+    url,
     options: { ...options, interceptors: true, headers: authHeader },
   };
 };
