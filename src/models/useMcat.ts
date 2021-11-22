@@ -1,5 +1,6 @@
 import { mcatList } from '@/services/mcat';
 import type { IMcat } from '@/services/typings';
+import { idToStr } from '@/utils';
 import { useState, useCallback } from 'react';
 
 export default function useMcat() {
@@ -11,7 +12,7 @@ export default function useMcat() {
   }, []);
 
   return {
-    mcat,
+    mcat: idToStr(mcat),
     getMcat,
   };
 }

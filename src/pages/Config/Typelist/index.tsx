@@ -149,9 +149,7 @@ const Typelist = () => {
       <EditableProTable<IList>
         columns={columns}
         actionRef={actionRef}
-        request={async (params, sorter, filter) => {
-          // 表单搜索项会从 params 传入，传递给后端接口。
-          console.log(params, sorter, filter);
+        request={async () => {
           return {
             data: getList(categoryList),
             success: true,

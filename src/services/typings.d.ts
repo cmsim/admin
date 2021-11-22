@@ -183,6 +183,7 @@ export interface IAssociation extends IDate, IId {
 }
 
 export interface ISetting {
+  id?: number | string;
   key: string;
   value: string;
   tag: string;

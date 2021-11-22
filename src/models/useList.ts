@@ -1,5 +1,6 @@
 import { list } from '@/services/list';
 import type { IList } from '@/services/typings';
+import { idToStr } from '@/utils';
 import { useState, useCallback } from 'react';
 
 export default function useList() {
@@ -11,7 +12,7 @@ export default function useList() {
   }, []);
 
   return {
-    categoryList,
+    categoryList: idToStr(categoryList),
     getCategoryList,
   };
 }

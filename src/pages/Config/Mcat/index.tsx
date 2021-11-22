@@ -36,6 +36,20 @@ const columns: ProColumns<IList>[] = [
     width: 120,
     dataIndex: 'status',
   },
+  {
+    title: '操作',
+    width: 164,
+    key: 'option',
+    valueType: 'option',
+    render: () => [
+      <Link to={`typelist`} key="edit">
+        编辑
+      </Link>,
+      <Link to={`typelist`} key="delete">
+        删除
+      </Link>,
+    ],
+  },
 ];
 
 const Mcatlist = () => {
@@ -170,9 +184,7 @@ const Mcatlist = () => {
       <ProTable<IList>
         actionRef={actionRef}
         columns={columns}
-        request={async (params, sorter, filter) => {
-          // 表单搜索项会从 params 传入，传递给后端接口。
-          console.log(params, sorter, filter, mcatData);
+        request={async () => {
           return {
             data: mcatData,
             success: true,
