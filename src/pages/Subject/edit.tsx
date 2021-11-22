@@ -216,7 +216,7 @@ const SubjectEdit: FC = () => {
           name="checkbox"
           label="小类"
           options={mcat.map((item) => {
-            return { label: item.name, value: item.id };
+            return { label: item.name, value: item.id! };
           })}
         />
         <ProForm.Group size={5}>

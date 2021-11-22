@@ -17,6 +17,7 @@ export async function mcatAdd(body: IMcat, options?: Record<string, any>) {
     ...(options || {}),
   });
 }
+
 /** 获取小分类详情 GET /backend/mcat/:id */
 export async function getMcatDetail(
   params: {

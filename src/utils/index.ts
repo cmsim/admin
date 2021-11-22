@@ -20,7 +20,7 @@ export const findMcat = (mcat: IMcat[], find: string, format = false) => {
 export const getListFormat = (list: IList[]) => {
   const data: { value: number | string; label: string; children?: any[] }[] = [];
   list.forEach((item) => {
-    if (item.pid === 0) {
+    if (item.pid === '0') {
       data.push({ value: item.id!, label: item.name!, children: [] });
     }
     const i = data.findIndex((s) => s.value === item.pid);
@@ -40,7 +40,7 @@ export const getListFormat = (list: IList[]) => {
 export const getList = (list: IList[]) => {
   const data: ({ sub?: IList[] } & IList)[] = [];
   list.forEach((item) => {
-    if (item.pid === 0) {
+    if (item.pid === '0') {
       data.push({ ...item, sub: [] });
     }
   });
@@ -50,6 +50,7 @@ export const getList = (list: IList[]) => {
       item.sub = arr;
     }
   });
+  console.log(data);
   return data;
 };
 
@@ -61,9 +62,9 @@ export const getList = (list: IList[]) => {
  */
 
 export const getListMcat = (list: IList[], sub: IMcat[]) => {
-  const data: ({ sub?: IList[] } & IList)[] = [];
+  const data: ({ sub?: IMcat[] } & IList)[] = [];
   list.forEach((item) => {
-    if (item.pid === 0) {
+    if (item.pid === '0') {
       data.push({ ...item, sub: [] });
     }
   });
@@ -116,3 +117,19 @@ export const sidObj = [
   { label: '演员', value: modelName.ACOTR },
   { label: '用户', value: modelName.USER },
 ];
+/**
+ * 格式模型
+ * @returns 返回模型名称
+ */
+export const sidEnum = () => {
+  let obj = {};
+  sidObj.forEach((item) => {
+    obj = {
+      ...obj,
+      [item.value!]: {
+        text: item.label,
+      },
+    };
+  });
+  return obj;
+};

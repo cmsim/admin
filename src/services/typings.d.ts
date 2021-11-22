@@ -75,8 +75,8 @@ export interface IFeed extends IHits, IDate, IId {
 }
 
 export interface IMcat {
-  id: number | string;
-  cid: number;
+  id?: number | string;
+  cid: number | string;
   name: string;
   title: string;
   rank: number;
@@ -100,7 +100,7 @@ export interface IPlay {
 
 export interface IList extends Omit<IId, 'uid' | 'aid' | 'cid'> {
   rank?: number;
-  pid?: number;
+  pid?: string | number;
   name?: string;
   dir?: string;
   icon?: string;

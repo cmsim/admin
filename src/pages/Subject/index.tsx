@@ -25,7 +25,7 @@ const Subject: FC = () => {
     mcat.forEach((item) => {
       obj = {
         ...obj,
-        [item.id]: {
+        [item.id!]: {
           text: item.name,
           status: item.id,
         },
