@@ -1,6 +1,7 @@
 // @ts-ignore
 /* eslint-disable */
 import { request } from 'umi';
+import { IUserList } from './typings';
 
 /** 获取当前的用户 GET /backend/user/info */
 export async function currentUser(options?: { [key: string]: any }) {
@@ -28,6 +29,34 @@ export async function login(body: API.LoginParams, options?: { [key: string]: an
       'Content-Type': 'application/json',
     },
     data: body,
+    ...(options || {}),
+  });
+}
+
+/** 获取用户列表 GET /backend/user/list */
+export async function userList(
+  params: {
+    // query
+    /** 当前的页码 */
+    current?: number;
+    /** 页面的容量 */
+    pageSize?: number;
+  },
+  options?: Record<string, any>,
+) {
+  return request<IUserList>('/backend/user/list', {
+    method: 'GET',
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}
+
+/** 删除用户 DELETE /api/rule */
+export async function removeUser(options?: { [key: string]: any }) {
+  return request<Record<string, any>>('/backend/user/delete', {
+    method: 'DELETE',
     ...(options || {}),
   });
 }

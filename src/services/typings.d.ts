@@ -407,6 +407,15 @@ export interface ISubjectList extends IResponse {
   };
 }
 
+export interface IUserList extends IResponse {
+  data?: {
+    list?: IUser[];
+    current?: number | string;
+    pageSize?: number | string;
+    total?: number;
+  };
+}
+
 export interface IAttachmentList extends IResponse {
   data?: {
     list?: IAttachment[];
