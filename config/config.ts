@@ -40,6 +40,11 @@ export default defineConfig({
   manifest: {
     basePath: '/',
   },
+  lessLoader: {
+    modifyVars: {
+      'root-entry-name': 'default',
+    },
+  },
   // Fast Refresh 热更新
   fastRefresh: {},
   openAPI: [
