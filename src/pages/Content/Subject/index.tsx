@@ -100,7 +100,7 @@ const Subject: FC = () => {
       dataIndex: 'option',
       valueType: 'option',
       render: (_, entity) => [
-        <Link key="edit" to={`edit/${entity.id}`}>
+        <Link key="edit" to={`subject/edit/${entity.id}`}>
           编辑
         </Link>,
         <a key="delete">删除</a>,

@@ -1,9 +1,8 @@
-import { attachmentAdd, attachmentList, stsInit } from '@/services/common';
+import { attachmentAdd, attachmentList, stsInit } from '@/services/attachment';
 import { Button, message, Modal, Upload } from 'antd';
 import type { RcFile } from 'antd/lib/upload';
 import type { FC, ReactNode } from 'react';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SparkMD5 from 'spark-md5';
 import COS from 'cos-js-sdk-v5';
 

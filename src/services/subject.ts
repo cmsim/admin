@@ -1,5 +1,5 @@
 import { request } from 'umi';
-import type { ISubject, ISubjectList } from './typings';
+import type { ISubject, IListResponse } from './typings';
 
 /** 获取剧集详情 GET /backend/subject/:id */
 export async function subjectDetail(options?: Record<string, any>) {
@@ -22,7 +22,7 @@ export async function subjectList(
   },
   options?: Record<string, any>,
 ) {
-  return request<ISubjectList>('/backend/subject/list', {
+  return request<IListResponse<ISubject>>('/backend/subject/list', {
     method: 'GET',
     params: {
       ...params,

@@ -1,5 +1,5 @@
 import { request } from 'umi';
-import type { IAttachment, IAttachmentList, ISts } from './typings';
+import type { IAttachment, IListResponse, ISts } from './typings';
 
 /** 异步获取临时密钥 GET /backend/sts/init */
 export async function stsInit(params?: { prefix?: string }, options?: Record<string, any>) {
@@ -32,7 +32,7 @@ export async function attachmentList(
   },
   options?: Record<string, any>,
 ) {
-  return request<IAttachmentList>('/backend/attachment/list', {
+  return request<IListResponse<IAttachment>>('/backend/attachment/list', {
     method: 'GET',
     params: {
       ...params,

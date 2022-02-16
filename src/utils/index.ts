@@ -134,7 +134,7 @@ export enum modelName {
   NEWS, // 新闻
   STAR, // 明星
   STORY, // 剧情
-  EPISODE, // 剧集
+  EPISODE, // 分集
   ROLE, // 角色
   FAVORITE, // 收藏评分表
   TAG, // 标签
@@ -148,6 +148,46 @@ export enum modelName {
   ACOTR, // 演员表
   USER,
 }
+
+export const modelEnName = {
+  [modelName.SUBJECT]: 'subject',
+  [modelName.NEWS]: 'news',
+  [modelName.STAR]: 'star',
+  [modelName.STORY]: 'story',
+  [modelName.EPISODE]: 'episode',
+  [modelName.ROLE]: 'role',
+  [modelName.FAVORITE]: 'favorite',
+  [modelName.TAG]: 'tag',
+  [modelName.PINS]: 'pins',
+  [modelName.FORWARD]: 'forward',
+  [modelName.COMMENT]: 'comment',
+  [modelName.REPLY]: 'reply',
+  [modelName.FEED]: 'feed',
+  [modelName.TOPIC]: 'topic',
+  [modelName.DETAILEDLIST]: 'detailedlist',
+  [modelName.ACOTR]: 'actor',
+  [modelName.USER]: 'user',
+};
+
+export const modelType = {
+  [modelName.SUBJECT]: '剧集',
+  [modelName.NEWS]: '新闻',
+  [modelName.STAR]: '明星',
+  [modelName.STORY]: '剧情',
+  [modelName.EPISODE]: '分集',
+  [modelName.ROLE]: '角色',
+  [modelName.FAVORITE]: '评分',
+  [modelName.TAG]: '标签',
+  [modelName.PINS]: '动态',
+  [modelName.FORWARD]: '转发',
+  [modelName.COMMENT]: '评论',
+  [modelName.REPLY]: '回复',
+  [modelName.FEED]: '动态',
+  [modelName.TOPIC]: '话题',
+  [modelName.DETAILEDLIST]: '清单',
+  [modelName.ACOTR]: '演员',
+  [modelName.USER]: '用户',
+};
 
 export const sidObj = [
   { label: '动漫', value: modelName.SUBJECT },

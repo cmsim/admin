@@ -398,29 +398,16 @@ export interface ISts {
   bucket: string;
 }
 
-export interface ISubjectList extends IResponse {
+export interface IListResponse<T> extends IResponse {
   data?: {
-    list?: ISubject[];
+    list?: T[];
     current?: number | string;
     pageSize?: number | string;
     total?: number;
   };
 }
 
-export interface IUserList extends IResponse {
-  data?: {
-    list?: IUser[];
-    current?: number | string;
-    pageSize?: number | string;
-    total?: number;
-  };
-}
-
-export interface IAttachmentList extends IResponse {
-  data?: {
-    list?: IAttachment[];
-    current?: number | string;
-    pageSize?: number | string;
-    total?: number;
-  };
+interface IFeedTable extends IFeed {
+  subject: ISubject;
+  user: IUser;
 }

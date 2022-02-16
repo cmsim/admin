@@ -1,4 +1,4 @@
-import { stsInit } from '@/services/common';
+import { stsInit } from '@/services/attachment';
 import type { ISts } from '@/services/typings';
 import { useState, useCallback } from 'react';
 

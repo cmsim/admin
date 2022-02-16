@@ -1,7 +1,7 @@
 // @ts-ignore
 /* eslint-disable */
 import { request } from 'umi';
-import { IUserList } from './typings';
+import { IListResponse, IUser } from './typings';
 
 /** 获取当前的用户 GET /backend/user/info */
 export async function currentUser(options?: { [key: string]: any }) {
@@ -44,7 +44,7 @@ export async function userList(
   },
   options?: Record<string, any>,
 ) {
-  return request<IUserList>('/backend/user/list', {
+  return request<IListResponse<IUser>>('/backend/user/list', {
     method: 'GET',
     params: {
       ...params,

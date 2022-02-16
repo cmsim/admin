@@ -48,8 +48,7 @@ const Login: React.FC = () => {
       const res = await login({ ...values, password: md5(values.password!), type });
 
       if (res.status === 200) {
-        const defaultLoginSuccessMessage = '登录成功！';
-        message.success(defaultLoginSuccessMessage);
+        message.success('登录成功！');
         localStorage.token = res?.data;
         await fetchUserInfo();
         /** 此方法会跳转到 redirect 参数所在的位置 */
