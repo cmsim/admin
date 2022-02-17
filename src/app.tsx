@@ -7,7 +7,7 @@ import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
 import { currentUser as queryCurrentUser } from './services/user';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
-import { notification } from 'antd';
+import { message, notification } from 'antd';
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/login';
@@ -27,8 +27,8 @@ export async function getInitialState(): Promise<{
 }> {
   const fetchUserInfo = async () => {
     try {
-      const msg = await queryCurrentUser();
-      return msg.data;
+      const res = await queryCurrentUser();
+      return res.data;
     } catch (error) {
       history.push(loginPath);
     }
@@ -81,9 +81,7 @@ const errorHandler = (error: ResponseError) => {
       message: '未登录或登录已过期，请重新登录。',
     });
 
-    window.g_app._store.dispatch({
-      type: 'login/logout',
-    });
+    history.push(loginPath);
     return;
   }
   notification.error({
@@ -104,6 +102,7 @@ const errorHandler = (error: ResponseError) => {
   }
 };
 
+// 请求前拦截
 const authHeaderInterceptor = (url: string, options: RequestOptionsInit) => {
   const token = localStorage.getItem('token');
   const authHeader = { Authorization: `Bearer ${token}` };
@@ -112,11 +111,20 @@ const authHeaderInterceptor = (url: string, options: RequestOptionsInit) => {
     options: { ...options, interceptors: true, headers: authHeader },
   };
 };
+// 请求后拦截
+const responseInterceptor = async (response: Response) => {
+  const data = await response.clone().json();
+  if (data.status !== 200) {
+    message.error(data.message);
+  }
+  return response;
+};
 
 export const request: RequestConfig = {
   errorHandler,
   // 新增自动添加AccessToken的请求前拦截器
   requestInterceptors: [authHeaderInterceptor],
+  responseInterceptors: [responseInterceptor],
 };
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
@@ -137,9 +145,9 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     },
     links: isDev
       ? [
-          <Link to="/umi/plugin/openapi" target="_blank">
+          <Link to="/">
             <LinkOutlined />
-            <span>OpenAPI 文档</span>
+            <span>文档</span>
           </Link>,
           <Link to="/~docs">
             <BookOutlined />

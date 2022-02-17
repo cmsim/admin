@@ -33,6 +33,24 @@ export async function login(body: API.LoginParams, options?: { [key: string]: an
   });
 }
 
+/** 验证码 POST /api/login/captcha */
+export async function getCaptcha(
+  params: {
+    // query
+    /** 手机号 */
+    phone?: string;
+  },
+  options?: { [key: string]: any },
+) {
+  return request<API.FakeCaptcha>('/api/login/captcha', {
+    method: 'GET',
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}
+
 /** 获取用户列表 GET /backend/user/list */
 export async function userList(
   params: {
@@ -57,34 +75,6 @@ export async function userList(
 export async function removeUser(options?: { [key: string]: any }) {
   return request<Record<string, any>>('/backend/user/delete', {
     method: 'DELETE',
-    ...(options || {}),
-  });
-}
-
-/** 此处后端没有提供注释 GET /api/notices */
-export async function getNotices(options?: { [key: string]: any }) {
-  return request<API.NoticeIconList>('/api/notices', {
-    method: 'GET',
-    ...(options || {}),
-  });
-}
-
-/** 获取规则列表 GET /api/rule */
-export async function rule(
-  params: {
-    // query
-    /** 当前的页码 */
-    current?: number;
-    /** 页面的容量 */
-    pageSize?: number;
-  },
-  options?: { [key: string]: any },
-) {
-  return request<API.RuleList>('/api/rule', {
-    method: 'GET',
-    params: {
-      ...params,
-    },
     ...(options || {}),
   });
 }
