@@ -1,19 +1,19 @@
-import { useRef, useState } from 'react';
-import { FooterToolbar, PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import type { FC } from 'react';
-import ProTable from '@ant-design/pro-table';
-import { Button, Popover } from 'antd';
-import { feedList } from '@/services/feed';
-import { Link, useHistory } from 'umi';
-import type { IFeedTable } from '@/services/typings';
-import { PlusOutlined } from '@ant-design/icons';
-import { modelEnName, modelType } from '@/utils';
+import { useRef, useState } from 'react'
+import { FooterToolbar, PageContainer } from '@ant-design/pro-layout'
+import type { ProColumns, ActionType } from '@ant-design/pro-table'
+import type { FC } from 'react'
+import ProTable from '@ant-design/pro-table'
+import { Button, Popover } from 'antd'
+import { feedList } from '@/services/feed'
+import { Link, useHistory } from 'umi'
+import type { IFeedTable } from '@/services/typings'
+import { PlusOutlined } from '@ant-design/icons'
+import { modelEnName, modelType } from '@/utils'
 
 const Feed: FC = () => {
-  const history = useHistory();
-  const actionRef = useRef<ActionType>();
-  const [selectedRowsState, setSelectedRows] = useState<IFeedTable[]>([]);
+  const history = useHistory()
+  const actionRef = useRef<ActionType>()
+  const [selectedRowsState, setSelectedRows] = useState<IFeedTable[]>([])
 
   const columns: ProColumns<IFeedTable>[] = [
     {
@@ -26,19 +26,19 @@ const Feed: FC = () => {
             <img
               src={entity[modelEnName[entity.sid!]]?.pic}
               style={{
-                width: 200,
+                width: 200
               }}
             />
           }
         >
           {entity[modelEnName[entity.sid!]]?.name}
         </Popover>
-      ),
+      )
     },
     {
       title: '模型',
       dataIndex: 'sid',
-      valueEnum: modelType,
+      valueEnum: modelType
     },
     {
       title: '类型',
@@ -48,32 +48,32 @@ const Feed: FC = () => {
         2: { text: '评分', status: 2 },
         3: { text: '评价', status: 3 },
         4: { text: '添加', status: 4 },
-        5: { text: '更新', status: 5 },
-      },
+        5: { text: '更新', status: 5 }
+      }
     },
     {
       title: '用户名',
       search: false,
       dataIndex: 'username',
-      render: (_, entity) => entity.user?.username,
+      render: (_, entity) => entity.user?.username
     },
     {
       title: '更新时间',
       search: false,
-      dataIndex: 'updated_at',
+      dataIndex: 'updated_at'
     },
     {
       title: '更新时间',
       sorter: true,
       dataIndex: 'updated_at',
       valueType: 'dateRange',
-      hideInTable: true,
+      hideInTable: true
     },
     {
       title: '创建时间',
       sorter: true,
       dataIndex: 'created_at',
-      search: false,
+      search: false
     },
     {
       title: '操作',
@@ -83,10 +83,10 @@ const Feed: FC = () => {
         <Link key="edit" to={`feed/edit/${entity.id}`}>
           编辑
         </Link>,
-        <a key="delete">删除</a>,
-      ],
-    },
-  ];
+        <a key="delete">删除</a>
+      ]
+    }
+  ]
   return (
     <PageContainer>
       <ProTable<IFeedTable, IFeedTable>
@@ -98,31 +98,31 @@ const Feed: FC = () => {
             type="primary"
             key="primary"
             onClick={() => {
-              history.push('feed/add');
+              history.push('feed/add')
             }}
           >
             <PlusOutlined /> 新建
-          </Button>,
+          </Button>
         ]}
-        request={async (params) => {
-          console.log(params, 'params');
-          const { current, pageSize } = params;
+        request={async params => {
+          console.log(params, 'params')
+          const { current, pageSize } = params
           const param = {
             current,
-            pageSize,
-          };
-          const res = await feedList(param);
+            pageSize
+          }
+          const res = await feedList(param)
           return {
             data: res.data?.list,
             total: res.data?.total,
-            success: true,
-          };
+            success: true
+          }
         }}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {
-            setSelectedRows(selectedRows);
-          },
+            setSelectedRows(selectedRows)
+          }
         }}
       />
       {selectedRowsState?.length > 0 && (
@@ -132,7 +132,7 @@ const Feed: FC = () => {
               已选择{' '}
               <a
                 style={{
-                  fontWeight: 600,
+                  fontWeight: 600
                 }}
               >
                 {selectedRowsState.length}
@@ -145,7 +145,7 @@ const Feed: FC = () => {
         </FooterToolbar>
       )}
     </PageContainer>
-  );
-};
+  )
+}
 
-export default Feed;
+export default Feed

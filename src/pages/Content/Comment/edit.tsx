@@ -3,6 +3,6 @@ const CommentEdit = () => {
     <div>
       <h1>CommentEdit</h1>
     </div>
-  );
-};
-export default CommentEdit;
+  )
+}
+export default CommentEdit

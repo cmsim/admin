@@ -1,38 +1,38 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { FooterToolbar, PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import type { FC } from 'react';
-import ProTable from '@ant-design/pro-table';
-import { Button, Popover } from 'antd';
-import { subjectList } from '@/services/subject';
-import { Link, useHistory, useModel } from 'umi';
-import type { ISubject } from '@/services/typings';
-import { PlusOutlined } from '@ant-design/icons';
-import { findMcat } from '@/utils';
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { FooterToolbar, PageContainer } from '@ant-design/pro-layout'
+import type { ProColumns, ActionType } from '@ant-design/pro-table'
+import type { FC } from 'react'
+import ProTable from '@ant-design/pro-table'
+import { Button, Popover } from 'antd'
+import { subjectList } from '@/services/subject'
+import { Link, useHistory, useModel } from 'umi'
+import type { ISubject } from '@/services/typings'
+import { PlusOutlined } from '@ant-design/icons'
+import { findMcat } from '@/utils'
 
 const Subject: FC = () => {
-  const history = useHistory();
-  const actionRef = useRef<ActionType>();
-  const [selectedRowsState, setSelectedRows] = useState<ISubject[]>([]);
-  const { mcat, getMcat } = useModel('useMcat');
+  const history = useHistory()
+  const actionRef = useRef<ActionType>()
+  const [selectedRowsState, setSelectedRows] = useState<ISubject[]>([])
+  const { mcat, getMcat } = useModel('useMcat')
 
   useEffect(() => {
-    getMcat();
-  }, [getMcat]);
+    getMcat()
+  }, [getMcat])
 
   const mcatEnum = useMemo(() => {
-    let obj = {};
-    mcat.forEach((item) => {
+    let obj = {}
+    mcat.forEach(item => {
       obj = {
         ...obj,
         [item.id!]: {
           text: item.name,
-          status: item.id,
-        },
-      };
-    });
-    return obj;
-  }, [mcat]);
+          status: item.id
+        }
+      }
+    })
+    return obj
+  }, [mcat])
   const columns: ProColumns<ISubject>[] = [
     {
       title: '名称',
@@ -44,28 +44,28 @@ const Subject: FC = () => {
             <img
               src={entity.pic}
               style={{
-                width: 200,
+                width: 200
               }}
             />
           }
         >
           {entity.name}
         </Popover>
-      ),
+      )
     },
     {
       title: '小分类',
       dataIndex: 'mcid',
       render: (_, entity) => findMcat(mcat, entity.mcid, true),
-      valueEnum: mcatEnum,
+      valueEnum: mcatEnum
     },
     {
       title: '语言',
-      dataIndex: 'language',
+      dataIndex: 'language'
     },
     {
       title: '地区',
-      dataIndex: 'area',
+      dataIndex: 'area'
     },
     {
       title: '连载',
@@ -75,25 +75,25 @@ const Subject: FC = () => {
       valueEnum: {
         1: {
           text: '连载',
-          status: true,
+          status: true
         },
         0: {
           text: '完结',
-          status: false,
-        },
-      },
+          status: false
+        }
+      }
     },
     {
       title: '人气',
       sorter: true,
       search: false,
-      dataIndex: 'hits',
+      dataIndex: 'hits'
     },
     {
       title: '更新时间',
       sorter: true,
       dataIndex: 'updated_at',
-      valueType: 'dateRange',
+      valueType: 'dateRange'
     },
     {
       title: '操作',
@@ -103,16 +103,16 @@ const Subject: FC = () => {
         <Link key="edit" to={`subject/edit/${entity.id}`}>
           编辑
         </Link>,
-        <a key="delete">删除</a>,
-      ],
-    },
-  ];
+        <a key="delete">删除</a>
+      ]
+    }
+  ]
   return (
     <PageContainer>
       <ProTable<
         ISubject,
         ISubject & {
-          updated_at: any;
+          updated_at: any
         }
       >
         headerTitle={'查询表格'}
@@ -123,15 +123,15 @@ const Subject: FC = () => {
             type="primary"
             key="primary"
             onClick={() => {
-              history.push('add');
+              history.push('add')
             }}
           >
             <PlusOutlined /> 新建
-          </Button>,
+          </Button>
         ]}
-        request={async (params) => {
-          console.log(params, 'params');
-          const { current, pageSize, name: wd, mcid, language, area, isend, updated_at } = params;
+        request={async params => {
+          console.log(params, 'params')
+          const { current, pageSize, name: wd, mcid, language, area, isend, updated_at } = params
           const param = {
             current,
             pageSize,
@@ -141,21 +141,21 @@ const Subject: FC = () => {
               language,
               area,
               isend,
-              created_at: updated_at?.join(','),
-            }),
-          };
-          const res = await subjectList(param);
+              created_at: updated_at?.join(',')
+            })
+          }
+          const res = await subjectList(param)
           return {
             data: res.data?.list,
             total: res.data?.total,
-            success: true,
-          };
+            success: true
+          }
         }}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {
-            setSelectedRows(selectedRows);
-          },
+            setSelectedRows(selectedRows)
+          }
         }}
       />
       {selectedRowsState?.length > 0 && (
@@ -165,7 +165,7 @@ const Subject: FC = () => {
               已选择{' '}
               <a
                 style={{
-                  fontWeight: 600,
+                  fontWeight: 600
                 }}
               >
                 {selectedRowsState.length}
@@ -178,7 +178,7 @@ const Subject: FC = () => {
         </FooterToolbar>
       )}
     </PageContainer>
-  );
-};
+  )
+}
 
-export default Subject;
+export default Subject

@@ -1,8 +1,8 @@
-import { Settings as LayoutSettings } from '@ant-design/pro-layout';
+import { Settings as LayoutSettings } from '@ant-design/pro-layout'
 
 const Settings: LayoutSettings & {
-  pwa?: boolean;
-  logo?: string;
+  pwa?: boolean
+  logo?: string
 } = {
   navTheme: 'light',
   // 拂晓蓝
@@ -15,7 +15,7 @@ const Settings: LayoutSettings & {
   title: 'CWG',
   pwa: false,
   logo: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
-  iconfontUrl: '',
-};
+  iconfontUrl: ''
+}
 
-export default Settings;
+export default Settings

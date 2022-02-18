@@ -1,52 +1,52 @@
-import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
-import { PageLoading } from '@ant-design/pro-layout';
-import type { RequestConfig, RunTimeLayoutConfig } from 'umi';
-import type { RequestOptionsInit, ResponseError } from 'umi-request';
-import { history, Link } from 'umi';
-import RightContent from '@/components/RightContent';
-import Footer from '@/components/Footer';
-import { currentUser as queryCurrentUser } from './services/user';
-import { BookOutlined, LinkOutlined } from '@ant-design/icons';
-import { message, notification } from 'antd';
+import type { Settings as LayoutSettings } from '@ant-design/pro-layout'
+import { PageLoading } from '@ant-design/pro-layout'
+import type { RequestConfig, RunTimeLayoutConfig } from 'umi'
+import type { RequestOptionsInit, ResponseError } from 'umi-request'
+import { history, Link } from 'umi'
+import RightContent from '@/components/RightContent'
+import Footer from '@/components/Footer'
+import { currentUser as queryCurrentUser } from './services/user'
+import { BookOutlined, LinkOutlined } from '@ant-design/icons'
+import { message, notification } from 'antd'
 
-const isDev = process.env.NODE_ENV === 'development';
-const loginPath = '/login';
+const isDev = process.env.NODE_ENV === 'development'
+const loginPath = '/login'
 
 /** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {
-  loading: <PageLoading />,
-};
+  loading: <PageLoading />
+}
 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
  * */
 export async function getInitialState(): Promise<{
-  settings?: Partial<LayoutSettings>;
-  currentUser?: API.CurrentUser;
-  fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
+  settings?: Partial<LayoutSettings>
+  currentUser?: API.CurrentUser
+  fetchUserInfo?: () => Promise<API.CurrentUser | undefined>
 }> {
   const fetchUserInfo = async () => {
     try {
-      const res = await queryCurrentUser();
-      return res.data;
+      const res = await queryCurrentUser()
+      return res.data
     } catch (error) {
-      history.push(loginPath);
+      history.push(loginPath)
     }
-    return undefined;
-  };
+    return undefined
+  }
   // 如果是登录页面，不执行
   if (history.location.pathname !== loginPath) {
-    const currentUser = await fetchUserInfo();
+    const currentUser = await fetchUserInfo()
     return {
       fetchUserInfo,
       currentUser,
-      settings: {},
-    };
+      settings: {}
+    }
   }
   return {
     fetchUserInfo,
-    settings: {},
-  };
+    settings: {}
+  }
 }
 
 const codeMessage = {
@@ -64,68 +64,68 @@ const codeMessage = {
   500: '服务器发生错误，请检查服务器。',
   502: '网关错误。',
   503: '服务不可用，服务器暂时过载或维护。',
-  504: '网关超时。',
-};
+  504: '网关超时。'
+}
 
 /**
  * 异常处理程序
  */
 const errorHandler = (error: ResponseError) => {
-  console.log(error, 'app');
-  const { response } = error;
-  const errortext = codeMessage[response?.status] || response?.statusText;
-  const { status, url } = response;
+  console.log(error, 'app')
+  const { response } = error
+  const errortext = codeMessage[response?.status] || response?.statusText
+  const { status, url } = response
 
   if (status === 401) {
     notification.error({
-      message: '未登录或登录已过期，请重新登录。',
-    });
+      message: '未登录或登录已过期，请重新登录。'
+    })
 
-    history.push(loginPath);
-    return;
+    history.push(loginPath)
+    return
   }
   notification.error({
     message: `请求错误 ${status}: ${url}`,
-    description: errortext,
-  });
+    description: errortext
+  })
   // environment should not be used
   if (status === 403) {
-    history.push('/exception/403');
-    return;
+    history.push('/exception/403')
+    return
   }
   if (status <= 504 && status >= 500) {
-    history.push('/exception/500');
-    return;
+    history.push('/exception/500')
+    return
   }
   if (status >= 404 && status < 422) {
-    history.push('/exception/404');
+    history.push('/exception/404')
   }
-};
+}
 
 // 请求前拦截
 const authHeaderInterceptor = (url: string, options: RequestOptionsInit) => {
-  const token = localStorage.getItem('token');
-  const authHeader = { Authorization: `Bearer ${token}` };
+  const token = localStorage.getItem('token')
+  const authHeader = { Authorization: `Bearer ${token}` }
   return {
     url,
-    options: { ...options, interceptors: true, headers: authHeader },
-  };
-};
+    options: { ...options, interceptors: true, headers: authHeader }
+  }
+}
 // 请求后拦截
 const responseInterceptor = async (response: Response) => {
-  const data = await response.clone().json();
+  const data = await response.clone().json()
   if (data.status !== 200) {
-    message.error(data.message);
+    message.error(data.message)
   }
-  return response;
-};
+  return response
+}
 
 export const request: RequestConfig = {
   errorHandler,
   // 新增自动添加AccessToken的请求前拦截器
   requestInterceptors: [authHeaderInterceptor],
-  responseInterceptors: [responseInterceptor],
-};
+  responseInterceptors: [responseInterceptor]
+}
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState }) => {
@@ -133,14 +133,14 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
     waterMarkProps: {
-      content: initialState?.currentUser?.username,
+      content: initialState?.currentUser?.username
     },
     footerRender: () => <Footer />,
     onPageChange: () => {
-      const { location } = history;
+      const { location } = history
       // 如果没有登录，重定向到 login
       if (!initialState?.currentUser && location.pathname !== loginPath) {
-        history.push(loginPath);
+        history.push(loginPath)
       }
     },
     links: isDev
@@ -152,12 +152,12 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
           <Link to="/~docs">
             <BookOutlined />
             <span>业务组件文档</span>
-          </Link>,
+          </Link>
         ]
       : [],
     menuHeaderRender: undefined,
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,
-    ...initialState?.settings,
-  };
-};
+    ...initialState?.settings
+  }
+}

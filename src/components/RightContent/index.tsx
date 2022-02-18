@@ -1,24 +1,24 @@
-import { Space } from 'antd';
-import { QuestionCircleOutlined } from '@ant-design/icons';
-import React from 'react';
-import { useModel } from 'umi';
-import Avatar from './AvatarDropdown';
-import HeaderSearch from '../HeaderSearch';
-import styles from './index.less';
-export type SiderTheme = 'light' | 'dark';
+import { Space } from 'antd'
+import { QuestionCircleOutlined } from '@ant-design/icons'
+import React from 'react'
+import { useModel } from 'umi'
+import Avatar from './AvatarDropdown'
+import HeaderSearch from '../HeaderSearch'
+import styles from './index.less'
+export type SiderTheme = 'light' | 'dark'
 
 const GlobalHeaderRight: React.FC = () => {
-  const { initialState } = useModel('@@initialState');
+  const { initialState } = useModel('@@initialState')
 
   if (!initialState || !initialState.settings) {
-    return null;
+    return null
   }
 
-  const { navTheme, layout } = initialState.settings;
-  let className = styles.right;
+  const { navTheme, layout } = initialState.settings
+  let className = styles.right
 
   if ((navTheme === 'dark' && layout === 'top') || layout === 'mix') {
-    className = `${styles.right}  ${styles.dark}`;
+    className = `${styles.right}  ${styles.dark}`
   }
 
   return (
@@ -30,20 +30,20 @@ const GlobalHeaderRight: React.FC = () => {
         options={[
           {
             label: <a href="https://umijs.org/zh/guide/umi-ui.html">umi ui</a>,
-            value: 'umi ui',
+            value: 'umi ui'
           },
           {
             label: <a href="next.ant.design">Ant Design</a>,
-            value: 'Ant Design',
+            value: 'Ant Design'
           },
           {
             label: <a href="https://protable.ant.design/">Pro Table</a>,
-            value: 'Pro Table',
+            value: 'Pro Table'
           },
           {
             label: <a href="https://prolayout.ant.design/">Pro Layout</a>,
-            value: 'Pro Layout',
-          },
+            value: 'Pro Layout'
+          }
         ]} // onSearch={value => {
         //   console.log('input', value);
         // }}
@@ -51,14 +51,14 @@ const GlobalHeaderRight: React.FC = () => {
       <span
         className={styles.action}
         onClick={() => {
-          window.open('https://pro.ant.design/docs/getting-started');
+          window.open('https://pro.ant.design/docs/getting-started')
         }}
       >
         <QuestionCircleOutlined />
       </span>
       <Avatar />
     </Space>
-  );
-};
+  )
+}
 
-export default GlobalHeaderRight;
+export default GlobalHeaderRight

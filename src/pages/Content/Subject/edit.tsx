@@ -1,6 +1,6 @@
-import type { FC } from 'react';
-import React, { useState, useEffect } from 'react';
-import { message, Cascader, Form } from 'antd';
+import type { FC } from 'react'
+import React, { useState, useEffect } from 'react'
+import { message, Cascader, Form } from 'antd'
 import ProForm, {
   ProFormCheckbox,
   ProFormDatePicker,
@@ -11,28 +11,28 @@ import ProForm, {
   ProFormText,
   ProFormTextArea,
   ProFormTimePicker,
-  ProFormUploadButton,
-} from '@ant-design/pro-form';
-import { PageContainer } from '@ant-design/pro-layout';
-import { EditableProTable } from '@ant-design/pro-table';
-import type { ProColumns } from '@ant-design/pro-table';
-import Field from '@ant-design/pro-field';
+  ProFormUploadButton
+} from '@ant-design/pro-form'
+import { PageContainer } from '@ant-design/pro-layout'
+import { EditableProTable } from '@ant-design/pro-table'
+import type { ProColumns } from '@ant-design/pro-table'
+import Field from '@ant-design/pro-field'
 
-import styles from './style.less';
-import { useModel } from 'umi';
-import { getListFormat } from '@/utils';
-import UploadImage from '@/components/Upload';
+import styles from './style.less'
+import { useModel } from 'umi'
+import { getListFormat } from '@/utils'
+import UploadImage from '@/components/Upload'
 
-const { Item } = Form;
+const { Item } = Form
 
 type DataSourceType = {
-  id: React.Key;
-  title?: string;
-  decs?: string;
-  state?: string;
-  created_at?: string;
-  children?: DataSourceType[];
-};
+  id: React.Key
+  title?: string
+  decs?: string
+  state?: string
+  created_at?: string
+  children?: DataSourceType[]
+}
 
 const defaultData: DataSourceType[] = [
   {
@@ -40,22 +40,22 @@ const defaultData: DataSourceType[] = [
     title: '活动名称一',
     decs: '这个活动真好玩',
     state: 'open',
-    created_at: '2020-05-26T09:42:56Z',
+    created_at: '2020-05-26T09:42:56Z'
   },
   {
     id: 624691229,
     title: '活动名称二',
     decs: '这个活动真好玩',
     state: 'closed',
-    created_at: '2020-05-26T08:19:22Z',
-  },
-];
+    created_at: '2020-05-26T08:19:22Z'
+  }
+]
 
 const columns: ProColumns<DataSourceType>[] = [
   {
     title: '活动名称',
     dataIndex: 'title',
-    width: '30%',
+    width: '30%'
   },
   {
     title: '状态',
@@ -66,60 +66,58 @@ const columns: ProColumns<DataSourceType>[] = [
       all: { text: '全部', status: 'Default' },
       open: {
         text: '未解决',
-        status: 'Error',
+        status: 'Error'
       },
       closed: {
         text: '已解决',
-        status: 'Success',
-      },
-    },
+        status: 'Success'
+      }
+    }
   },
   {
     title: '描述',
-    dataIndex: 'decs',
+    dataIndex: 'decs'
   },
   {
     title: '操作',
-    valueType: 'option',
-  },
-];
+    valueType: 'option'
+  }
+]
 
 const SubjectEdit: FC = () => {
-  const [form] = ProForm.useForm();
-  const [editableKeys, setEditableRowKeys] = useState<React.Key[]>(() =>
-    defaultData.map((item) => item.id),
-  );
-  const [color, setColor] = useState('');
-  const [bgColor, setBgColor] = useState('');
-  const { categoryList, getCategoryList } = useModel('useList');
-  const { mcat, getMcat } = useModel('useMcat');
+  const [form] = ProForm.useForm()
+  const [editableKeys, setEditableRowKeys] = useState<React.Key[]>(() => defaultData.map(item => item.id))
+  const [color, setColor] = useState('')
+  const [bgColor, setBgColor] = useState('')
+  const { categoryList, getCategoryList } = useModel('useList')
+  const { mcat, getMcat } = useModel('useMcat')
 
   useEffect(() => {
-    getMcat();
-  }, [getMcat]);
+    getMcat()
+  }, [getMcat])
 
   useEffect(() => {
-    getCategoryList();
-  }, [getCategoryList]);
+    getCategoryList()
+  }, [getCategoryList])
 
   useEffect(() => {
-    form.setFieldsValue({ color });
-  }, [color, form]);
+    form.setFieldsValue({ color })
+  }, [color, form])
 
   useEffect(() => {
-    form.setFieldsValue({ bg_color: bgColor });
-  }, [bgColor, form]);
+    form.setFieldsValue({ bg_color: bgColor })
+  }, [bgColor, form])
 
   return (
     <PageContainer>
       <ProForm<{
-        name: string;
-        company: string;
+        name: string
+        company: string
       }>
         form={form}
-        onFinish={async (values) => {
-          console.log(values);
-          message.success('提交成功');
+        onFinish={async values => {
+          console.log(values)
+          message.success('提交成功')
         }}
         layout="horizontal"
         style={{ backgroundColor: '#fff', padding: 16 }}
@@ -127,18 +125,14 @@ const SubjectEdit: FC = () => {
         <UploadImage btnName="上传图片" />
         <ProForm.Group size={5}>
           <Item label="分类" name="cid">
-            <Cascader
-              options={getListFormat(categoryList)}
-              placeholder="分类"
-              style={{ width: 130 }}
-            />
+            <Cascader options={getListFormat(categoryList)} placeholder="分类" style={{ width: 130 }} />
           </Item>
           <ProFormSelect
             name="area"
             width={80}
             valueEnum={{
               open: '解决',
-              closed: '已解',
+              closed: '已解'
             }}
             placeholder="地区"
           />
@@ -147,7 +141,7 @@ const SubjectEdit: FC = () => {
             width={80}
             valueEnum={{
               open: '未解',
-              closed: '已解',
+              closed: '已解'
             }}
             placeholder="语言"
           />
@@ -156,7 +150,7 @@ const SubjectEdit: FC = () => {
             width={80}
             valueEnum={{
               open: '未解',
-              closed: '解决',
+              closed: '解决'
             }}
             placeholder="年份"
           />
@@ -165,7 +159,7 @@ const SubjectEdit: FC = () => {
             width={80}
             valueEnum={{
               0: '未放',
-              1: '已放',
+              1: '已放'
             }}
             placeholder="开播"
           />
@@ -178,14 +172,9 @@ const SubjectEdit: FC = () => {
             fieldProps={{
               suffix: (
                 <div className={styles.editcolor}>
-                  <Field
-                    valueType="color"
-                    mode="edit"
-                    value={color}
-                    onChange={(c) => setColor(c)}
-                  />
+                  <Field valueType="color" mode="edit" value={color} onChange={c => setColor(c)} />
                 </div>
-              ),
+              )
             }}
             width={110}
             name="color"
@@ -196,14 +185,9 @@ const SubjectEdit: FC = () => {
             fieldProps={{
               suffix: (
                 <div className={styles.editcolor}>
-                  <Field
-                    valueType="color"
-                    mode="edit"
-                    value={bgColor}
-                    onChange={(c) => setBgColor(c)}
-                  />
+                  <Field valueType="color" mode="edit" value={bgColor} onChange={c => setBgColor(c)} />
                 </div>
-              ),
+              )
             }}
             width={110}
             name="bg_color"
@@ -215,20 +199,15 @@ const SubjectEdit: FC = () => {
         <ProFormCheckbox.Group
           name="checkbox"
           label="小类"
-          options={mcat.map((item) => {
-            return { label: item.name, value: item.id! };
+          options={mcat.map(item => {
+            return { label: item.name, value: item.id! }
           })}
         />
         <ProForm.Group size={5}>
           <ProFormText width="lg" name="name" label="名称" placeholder="名称" />
           <ProFormText width="lg" name="foreign" placeholder="外文名" />
           <ProFormDatePicker width={150} name="time" placeholder="放送时间" />
-          <ProFormTimePicker
-            width={110}
-            name="filmtime"
-            fieldProps={{ format: 'HH:mm' }}
-            placeholder="上映日期"
-          />
+          <ProFormTimePicker width={110} name="filmtime" fieldProps={{ format: 'HH:mm' }} placeholder="上映日期" />
         </ProForm.Group>
         <ProFormText name="aliases" label="别名" placeholder="别名" />
         <ProFormText name="star" label="明星" placeholder="明星" />
@@ -252,7 +231,7 @@ const SubjectEdit: FC = () => {
               4: '四',
               5: '五',
               6: '六',
-              7: '日',
+              7: '日'
             }}
             placeholder="星期"
           />
@@ -263,7 +242,7 @@ const SubjectEdit: FC = () => {
               1: '首页推荐',
               2: '列表推荐',
               3: '封面推荐',
-              4: '季番推荐',
+              4: '季番推荐'
             }}
             placeholder="推荐级别"
           />
@@ -287,7 +266,7 @@ const SubjectEdit: FC = () => {
             max={2}
             fieldProps={{
               name: 'file',
-              listType: 'picture-card',
+              listType: 'picture-card'
             }}
             action="/upload.do"
           />
@@ -297,7 +276,7 @@ const SubjectEdit: FC = () => {
             max={2}
             fieldProps={{
               name: 'file',
-              listType: 'picture-card',
+              listType: 'picture-card'
             }}
             action="/upload.do"
           />
@@ -307,7 +286,7 @@ const SubjectEdit: FC = () => {
             max={2}
             fieldProps={{
               name: 'file',
-              listType: 'picture-card',
+              listType: 'picture-card'
             }}
             action="/upload.do"
           />
@@ -318,12 +297,7 @@ const SubjectEdit: FC = () => {
         <ProFormTextArea name="url" label="播放" placeholder="播放" />
         <ProFormTextArea name="content" label="简介" placeholder="简介" />
 
-        <ProForm.Item
-          label="数组数据"
-          name="dataSource"
-          initialValue={defaultData}
-          trigger="onValuesChange"
-        >
+        <ProForm.Item label="数组数据" name="dataSource" initialValue={defaultData} trigger="onValuesChange">
           <EditableProTable<DataSourceType>
             rowKey="id"
             toolBarRender={false}
@@ -332,16 +306,16 @@ const SubjectEdit: FC = () => {
               newRecordType: 'dataSource',
               position: 'bottom',
               record: () => ({
-                id: Date.now(),
-              }),
+                id: Date.now()
+              })
             }}
             editable={{
               type: 'multiple',
               editableKeys,
               onChange: setEditableRowKeys,
               actionRender: (row, _, dom) => {
-                return [dom.delete];
-              },
+                return [dom.delete]
+              }
             }}
           />
         </ProForm.Item>
@@ -352,7 +326,7 @@ const SubjectEdit: FC = () => {
         <ProFormTextArea name="seo_description" label="简介" placeholder="seo简介" />
       </ProForm>
     </PageContainer>
-  );
-};
+  )
+}
 
-export default SubjectEdit;
+export default SubjectEdit

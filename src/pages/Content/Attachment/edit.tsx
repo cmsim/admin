@@ -3,6 +3,6 @@ const AttachmentEdit = () => {
     <div>
       <h1>AttachmentEdit</h1>
     </div>
-  );
-};
-export default AttachmentEdit;
+  )
+}
+export default AttachmentEdit

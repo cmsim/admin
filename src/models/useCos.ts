@@ -1,17 +1,17 @@
-import { stsInit } from '@/services/attachment';
-import type { ISts } from '@/services/typings';
-import { useState, useCallback } from 'react';
+import { stsInit } from '@/services/attachment'
+import type { ISts } from '@/services/typings'
+import { useState, useCallback } from 'react'
 
 export default function useMcat() {
-  const [sts, setSts] = useState<ISts>();
+  const [sts, setSts] = useState<ISts>()
 
   const getSts = useCallback(async () => {
-    const res = await stsInit();
-    setSts(res.data);
-  }, []);
+    const res = await stsInit()
+    setSts(res.data)
+  }, [])
 
   return {
     sts,
-    getSts,
-  };
+    getSts
+  }
 }

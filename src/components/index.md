@@ -17,10 +17,10 @@ sidemenu: false
 /**
  * background: '#f0f2f5'
  */
-import React from 'react';
-import Footer from '@/components/Footer';
+import React from 'react'
+import Footer from '@/components/Footer'
 
-export default () => <Footer />;
+export default () => <Footer />
 ```
 
 ## HeaderDropdown 头部下拉列表
@@ -31,9 +31,9 @@ HeaderDropdown 是 antd Dropdown 的封装，但是增加了移动端的特殊�
 /**
  * background: '#f0f2f5'
  */
-import { Button, Menu } from 'antd';
-import React from 'react';
-import HeaderDropdown from '@/components/HeaderDropdown';
+import { Button, Menu } from 'antd'
+import React from 'react'
+import HeaderDropdown from '@/components/HeaderDropdown'
 
 export default () => {
   const menuHeaderDropdown = (
@@ -43,13 +43,13 @@ export default () => {
       <Menu.Divider />
       <Menu.Item key="logout">退出登录</Menu.Item>
     </Menu>
-  );
+  )
   return (
     <HeaderDropdown overlay={menuHeaderDropdown}>
       <Button>hover 展示菜单</Button>
     </HeaderDropdown>
-  );
-};
+  )
+}
 ```
 
 ## HeaderSearch 头部搜索框
@@ -60,9 +60,9 @@ export default () => {
 /**
  * background: '#f0f2f5'
  */
-import { Button, Menu } from 'antd';
-import React from 'react';
-import HeaderSearch from '@/components/HeaderSearch';
+import { Button, Menu } from 'antd'
+import React from 'react'
+import HeaderSearch from '@/components/HeaderSearch'
 
 export default () => {
   return (
@@ -73,23 +73,23 @@ export default () => {
         { label: 'Ant Design Pro', value: 'Ant Design Pro' },
         {
           label: 'Ant Design',
-          value: 'Ant Design',
+          value: 'Ant Design'
         },
         {
           label: 'Pro Table',
-          value: 'Pro Table',
+          value: 'Pro Table'
         },
         {
           label: 'Pro Layout',
-          value: 'Pro Layout',
-        },
+          value: 'Pro Layout'
+        }
       ]}
-      onSearch={(value) => {
-        console.log('input', value);
+      onSearch={value => {
+        console.log('input', value)
       }}
     />
-  );
-};
+  )
+}
 ```
 
 ### API
@@ -117,23 +117,23 @@ RightContent 是以上几个组件的组合，同时新增了 plugins 的 `Selec
       { label: <a href="https://umijs.org/zh/guide/umi-ui.html">umi ui</a>, value: 'umi ui' },
       {
         label: <a href="next.ant.design">Ant Design</a>,
-        value: 'Ant Design',
+        value: 'Ant Design'
       },
       {
         label: <a href="https://protable.ant.design/">Pro Table</a>,
-        value: 'Pro Table',
+        value: 'Pro Table'
       },
       {
         label: <a href="https://prolayout.ant.design/">Pro Layout</a>,
-        value: 'Pro Layout',
-      },
+        value: 'Pro Layout'
+      }
     ]}
   />
   <Tooltip title="使用文档">
     <span
       className={styles.action}
       onClick={() => {
-        window.location.href = 'https://pro.ant.design/docs/getting-started';
+        window.location.href = 'https://pro.ant.design/docs/getting-started'
       }}
     >
       <QuestionCircleOutlined />

@@ -3,6 +3,6 @@ const FeedEdit = () => {
     <div>
       <h1>FeedEdit</h1>
     </div>
-  );
-};
-export default FeedEdit;
+  )
+}
+export default FeedEdit

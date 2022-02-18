@@ -1,68 +1,68 @@
-import { Button, message } from 'antd';
-import type { ActionType, ProColumns } from '@ant-design/pro-table';
-import { EditableProTable } from '@ant-design/pro-table';
-import { PageContainer } from '@ant-design/pro-layout';
-import type { IList } from '@/services/typings';
-import { getList, sidEnum } from '@/utils';
-import { listAdd } from '@/services/list';
-import { Link, useModel } from 'umi';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Button, message } from 'antd'
+import type { ActionType, ProColumns } from '@ant-design/pro-table'
+import { EditableProTable } from '@ant-design/pro-table'
+import { PageContainer } from '@ant-design/pro-layout'
+import type { IList } from '@/services/typings'
+import { getList, sidEnum } from '@/utils'
+import { listAdd } from '@/services/list'
+import { Link, useModel } from 'umi'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 const Typelist = () => {
-  const actionRef = useRef<ActionType>();
-  const [editableKeys, setEditableRowKeys] = useState<React.Key[]>([]);
-  const [dataSource, setDataSource] = useState<IList[]>([]);
-  const { categoryList, getCategoryList } = useModel('useList');
+  const actionRef = useRef<ActionType>()
+  const [editableKeys, setEditableRowKeys] = useState<React.Key[]>([])
+  const [dataSource, setDataSource] = useState<IList[]>([])
+  const { categoryList, getCategoryList } = useModel('useList')
 
   const getData = useCallback(async () => {
-    await getCategoryList();
-  }, [getCategoryList]);
+    await getCategoryList()
+  }, [getCategoryList])
 
   useEffect(() => {
-    getData();
-  }, [getData]);
+    getData()
+  }, [getData])
 
   useEffect(() => {
-    actionRef.current?.reload?.();
-  }, [categoryList]);
+    actionRef.current?.reload?.()
+  }, [categoryList])
 
   const cateEnum = useMemo(() => {
-    let obj = { '0': '无' };
-    categoryList.forEach((item) => {
+    let obj = { '0': '无' }
+    categoryList.forEach(item => {
       obj = {
         ...obj,
         [item.id!]: {
-          text: item.name,
-        },
-      };
-    });
-    return obj;
-  }, [categoryList]);
+          text: item.name
+        }
+      }
+    })
+    return obj
+  }, [categoryList])
 
   const columns: ProColumns<IList>[] = [
     {
       title: '名称',
-      dataIndex: 'name',
+      dataIndex: 'name'
     },
     {
       title: '父类',
       dataIndex: 'pid',
       valueType: 'select',
-      valueEnum: cateEnum,
+      valueEnum: cateEnum
     },
     {
       title: '模型',
       dataIndex: 'sid',
       valueType: 'select',
-      valueEnum: sidEnum(),
+      valueEnum: sidEnum()
     },
     {
       title: '目录',
-      dataIndex: 'dir',
+      dataIndex: 'dir'
     },
     {
       title: '排序',
-      dataIndex: 'rank',
+      dataIndex: 'rank'
     },
     {
       title: '状态',
@@ -70,8 +70,8 @@ const Typelist = () => {
       valueType: 'select',
       valueEnum: {
         0: { text: '正常', status: 'Success' },
-        1: { text: '禁用', status: 'Error' },
-      },
+        1: { text: '禁用', status: 'Error' }
+      }
     },
     {
       title: '操作',
@@ -82,7 +82,7 @@ const Typelist = () => {
         <a
           key="editable"
           onClick={() => {
-            action?.startEditable?.(record.id!);
+            action?.startEditable?.(record.id!)
           }}
         >
           编辑
@@ -90,17 +90,17 @@ const Typelist = () => {
         <a
           key="delete"
           onClick={() => {
-            setDataSource(dataSource.filter((item) => item.id !== record.id));
+            setDataSource(dataSource.filter(item => item.id !== record.id))
           }}
         >
           删除
-        </a>,
-      ],
-    },
-  ];
+        </a>
+      ]
+    }
+  ]
 
   const expandedRowRender = (record: any) => {
-    if (!record.sub?.length) return;
+    if (!record.sub?.length) return
     return (
       <EditableProTable
         rowKey="id"
@@ -112,38 +112,38 @@ const Typelist = () => {
         bordered={false}
         request={async () => ({
           data: record.sub,
-          success: true,
+          success: true
         })}
         value={record.sub}
         recordCreatorProps={{
-          record: () => ({ id: (Math.random() * 1000000).toFixed(0), cid: '1' } as IList),
+          record: () => ({ id: (Math.random() * 1000000).toFixed(0), cid: '1' } as IList)
         }}
         editable={{
           type: 'multiple',
           editableKeys,
           onSave: async (rowKey, data, row) => {
             if (typeof data.id === 'string') {
-              delete data.id;
+              delete data.id
             }
-            listAdd({ ...data }).then((res) => {
+            listAdd({ ...data }).then(res => {
               if (res.status === 200) {
                 if (data.id) {
-                  message.success('修改成功');
+                  message.success('修改成功')
                 } else {
-                  message.success('添加成功');
+                  message.success('添加成功')
                 }
-                getData();
+                getData()
               } else {
-                message.error(res.message);
+                message.error(res.message)
               }
-            });
-            console.log(rowKey, data, row);
+            })
+            console.log(rowKey, data, row)
           },
-          onChange: setEditableRowKeys,
+          onChange: setEditableRowKeys
         }}
       />
-    );
-  };
+    )
+  }
   return (
     <PageContainer>
       <EditableProTable<IList>
@@ -152,13 +152,13 @@ const Typelist = () => {
         request={async () => {
           return {
             data: getList(categoryList),
-            success: true,
-          };
+            success: true
+          }
         }}
         rowKey="id"
         pagination={false}
         expandable={{
-          expandedRowRender: (record) => expandedRowRender(record),
+          expandedRowRender: record => expandedRowRender(record)
         }}
         search={false}
         dateFormatter="string"
@@ -167,38 +167,38 @@ const Typelist = () => {
         toolBarRender={() => [
           <Link key="primary" to="typelist/add">
             <Button type="primary">创建应用</Button>
-          </Link>,
+          </Link>
         ]}
         value={getList(categoryList)}
         recordCreatorProps={{
-          record: () => ({ id: (Math.random() * 1000000).toFixed(0) } as IList),
+          record: () => ({ id: (Math.random() * 1000000).toFixed(0) } as IList)
         }}
         editable={{
           type: 'multiple',
           editableKeys,
           onSave: async (rowKey, data, row) => {
             if (typeof data.id === 'string') {
-              delete data.id;
+              delete data.id
             }
-            listAdd({ ...data }).then((res) => {
+            listAdd({ ...data }).then(res => {
               if (res.status === 200) {
                 if (data.id) {
-                  message.success('修改成功');
+                  message.success('修改成功')
                 } else {
-                  message.success('添加成功');
+                  message.success('添加成功')
                 }
-                getData();
+                getData()
               } else {
-                message.error(res.message);
+                message.error(res.message)
               }
-            });
-            console.log(rowKey, data, row);
+            })
+            console.log(rowKey, data, row)
           },
-          onChange: setEditableRowKeys,
+          onChange: setEditableRowKeys
         }}
       />
     </PageContainer>
-  );
-};
+  )
+}
 
-export default Typelist;
+export default Typelist

@@ -1,40 +1,40 @@
-import { Button, message } from 'antd';
-import type { ActionType, ProColumns } from '@ant-design/pro-table';
-import ProTable, { EditableProTable } from '@ant-design/pro-table';
-import { PageContainer } from '@ant-design/pro-layout';
-import type { IList, IMcat } from '@/services/typings';
-import { getListMcat, sidEnum } from '@/utils';
-import { Link, useModel } from 'umi';
-import { mcatAdd } from '@/services/mcat';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Button, message } from 'antd'
+import type { ActionType, ProColumns } from '@ant-design/pro-table'
+import ProTable, { EditableProTable } from '@ant-design/pro-table'
+import { PageContainer } from '@ant-design/pro-layout'
+import type { IList, IMcat } from '@/services/typings'
+import { getListMcat, sidEnum } from '@/utils'
+import { Link, useModel } from 'umi'
+import { mcatAdd } from '@/services/mcat'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 const columns: ProColumns<IList>[] = [
   {
     title: '名称',
     width: 120,
-    dataIndex: 'name',
+    dataIndex: 'name'
   },
   {
     title: '目录',
     width: 120,
-    dataIndex: 'dir',
+    dataIndex: 'dir'
   },
   {
     title: '排序',
     width: 120,
-    dataIndex: 'rank',
+    dataIndex: 'rank'
   },
   {
     title: '模型',
     width: 140,
     dataIndex: 'sid',
     valueType: 'select',
-    valueEnum: sidEnum(),
+    valueEnum: sidEnum()
   },
   {
     title: '状态',
     width: 120,
-    dataIndex: 'status',
+    dataIndex: 'status'
   },
   {
     title: '操作',
@@ -47,70 +47,70 @@ const columns: ProColumns<IList>[] = [
       </Link>,
       <Link to={`typelist`} key="delete">
         删除
-      </Link>,
-    ],
-  },
-];
+      </Link>
+    ]
+  }
+]
 
 const Mcatlist = () => {
-  const actionRef = useRef<ActionType>();
-  const [editableKeys, setEditableRowKeys] = useState<React.Key[]>([]);
-  const [dataSource, setDataSource] = useState<IMcat[]>([]);
-  const { categoryList, getCategoryList } = useModel('useList');
-  const { mcat, getMcat } = useModel('useMcat');
-  const [mcatData, setMcatData] = useState<any[]>([]);
+  const actionRef = useRef<ActionType>()
+  const [editableKeys, setEditableRowKeys] = useState<React.Key[]>([])
+  const [dataSource, setDataSource] = useState<IMcat[]>([])
+  const { categoryList, getCategoryList } = useModel('useList')
+  const { mcat, getMcat } = useModel('useMcat')
+  const [mcatData, setMcatData] = useState<any[]>([])
 
   const getData = useCallback(async () => {
-    await getCategoryList();
-    await getMcat();
-  }, [getCategoryList, getMcat]);
+    await getCategoryList()
+    await getMcat()
+  }, [getCategoryList, getMcat])
 
   useEffect(() => {
-    getData();
-  }, [getData]);
+    getData()
+  }, [getData])
 
   useEffect(() => {
-    setMcatData(getListMcat(categoryList, mcat));
-  }, [mcat, categoryList]);
+    setMcatData(getListMcat(categoryList, mcat))
+  }, [mcat, categoryList])
 
   useEffect(() => {
-    actionRef.current?.reload?.();
-  }, [mcatData]);
+    actionRef.current?.reload?.()
+  }, [mcatData])
 
   const cateEnum = useMemo(() => {
-    let obj = {};
-    categoryList.forEach((item) => {
+    let obj = {}
+    categoryList.forEach(item => {
       obj = {
         ...obj,
         [item.id!]: {
-          text: item.name,
-        },
-      };
-    });
-    return obj;
-  }, [categoryList]);
+          text: item.name
+        }
+      }
+    })
+    return obj
+  }, [categoryList])
 
   const columnsMcat: ProColumns<any>[] = [
     {
       title: '名称',
       dataIndex: 'name',
-      width: 120,
+      width: 120
     },
     {
       title: '父类',
       dataIndex: 'cid',
       valueType: 'select',
-      valueEnum: cateEnum,
+      valueEnum: cateEnum
     },
     {
       title: '目录',
       dataIndex: 'title',
-      width: 120,
+      width: 120
     },
     {
       title: '排序',
       dataIndex: 'rank',
-      width: 120,
+      width: 120
     },
     {
       title: '操作',
@@ -120,7 +120,7 @@ const Mcatlist = () => {
         <a
           key="editable"
           onClick={() => {
-            action?.startEditable?.(record.id);
+            action?.startEditable?.(record.id)
           }}
         >
           编辑
@@ -128,17 +128,17 @@ const Mcatlist = () => {
         <a
           key="delete"
           onClick={() => {
-            setDataSource(dataSource.filter((item) => item.id !== record.id));
+            setDataSource(dataSource.filter(item => item.id !== record.id))
           }}
         >
           删除
-        </a>,
-      ],
-    },
-  ];
+        </a>
+      ]
+    }
+  ]
 
   const expandedRowRender = (record: any) => {
-    if (!record.sub?.length) return;
+    if (!record.sub?.length) return
     return (
       <EditableProTable
         rowKey="id"
@@ -147,38 +147,38 @@ const Mcatlist = () => {
         pagination={false}
         request={async () => ({
           data: record.sub,
-          success: true,
+          success: true
         })}
         value={record.sub}
         recordCreatorProps={{
-          record: () => ({ id: (Math.random() * 1000000).toFixed(0), cid: '1' } as IMcat),
+          record: () => ({ id: (Math.random() * 1000000).toFixed(0), cid: '1' } as IMcat)
         }}
         editable={{
           type: 'multiple',
           editableKeys,
           onSave: async (rowKey, data, row) => {
             if (typeof data.id === 'string') {
-              delete data.id;
+              delete data.id
             }
-            mcatAdd({ ...data }).then((res) => {
+            mcatAdd({ ...data }).then(res => {
               if (res.status === 200) {
                 if (data.id) {
-                  message.success('修改成功');
+                  message.success('修改成功')
                 } else {
-                  message.success('添加成功');
+                  message.success('添加成功')
                 }
-                getData();
+                getData()
               } else {
-                message.error(res.message);
+                message.error(res.message)
               }
-            });
-            console.log(rowKey, data, row);
+            })
+            console.log(rowKey, data, row)
           },
-          onChange: setEditableRowKeys,
+          onChange: setEditableRowKeys
         }}
       />
-    );
-  };
+    )
+  }
   return (
     <PageContainer>
       <ProTable<IList>
@@ -187,15 +187,15 @@ const Mcatlist = () => {
         request={async () => {
           return {
             data: mcatData,
-            success: true,
-          };
+            success: true
+          }
         }}
         rowKey="id"
         pagination={{
-          showQuickJumper: true,
+          showQuickJumper: true
         }}
         expandable={{
-          expandedRowRender: (record) => expandedRowRender(record),
+          expandedRowRender: record => expandedRowRender(record)
         }}
         search={false}
         dateFormatter="string"
@@ -204,11 +204,11 @@ const Mcatlist = () => {
         toolBarRender={() => [
           <Link key="primary" to="mcat/add">
             <Button type="primary">创建应用</Button>
-          </Link>,
+          </Link>
         ]}
       />
     </PageContainer>
-  );
-};
+  )
+}
 
-export default Mcatlist;
+export default Mcatlist

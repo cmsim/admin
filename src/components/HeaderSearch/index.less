@@ -1,8 +1,9 @@
 @import '~antd/es/style/themes/default.less';
 
-.headerSearch {
+.header-search {
   display: inline-flex;
   align-items: center;
+
   .input {
     width: 0;
     min-width: 0;
@@ -10,9 +11,11 @@
     background: transparent;
     border-radius: 0;
     transition: width 0.3s, margin-left 0.3s;
+
     :global(.ant-select-selection) {
       background: transparent;
     }
+
     input {
       box-shadow: none !important;
     }

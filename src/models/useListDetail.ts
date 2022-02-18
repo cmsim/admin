@@ -1,17 +1,17 @@
-import { listDeatil } from '@/services/list';
-import type { IList } from '@/services/typings';
-import { useState, useCallback } from 'react';
+import { listDeatil } from '@/services/list'
+import type { IList } from '@/services/typings'
+import { useState, useCallback } from 'react'
 
 export default function useListDetail() {
-  const [categoryDetail, setCategoryDetail] = useState<IList>();
+  const [categoryDetail, setCategoryDetail] = useState<IList>()
 
   const getCategoryDetail = useCallback(async (id: string) => {
-    const res = await listDeatil({ id });
-    setCategoryDetail(res.data);
-  }, []);
+    const res = await listDeatil({ id })
+    setCategoryDetail(res.data)
+  }, [])
 
   return {
     categoryDetail,
-    getCategoryDetail,
-  };
+    getCategoryDetail
+  }
 }

@@ -1,24 +1,24 @@
 // @ts-ignore
 /* eslint-disable */
-import { request } from 'umi';
-import { IListResponse, IUser } from './typings';
+import { request } from 'umi'
+import { IListResponse, IUser } from './typings'
 
 /** 获取当前的用户 GET /backend/user/info */
 export async function currentUser(options?: { [key: string]: any }) {
   return request<{
-    data: API.CurrentUser;
+    data: API.CurrentUser
   }>('/backend/user/info', {
     method: 'GET',
-    ...(options || {}),
-  });
+    ...(options || {})
+  })
 }
 
 /** 退出登录接口 POST /backend/user/logout */
 export async function outLogin(options?: { [key: string]: any }) {
   return request<Record<string, any>>('/backend/user/logout', {
     method: 'POST',
-    ...(options || {}),
-  });
+    ...(options || {})
+  })
 }
 
 /** 登录接口 POST /backend/user/login */
@@ -26,11 +26,11 @@ export async function login(body: API.LoginParams, options?: { [key: string]: an
   return request<API.LoginResult>('/backend/user/login', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
     data: body,
-    ...(options || {}),
-  });
+    ...(options || {})
+  })
 }
 
 /** 验证码 POST /api/login/captcha */
@@ -38,17 +38,17 @@ export async function getCaptcha(
   params: {
     // query
     /** 手机号 */
-    phone?: string;
+    phone?: string
   },
-  options?: { [key: string]: any },
+  options?: { [key: string]: any }
 ) {
   return request<API.FakeCaptcha>('/api/login/captcha', {
     method: 'GET',
     params: {
-      ...params,
+      ...params
     },
-    ...(options || {}),
-  });
+    ...(options || {})
+  })
 }
 
 /** 获取用户列表 GET /backend/user/list */
@@ -56,49 +56,49 @@ export async function userList(
   params: {
     // query
     /** 当前的页码 */
-    current?: number;
+    current?: number
     /** 页面的容量 */
-    pageSize?: number;
+    pageSize?: number
   },
-  options?: Record<string, any>,
+  options?: Record<string, any>
 ) {
   return request<IListResponse<IUser>>('/backend/user/list', {
     method: 'GET',
     params: {
-      ...params,
+      ...params
     },
-    ...(options || {}),
-  });
+    ...(options || {})
+  })
 }
 
 /** 删除用户 DELETE /api/rule */
 export async function removeUser(options?: { [key: string]: any }) {
   return request<Record<string, any>>('/backend/user/delete', {
     method: 'DELETE',
-    ...(options || {}),
-  });
+    ...(options || {})
+  })
 }
 
 /** 新建规则 PUT /api/rule */
 export async function updateRule(options?: { [key: string]: any }) {
   return request<API.RuleListItem>('/api/rule', {
     method: 'PUT',
-    ...(options || {}),
-  });
+    ...(options || {})
+  })
 }
 
 /** 新建规则 POST /api/rule */
 export async function addRule(options?: { [key: string]: any }) {
   return request<API.RuleListItem>('/api/rule', {
     method: 'POST',
-    ...(options || {}),
-  });
+    ...(options || {})
+  })
 }
 
 /** 删除规则 DELETE /api/rule */
 export async function removeRule(options?: { [key: string]: any }) {
   return request<Record<string, any>>('/api/rule', {
     method: 'DELETE',
-    ...(options || {}),
-  });
+    ...(options || {})
+  })
 }

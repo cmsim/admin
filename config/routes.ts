@@ -12,103 +12,103 @@ export default [
         path: '/content/subject',
         name: '剧集列表',
         component: './Content/Subject',
-        parentKeys: ['/content/subject'],
+        parentKeys: ['/content/subject']
       },
       {
         hideInMenu: true,
         path: '/content/subject/add',
         name: '添加剧集',
         component: './Content/Subject/edit',
-        parentKeys: ['/content/subject'],
+        parentKeys: ['/content/subject']
       },
       {
         hideInMenu: true,
         path: '/content/subject/edit/:id',
         name: '编辑剧集',
         component: './Content/Subject/edit',
-        parentKeys: ['/content/subject'],
+        parentKeys: ['/content/subject']
       },
       {
         path: '/content/feed',
         name: '动态列表',
         component: './Content/Feed',
-        parentKeys: ['/content/feed'],
+        parentKeys: ['/content/feed']
       },
       {
         hideInMenu: true,
         path: '/content/feed/add',
         name: '添加动态',
         component: './Content/Feed/edit',
-        parentKeys: ['/content/feed'],
+        parentKeys: ['/content/feed']
       },
       {
         hideInMenu: true,
         path: '/content/feed/edit/:id',
         name: '编辑动态',
         component: './Content/Feed/edit',
-        parentKeys: ['/content/feed'],
+        parentKeys: ['/content/feed']
       },
       {
         path: '/content/comment',
         name: '评论列表',
         component: './Content/Comment',
-        parentKeys: ['/content/comment'],
+        parentKeys: ['/content/comment']
       },
       {
         hideInMenu: true,
         path: '/content/comment/add',
         name: '添加评论',
         component: './Content/Comment/edit',
-        parentKeys: ['/content/comment'],
+        parentKeys: ['/content/comment']
       },
       {
         hideInMenu: true,
         path: '/content/comment/edit/:id',
         name: '编辑评论',
         component: './Content/Comment/edit',
-        parentKeys: ['/content/comment'],
+        parentKeys: ['/content/comment']
       },
       {
         path: '/content/tag',
         name: '标签列表',
         component: './Content/Tag',
-        parentKeys: ['/content/tag'],
+        parentKeys: ['/content/tag']
       },
       {
         hideInMenu: true,
         path: '/content/tag/add',
         name: '添加标签',
         component: './Content/Tag/edit',
-        parentKeys: ['/content/tag'],
+        parentKeys: ['/content/tag']
       },
       {
         hideInMenu: true,
         path: '/content/tag/edit/:id',
         name: '编辑标签',
         component: './Content/Tag/edit',
-        parentKeys: ['/content/tag'],
+        parentKeys: ['/content/tag']
       },
       {
         path: '/content/attachment',
         name: '附件列表',
         component: './Content/Attachment',
-        parentKeys: ['/content/attachment'],
+        parentKeys: ['/content/attachment']
       },
       {
         hideInMenu: true,
         path: '/content/attachment/add',
         name: '添加附件',
         component: './Content/Attachment/edit',
-        parentKeys: ['/content/attachment'],
+        parentKeys: ['/content/attachment']
       },
       {
         hideInMenu: true,
         path: '/content/attachment/edit/:id',
         name: '编辑附件',
         component: './Content/Attachment/edit',
-        parentKeys: ['/content/attachment'],
-      },
-    ],
+        parentKeys: ['/content/attachment']
+      }
+    ]
   },
   {
     path: '/config',
@@ -121,49 +121,49 @@ export default [
         path: '/config/list',
         name: '配置列表',
         icon: 'smile',
-        component: './Config/List',
+        component: './Config/List'
       },
       {
         path: '/config/mcat',
         name: '小分类',
         icon: 'smile',
-        component: './Config/Mcat',
+        component: './Config/Mcat'
       },
       {
         hideInMenu: true,
         path: '/config/mcat/add',
         name: '添加',
         component: './Config/Mcat/edit',
-        parentKeys: ['/config/mcat'],
+        parentKeys: ['/config/mcat']
       },
       {
         hideInMenu: true,
         path: '/config/mcat/edit/:id',
         name: '编辑',
         component: './Config/Mcat/edit',
-        parentKeys: ['/config/mcat'],
+        parentKeys: ['/config/mcat']
       },
       {
         path: '/config/typelist',
         name: '栏目列表',
         component: './Config/Typelist',
-        parentKeys: ['/config/typelist'],
+        parentKeys: ['/config/typelist']
       },
       {
         hideInMenu: true,
         path: '/config/typelist/add',
         name: '添加栏目',
         component: './Config/Typelist/edit',
-        parentKeys: ['/config/typelist'],
+        parentKeys: ['/config/typelist']
       },
       {
         hideInMenu: true,
         path: '/config/typelist/edit/:id',
         name: '编辑栏目',
         component: './Config/Typelist/edit',
-        parentKeys: ['/config/typelist'],
-      },
-    ],
+        parentKeys: ['/config/typelist']
+      }
+    ]
   },
   {
     path: '/user',
@@ -176,25 +176,25 @@ export default [
         path: '/user/list',
         name: '用户管理',
         component: './User/List',
-        parentKeys: ['/user/list'],
+        parentKeys: ['/user/list']
       },
       {
         hideInMenu: true,
         path: '/user/add',
         name: '添加用户',
         component: './404',
-        parentKeys: ['/user/list'],
+        parentKeys: ['/user/list']
       },
       {
         hideInMenu: true,
         path: '/user/edit/:id',
         name: '编辑用户',
         component: './404',
-        parentKeys: ['/content/list'],
-      },
-    ],
+        parentKeys: ['/content/list']
+      }
+    ]
   },
   { path: '/chat', name: 'chat', icon: 'smile', component: './Chat' },
   { hideInMenu: true, path: '/login', layout: false, name: '登录', component: './User/Login' },
-  { component: './404' },
-];
+  { component: './404' }
+]

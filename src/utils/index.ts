@@ -1,4 +1,4 @@
-import type { IList, IMcat } from '@/services/typings';
+import type { IList, IMcat } from '@/services/typings'
 
 /**
  * 返回逗号隔开的小分类ID
@@ -9,15 +9,15 @@ import type { IList, IMcat } from '@/services/typings';
  */
 
 export const findMcat = (mcat: IMcat[], find: string, format = false) => {
-  const findArr = find.split(',');
-  const arr: IMcat[] = [];
-  mcat.forEach((item) => {
+  const findArr = find.split(',')
+  const arr: IMcat[] = []
+  mcat.forEach(item => {
     if (findArr.includes(String(item.id))) {
-      arr.push(item);
+      arr.push(item)
     }
-  });
-  return format ? arr.map((item) => item.name).join(',') : arr;
-};
+  })
+  return format ? arr.map(item => item.name).join(',') : arr
+}
 
 /**
  * 格式化分类列表
@@ -26,18 +26,18 @@ export const findMcat = (mcat: IMcat[], find: string, format = false) => {
  */
 
 export const getListFormat = (list: IList[]) => {
-  const data: { value: number | string; label: string; children?: any[] }[] = [];
-  list.forEach((item) => {
+  const data: { value: number | string; label: string; children?: any[] }[] = []
+  list.forEach(item => {
     if (item.pid === '0') {
-      data.push({ value: item.id!, label: item.name!, children: [] });
+      data.push({ value: item.id!, label: item.name!, children: [] })
     }
-    const i = data.findIndex((s) => s.value === item.pid);
+    const i = data.findIndex(s => s.value === item.pid)
     if (i !== -1 && data[i].children) {
-      data[i].children?.push({ value: item.id!, label: item.name! });
+      data[i].children?.push({ value: item.id!, label: item.name! })
     }
-  });
-  return data;
-};
+  })
+  return data
+}
 
 /**
  * 格式化分类列表
@@ -46,20 +46,20 @@ export const getListFormat = (list: IList[]) => {
  */
 
 export const getList = (list: IList[]) => {
-  const data: ({ sub?: IList[] } & IList)[] = [];
-  list.forEach((item) => {
+  const data: ({ sub?: IList[] } & IList)[] = []
+  list.forEach(item => {
     if (item.pid === '0') {
-      data.push({ ...item, sub: [] });
+      data.push({ ...item, sub: [] })
     }
-  });
-  data.forEach((item) => {
-    const arr = list.filter((s) => s.pid === item.id);
+  })
+  data.forEach(item => {
+    const arr = list.filter(s => s.pid === item.id)
     if (arr.length) {
-      item.sub = arr;
+      item.sub = arr
     }
-  });
-  return data;
-};
+  })
+  return data
+}
 
 /**
  * 格式化分类和小分类合并
@@ -69,20 +69,20 @@ export const getList = (list: IList[]) => {
  */
 
 export const getListMcat = (list: IList[], sub: IMcat[]) => {
-  const data: ({ sub?: IMcat[] } & IList)[] = [];
-  list.forEach((item) => {
+  const data: ({ sub?: IMcat[] } & IList)[] = []
+  list.forEach(item => {
     if (item.pid === '0') {
-      data.push({ ...item, sub: [] });
+      data.push({ ...item, sub: [] })
     }
-  });
-  data.forEach((item) => {
-    const arr = sub.filter((s) => s.cid === item.id);
+  })
+  data.forEach(item => {
+    const arr = sub.filter(s => s.cid === item.id)
     if (arr.length) {
-      item.sub = arr;
+      item.sub = arr
     }
-  });
-  return data;
-};
+  })
+  return data
+}
 
 /**
  * 判断是否是数字
@@ -93,14 +93,14 @@ export const getListMcat = (list: IList[], sub: IMcat[]) => {
 export const isRealNum = (val: any) => {
   // isNaN()函数 把空串 空格 以及NUll 按照0来处理 所以先去除，
   if (val === '' || val == null) {
-    return false;
+    return false
   }
   if (!isNaN(val) && typeof val === 'number') {
-    return true;
+    return true
   } else {
-    return false;
+    return false
   }
-};
+}
 
 /**
  * 把id转成string
@@ -108,25 +108,25 @@ export const isRealNum = (val: any) => {
  * @returns 返回id转成string
  */
 export const idToStr = (data: any[]) => {
-  data.forEach((item) => {
+  data.forEach(item => {
     if (isRealNum(item.id)) {
-      item.id = String(item.id);
+      item.id = String(item.id)
     }
     if (isRealNum(item.pid)) {
-      item.pid = String(item.pid);
+      item.pid = String(item.pid)
     }
     if (isRealNum(item.cid)) {
-      item.cid = String(item.cid);
+      item.cid = String(item.cid)
     }
     if (isRealNum(item.mid)) {
-      item.mid = String(item.mid);
+      item.mid = String(item.mid)
     }
     if (isRealNum(item.sid)) {
-      item.sid = String(item.sid);
+      item.sid = String(item.sid)
     }
-  });
-  return data;
-};
+  })
+  return data
+}
 
 /* 模型sid */
 export enum modelName {
@@ -146,7 +146,7 @@ export enum modelName {
   TOPIC, // 话题表
   DETAILEDLIST, // 清单
   ACOTR, // 演员表
-  USER,
+  USER
 }
 
 export const modelEnName = {
@@ -166,8 +166,8 @@ export const modelEnName = {
   [modelName.TOPIC]: 'topic',
   [modelName.DETAILEDLIST]: 'detailedlist',
   [modelName.ACOTR]: 'actor',
-  [modelName.USER]: 'user',
-};
+  [modelName.USER]: 'user'
+}
 
 export const modelType = {
   [modelName.SUBJECT]: '剧集',
@@ -186,8 +186,8 @@ export const modelType = {
   [modelName.TOPIC]: '话题',
   [modelName.DETAILEDLIST]: '清单',
   [modelName.ACOTR]: '演员',
-  [modelName.USER]: '用户',
-};
+  [modelName.USER]: '用户'
+}
 
 export const sidObj = [
   { label: '动漫', value: modelName.SUBJECT },
@@ -206,21 +206,21 @@ export const sidObj = [
   { label: '话题', value: modelName.TOPIC },
   { label: '清单', value: modelName.DETAILEDLIST },
   { label: '演员', value: modelName.ACOTR },
-  { label: '用户', value: modelName.USER },
-];
+  { label: '用户', value: modelName.USER }
+]
 /**
  * 格式模型
  * @returns 返回模型名称
  */
 export const sidEnum = () => {
-  let obj = {};
-  sidObj.forEach((item) => {
+  let obj = {}
+  sidObj.forEach(item => {
     obj = {
       ...obj,
       [item.value!]: {
-        text: item.label,
-      },
-    };
-  });
-  return obj;
-};
+        text: item.label
+      }
+    }
+  })
+  return obj
+}

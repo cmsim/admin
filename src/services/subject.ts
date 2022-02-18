@@ -1,14 +1,14 @@
-import { request } from 'umi';
-import type { ISubject, IListResponse } from './typings';
+import { request } from 'umi'
+import type { ISubject, IListResponse } from './typings'
 
 /** 获取剧集详情 GET /backend/subject/:id */
 export async function subjectDetail(options?: Record<string, any>) {
   return request<{
-    data: ISubject;
+    data: ISubject
   }>('/backend/subject/:id', {
     method: 'GET',
-    ...(options || {}),
-  });
+    ...(options || {})
+  })
 }
 
 /** 获取剧集列表 GET /backend/subject/list */
@@ -16,19 +16,19 @@ export async function subjectList(
   params: {
     // query
     /** 当前的页码 */
-    current?: number;
+    current?: number
     /** 页面的容量 */
-    pageSize?: number;
+    pageSize?: number
   },
-  options?: Record<string, any>,
+  options?: Record<string, any>
 ) {
   return request<IListResponse<ISubject>>('/backend/subject/list', {
     method: 'GET',
     params: {
-      ...params,
+      ...params
     },
-    ...(options || {}),
-  });
+    ...(options || {})
+  })
 }
 
 /** 添加剧集 POST /api/subject/add */
@@ -36,8 +36,8 @@ export async function subjectAdd(body: API.LoginParams, options?: Record<string,
   return request<API.LoginResult>('/backend/subject/add', {
     method: 'POST',
     data: body,
-    ...(options || {}),
-  });
+    ...(options || {})
+  })
 }
 
 /** 编辑剧集 POST /api/subject/add */
@@ -45,14 +45,14 @@ export async function subjectEdit(body: API.LoginParams, options?: Record<string
   return request<API.LoginResult>('/backend/subject/edit', {
     method: 'POST',
     data: body,
-    ...(options || {}),
-  });
+    ...(options || {})
+  })
 }
 
 /** 删除剧集 DELETE /api/subject/delete */
 export async function subjectDelete(options?: Record<string, any>) {
   return request<Record<string, any>>('/backend/subject/delete', {
     method: 'DELETE',
-    ...(options || {}),
-  });
+    ...(options || {})
+  })
 }

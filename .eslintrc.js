@@ -3,6 +3,19 @@ module.exports = {
   globals: {
     ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION: true,
     page: true,
-    REACT_APP_ENV: true,
+    REACT_APP_ENV: true
   },
-};
+  rules: {
+    'prettier/prettier': [
+      'error',
+      {
+        singleQuote: true,
+        bracketSpacing: true,
+        semi: false,
+        arrowParens: 'avoid',
+        printWidth: 140,
+        trailingComma: 'none'
+      }
+    ]
+  }
+}

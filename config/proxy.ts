@@ -10,21 +10,21 @@ export default {
   dev: {
     '/backend/': {
       target: 'http://127.0.0.1:7001',
-      changeOrigin: true,
-    },
+      changeOrigin: true
+    }
   },
   test: {
     '/api/': {
       target: 'https://preview.pro.ant.design',
       changeOrigin: true,
-      pathRewrite: { '^': '' },
-    },
+      pathRewrite: { '^': '' }
+    }
   },
   pre: {
     '/api/': {
       target: 'your pre url',
       changeOrigin: true,
-      pathRewrite: { '^': '' },
-    },
-  },
-};
+      pathRewrite: { '^': '' }
+    }
+  }
+}
