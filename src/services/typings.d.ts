@@ -411,3 +411,13 @@ interface IFeedTable extends IFeed {
   subject: ISubject
   user: IUser
 }
+
+interface IPinTable extends IPin {
+  subject: ISubject
+  user: IUser
+  topic: ITopic
+}
+
+interface ITopicTable extends ITopic {
+  user: IUser
+}

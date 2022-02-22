@@ -99,10 +99,9 @@ const Typelist = () => {
     }
   ]
 
-  const expandedRowRender = (record: any) => {
-    if (!record.sub?.length) return
+  const expandedRowRender = (record: { sub?: IList[] } & IList) => {
     return (
-      <EditableProTable
+      <EditableProTable<IList>
         rowKey="id"
         columns={columns}
         showHeader={false}

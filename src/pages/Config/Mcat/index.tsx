@@ -1,4 +1,4 @@
-import { Button, message } from 'antd'
+import { message } from 'antd'
 import type { ActionType, ProColumns } from '@ant-design/pro-table'
 import ProTable, { EditableProTable } from '@ant-design/pro-table'
 import { PageContainer } from '@ant-design/pro-layout'
@@ -34,7 +34,12 @@ const columns: ProColumns<IList>[] = [
   {
     title: '状态',
     width: 120,
-    dataIndex: 'status'
+    dataIndex: 'status',
+    valueType: 'select',
+    valueEnum: {
+      0: { text: '正常', status: 'Success' },
+      1: { text: '禁用', status: 'Error' }
+    }
   },
   {
     title: '操作',
@@ -58,7 +63,7 @@ const Mcatlist = () => {
   const [dataSource, setDataSource] = useState<IMcat[]>([])
   const { categoryList, getCategoryList } = useModel('useList')
   const { mcat, getMcat } = useModel('useMcat')
-  const [mcatData, setMcatData] = useState<any[]>([])
+  const [mcatData, setMcatData] = useState<({ sub?: IMcat[] } & IList)[]>([])
 
   const getData = useCallback(async () => {
     await getCategoryList()
@@ -90,7 +95,7 @@ const Mcatlist = () => {
     return obj
   }, [categoryList])
 
-  const columnsMcat: ProColumns<any>[] = [
+  const columnsMcat: ProColumns<IMcat>[] = [
     {
       title: '名称',
       dataIndex: 'name',
@@ -120,7 +125,7 @@ const Mcatlist = () => {
         <a
           key="editable"
           onClick={() => {
-            action?.startEditable?.(record.id)
+            action?.startEditable?.(record.id!)
           }}
         >
           编辑
@@ -137,10 +142,9 @@ const Mcatlist = () => {
     }
   ]
 
-  const expandedRowRender = (record: any) => {
-    if (!record.sub?.length) return
+  const expandedRowRender = (record: { sub?: IMcat[] } & IList) => {
     return (
-      <EditableProTable
+      <EditableProTable<IMcat>
         rowKey="id"
         columns={columnsMcat}
         showHeader={false}
@@ -201,11 +205,6 @@ const Mcatlist = () => {
         dateFormatter="string"
         headerTitle="小分类列表"
         options={false}
-        toolBarRender={() => [
-          <Link key="primary" to="mcat/add">
-            <Button type="primary">创建应用</Button>
-          </Link>
-        ]}
       />
     </PageContainer>
   )

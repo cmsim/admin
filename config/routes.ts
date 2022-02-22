@@ -30,7 +30,7 @@ export default [
       },
       {
         path: '/content/feed',
-        name: '动态列表',
+        name: 'feed列表',
         component: './Content/Feed',
         parentKeys: ['/content/feed']
       },
@@ -107,6 +107,18 @@ export default [
         name: '编辑附件',
         component: './Content/Attachment/edit',
         parentKeys: ['/content/attachment']
+      },
+      {
+        path: '/content/pin',
+        name: '动态列表',
+        component: './Content/Pin',
+        parentKeys: ['/content/pin']
+      },
+      {
+        path: '/content/topic',
+        name: '话题列表',
+        component: './Content/Topic',
+        parentKeys: ['/content/topic']
       }
     ]
   },
@@ -130,37 +142,9 @@ export default [
         component: './Config/Mcat'
       },
       {
-        hideInMenu: true,
-        path: '/config/mcat/add',
-        name: '添加',
-        component: './Config/Mcat/edit',
-        parentKeys: ['/config/mcat']
-      },
-      {
-        hideInMenu: true,
-        path: '/config/mcat/edit/:id',
-        name: '编辑',
-        component: './Config/Mcat/edit',
-        parentKeys: ['/config/mcat']
-      },
-      {
         path: '/config/typelist',
         name: '栏目列表',
         component: './Config/Typelist',
-        parentKeys: ['/config/typelist']
-      },
-      {
-        hideInMenu: true,
-        path: '/config/typelist/add',
-        name: '添加栏目',
-        component: './Config/Typelist/edit',
-        parentKeys: ['/config/typelist']
-      },
-      {
-        hideInMenu: true,
-        path: '/config/typelist/edit/:id',
-        name: '编辑栏目',
-        component: './Config/Typelist/edit',
         parentKeys: ['/config/typelist']
       }
     ]
