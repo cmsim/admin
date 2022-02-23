@@ -103,7 +103,7 @@ const Topic: FC = () => {
   ]
   return (
     <PageContainer>
-      <ProTable<ITopicTable, ITopicTable>
+      <ProTable<ITopicTable>
         headerTitle={'查询表格'}
         actionRef={actionRef}
         rowKey="id"

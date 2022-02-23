@@ -35,37 +35,9 @@ export default [
         parentKeys: ['/content/feed']
       },
       {
-        hideInMenu: true,
-        path: '/content/feed/add',
-        name: '添加动态',
-        component: './Content/Feed/edit',
-        parentKeys: ['/content/feed']
-      },
-      {
-        hideInMenu: true,
-        path: '/content/feed/edit/:id',
-        name: '编辑动态',
-        component: './Content/Feed/edit',
-        parentKeys: ['/content/feed']
-      },
-      {
         path: '/content/comment',
         name: '评论列表',
         component: './Content/Comment',
-        parentKeys: ['/content/comment']
-      },
-      {
-        hideInMenu: true,
-        path: '/content/comment/add',
-        name: '添加评论',
-        component: './Content/Comment/edit',
-        parentKeys: ['/content/comment']
-      },
-      {
-        hideInMenu: true,
-        path: '/content/comment/edit/:id',
-        name: '编辑评论',
-        component: './Content/Comment/edit',
         parentKeys: ['/content/comment']
       },
       {

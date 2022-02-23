@@ -102,7 +102,7 @@ const Pin: FC = () => {
   ]
   return (
     <PageContainer>
-      <ProTable<IPinTable, IPinTable>
+      <ProTable<IPinTable>
         headerTitle={'查询表格'}
         actionRef={actionRef}
         rowKey="id"

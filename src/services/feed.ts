@@ -3,7 +3,7 @@ import type { IFeed, IListResponse, IFeedTable } from './typings'
 
 /** 添加动态 POST /backend/feed/add */
 export async function feedAdd(body: IFeed, options?: Record<string, any>) {
-  return request<{ data: IFeed }>('/backend/feed/add', {
+  return request<{ data: IFeed; status: number; message: string }>('/backend/feed/add', {
     method: 'POST',
     data: body,
     ...(options || {})

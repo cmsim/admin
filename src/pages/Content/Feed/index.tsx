@@ -3,17 +3,18 @@ import { FooterToolbar, PageContainer } from '@ant-design/pro-layout'
 import type { ProColumns, ActionType } from '@ant-design/pro-table'
 import type { FC } from 'react'
 import ProTable from '@ant-design/pro-table'
-import { Button, Popover } from 'antd'
-import { feedList } from '@/services/feed'
-import { Link, useHistory } from 'umi'
-import type { IFeedTable } from '@/services/typings'
+import { Button, message, Popover } from 'antd'
+import { feedAdd, feedList } from '@/services/feed'
+import type { IFeed, IFeedTable } from '@/services/typings'
 import { PlusOutlined } from '@ant-design/icons'
-import { modelEnName, modelType } from '@/utils'
+import { modelEnName, modelType, statusType } from '@/utils'
+import { ModalForm, ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-form'
 
 const Feed: FC = () => {
-  const history = useHistory()
   const actionRef = useRef<ActionType>()
   const [selectedRowsState, setSelectedRows] = useState<IFeedTable[]>([])
+  const [modalVisit, setModalVisit] = useState(false)
+  const [editData, setEditData] = useState<IFeedTable>()
 
   const columns: ProColumns<IFeedTable>[] = [
     {
@@ -76,20 +77,31 @@ const Feed: FC = () => {
       search: false
     },
     {
+      title: '状态',
+      dataIndex: 'status',
+      valueEnum: statusType
+    },
+    {
       title: '操作',
       dataIndex: 'option',
       valueType: 'option',
       render: (_, entity) => [
-        <Link key="edit" to={`feed/edit/${entity.id}`}>
+        <a
+          key="edit"
+          onClick={() => {
+            setModalVisit(true)
+            setEditData(entity)
+          }}
+        >
           编辑
-        </Link>,
+        </a>,
         <a key="delete">删除</a>
       ]
     }
   ]
   return (
     <PageContainer>
-      <ProTable<IFeedTable, IFeedTable>
+      <ProTable<IFeedTable>
         headerTitle={'查询表格'}
         actionRef={actionRef}
         rowKey="id"
@@ -98,7 +110,7 @@ const Feed: FC = () => {
             type="primary"
             key="primary"
             onClick={() => {
-              history.push('feed/add')
+              setModalVisit(true)
             }}
           >
             <PlusOutlined /> 新建
@@ -144,6 +156,40 @@ const Feed: FC = () => {
           <Button type="primary">批量审批</Button>
         </FooterToolbar>
       )}
+      <ModalForm<IFeed>
+        visible={modalVisit}
+        title="新建"
+        autoFocusFirstInput
+        modalProps={{
+          onCancel: () => console.log('run')
+        }}
+        onFinish={async values => {
+          console.log(values)
+          const res = await feedAdd({ ...values, id: editData?.id })
+          if (res.status === 200) {
+            if (editData?.id) {
+              message.success('修改成功')
+            } else {
+              message.success('添加成功')
+            }
+            actionRef.current?.reload()
+            return true
+          } else {
+            return message.error(res.message)
+          }
+        }}
+        onVisibleChange={setModalVisit}
+      >
+        <ProFormText name="name" label="名称" placeholder="请输入名称" rules={[{ required: true }]} />
+        <ProFormSelect options={Object.keys(modelType).map(item => ({ label: modelType[item], value: item }))} name="sid" label="模型" />
+        <ProFormSelect
+          options={Object.keys(statusType).map(item => ({ label: modelType[item], value: item }))}
+          name="status"
+          label="状态"
+        />
+        <ProFormText name="dir" label="目录" placeholder="请输入目录" />
+        <ProFormTextArea label="简介" name="summary" />
+      </ModalForm>
     </PageContainer>
   )
 }

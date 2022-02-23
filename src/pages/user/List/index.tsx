@@ -76,7 +76,7 @@ const UserList: FC = () => {
   ]
   return (
     <PageContainer>
-      <ProTable<IUser, IUser>
+      <ProTable<IUser>
         headerTitle="用户列表"
         actionRef={actionRef}
         rowKey="id"

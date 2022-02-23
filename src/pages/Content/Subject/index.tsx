@@ -109,12 +109,7 @@ const Subject: FC = () => {
   ]
   return (
     <PageContainer>
-      <ProTable<
-        ISubject,
-        ISubject & {
-          updated_at: any
-        }
-      >
+      <ProTable<ISubject>
         headerTitle={'查询表格'}
         actionRef={actionRef}
         rowKey="id"

@@ -65,7 +65,7 @@ const Setting = () => {
   ]
   return (
     <PageContainer>
-      <EditableProTable
+      <EditableProTable<ISetting>
         columns={columns}
         actionRef={actionRef}
         request={async () => {

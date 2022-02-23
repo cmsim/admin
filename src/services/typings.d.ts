@@ -412,6 +412,11 @@ interface IFeedTable extends IFeed {
   user: IUser
 }
 
+interface ICommentTable extends IComments {
+  subject: ISubject
+  user: IUser
+}
+
 interface IPinTable extends IPin {
   subject: ISubject
   user: IUser

@@ -76,7 +76,7 @@ const Attachment: FC = () => {
   ]
   return (
     <PageContainer>
-      <ProTable<IAttachment, IAttachment>
+      <ProTable<IAttachment>
         headerTitle={'查询表格'}
         actionRef={actionRef}
         rowKey="id"

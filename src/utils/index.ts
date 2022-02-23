@@ -224,3 +224,12 @@ export const sidEnum = () => {
   })
   return obj
 }
+
+export const statusType = {
+  0: { text: '正常', status: 'Success' },
+  1: { text: '禁用', status: 'Error' },
+  2: { text: '审核中', status: 'Processing' },
+  3: { text: '审核拒绝', status: 'Warning' },
+  4: { text: '审核忽略', status: 'Warning' },
+  '-1': { text: '删除', status: 'Default' }
+}
