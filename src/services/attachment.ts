@@ -21,6 +21,15 @@ export async function attachmentAdd(body: IAttachment, options?: Record<string, 
   })
 }
 
+/** 删除 POST /backend/attachment/delete */
+export async function attachmentDelete(body: { id: number }, options?: Record<string, any>) {
+  return request<{ data: IAttachment; status: number; message: string }>('/backend/attachment/delete', {
+    method: 'DELETE',
+    data: body,
+    ...(options || {})
+  })
+}
+
 /** 获取附件列表 GET /backend/attachment/list */
 export async function attachmentList(
   params: {

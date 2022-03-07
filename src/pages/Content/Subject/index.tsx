@@ -3,7 +3,7 @@ import { FooterToolbar, PageContainer } from '@ant-design/pro-layout'
 import type { ProColumns, ActionType } from '@ant-design/pro-table'
 import type { FC } from 'react'
 import ProTable from '@ant-design/pro-table'
-import { Button, Popover } from 'antd'
+import { Button, Popconfirm, Popover } from 'antd'
 import { subjectList } from '@/services/subject'
 import { Link, useHistory, useModel } from 'umi'
 import type { ISubject } from '@/services/typings'
@@ -15,6 +15,10 @@ const Subject: FC = () => {
   const actionRef = useRef<ActionType>()
   const [selectedRowsState, setSelectedRows] = useState<ISubject[]>([])
   const { mcat, getMcat } = useModel('useMcat')
+
+  const del = (id?: number | string) => {
+    console.log(id)
+  }
 
   useEffect(() => {
     getMcat()
@@ -103,7 +107,9 @@ const Subject: FC = () => {
         <Link key="edit" to={`subject/edit/${entity.id}`}>
           编辑
         </Link>,
-        <a key="delete">删除</a>
+        <Popconfirm key="delete" onConfirm={() => del(entity.id)} title="确定要删除吗？">
+          <a>删除</a>
+        </Popconfirm>
       ]
     }
   ]

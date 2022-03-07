@@ -3,7 +3,7 @@ import { FooterToolbar, PageContainer } from '@ant-design/pro-layout'
 import type { ProColumns, ActionType } from '@ant-design/pro-table'
 import type { FC } from 'react'
 import ProTable from '@ant-design/pro-table'
-import { Button, message, Popover } from 'antd'
+import { Button, message, Popconfirm, Popover } from 'antd'
 import type { IComments, ICommentTable } from '@/services/typings'
 import { PlusOutlined } from '@ant-design/icons'
 import { modelEnName, modelType, statusType } from '@/utils'
@@ -15,6 +15,10 @@ const Comment: FC = () => {
   const [selectedRowsState, setSelectedRows] = useState<ICommentTable[]>([])
   const [modalVisit, setModalVisit] = useState(false)
   const [editData, setEditData] = useState<ICommentTable>()
+
+  const del = (id?: number | string) => {
+    console.log(id)
+  }
 
   const columns: ProColumns<ICommentTable>[] = [
     {
@@ -97,7 +101,9 @@ const Comment: FC = () => {
         >
           编辑
         </a>,
-        <a key="delete">删除</a>
+        <Popconfirm key="delete" onConfirm={() => del(entity.id)} title="确定要删除吗？">
+          <a>删除</a>
+        </Popconfirm>
       ]
     }
   ]

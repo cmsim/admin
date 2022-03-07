@@ -10,6 +10,15 @@ export async function commentAdd(body: IComments, options?: Record<string, any>)
   })
 }
 
+/** 删除 POST /backend/comment/delete */
+export async function commentDelete(body: { id: number }, options?: Record<string, any>) {
+  return request<{ data: IComments; status: number; message: string }>('/backend/comment/delete', {
+    method: 'DELETE',
+    data: body,
+    ...(options || {})
+  })
+}
+
 /** 获取动态列表 GET /backend/comment/list */
 export async function commentList(
   params: {

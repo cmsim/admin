@@ -3,7 +3,7 @@ import { FooterToolbar, PageContainer } from '@ant-design/pro-layout'
 import type { ProColumns, ActionType } from '@ant-design/pro-table'
 import type { FC } from 'react'
 import ProTable from '@ant-design/pro-table'
-import { Button, message, Popover } from 'antd'
+import { Button, message, Popconfirm, Popover } from 'antd'
 import { pinAdd, pinList } from '@/services/pin'
 import type { IPin, IPinTable } from '@/services/typings'
 import { PlusOutlined } from '@ant-design/icons'
@@ -18,6 +18,10 @@ const Pin: FC = () => {
   const [selectedRowsState, setSelectedRows] = useState<IPinTable[]>([])
   const [modalVisit, setModalVisit] = useState(false)
   const [editData, setEditData] = useState<IPinTable>()
+
+  const del = (id?: number | string) => {
+    console.log(id)
+  }
 
   const columns: ProColumns<IPinTable>[] = [
     {
@@ -96,7 +100,9 @@ const Pin: FC = () => {
         >
           编辑
         </a>,
-        <a key="delete">删除</a>
+        <Popconfirm key="delete" onConfirm={() => del(entity.id)} title="确定要删除吗？">
+          <a>删除</a>
+        </Popconfirm>
       ]
     }
   ]

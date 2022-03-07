@@ -10,6 +10,15 @@ export async function pinAdd(body: IPin, options?: Record<string, any>) {
   })
 }
 
+/** 删除动态 POST /backend/pin/delete */
+export async function pinDelete(body: { id: number }, options?: Record<string, any>) {
+  return request<{ data: IPin; status: number; message: string }>('/backend/pin/delete', {
+    method: 'DELETE',
+    data: body,
+    ...(options || {})
+  })
+}
+
 /** 获取动态列表 GET /backend/pin/list */
 export async function pinList(
   params: {

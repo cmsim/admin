@@ -3,7 +3,7 @@ import { FooterToolbar, PageContainer } from '@ant-design/pro-layout'
 import type { ProColumns, ActionType } from '@ant-design/pro-table'
 import type { FC } from 'react'
 import ProTable from '@ant-design/pro-table'
-import { Button, Popover } from 'antd'
+import { Button, Popconfirm, Popover } from 'antd'
 import { attachmentList } from '@/services/attachment'
 import { Link, useHistory } from 'umi'
 import type { IAttachment } from '@/services/typings'
@@ -13,6 +13,10 @@ const Attachment: FC = () => {
   const history = useHistory()
   const actionRef = useRef<ActionType>()
   const [selectedRowsState, setSelectedRows] = useState<IAttachment[]>([])
+
+  const del = (id?: number | string) => {
+    console.log(id)
+  }
 
   const columns: ProColumns<IAttachment>[] = [
     {
@@ -70,7 +74,9 @@ const Attachment: FC = () => {
         <Link key="edit" to={`attachment/edit/${entity.id}`}>
           编辑
         </Link>,
-        <a key="delete">删除</a>
+        <Popconfirm key="delete" onConfirm={() => del(entity.id)} title="确定要删除吗？">
+          <a>删除</a>
+        </Popconfirm>
       ]
     }
   ]

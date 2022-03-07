@@ -10,6 +10,15 @@ export async function feedAdd(body: IFeed, options?: Record<string, any>) {
   })
 }
 
+/** 删除 POST /backend/feed/delete */
+export async function feedDelete(body: { id: number }, options?: Record<string, any>) {
+  return request<{ data: IFeed; status: number; message: string }>('/backend/feed/delete', {
+    method: 'DELETE',
+    data: body,
+    ...(options || {})
+  })
+}
+
 /** 获取动态列表 GET /backend/feed/list */
 export async function feedList(
   params: {
