@@ -90,12 +90,12 @@ export interface IMcid {
 }
 
 export interface IPlay {
-  id: number
-  title: string
-  name: string
-  rank: number
-  status: number
-  display: number
+  id?: number | string
+  title?: string
+  name?: string
+  rank?: number
+  status?: number
+  display?: number
 }
 
 export interface IList extends Omit<IId, 'uid' | 'aid' | 'cid'> {

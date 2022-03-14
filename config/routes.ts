@@ -108,16 +108,22 @@ export default [
         component: './Config/List'
       },
       {
+        path: '/config/typelist',
+        name: '栏目列表',
+        component: './Config/Typelist',
+        parentKeys: ['/config/typelist']
+      },
+      {
         path: '/config/mcat',
         name: '小分类',
         icon: 'smile',
         component: './Config/Mcat'
       },
       {
-        path: '/config/typelist',
-        name: '栏目列表',
-        component: './Config/Typelist',
-        parentKeys: ['/config/typelist']
+        path: '/config/play',
+        name: '播放源',
+        component: './Config/Play',
+        parentKeys: ['/config/play']
       }
     ]
   },

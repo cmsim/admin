@@ -231,13 +231,14 @@ export const sidEnum = () => {
   return obj
 }
 
+// 用户状态:normal 正常 disable 禁用 check 审核中 reject 拒绝 ignore 忽略 delete 删除
 export const statusType = {
-  0: { text: '正常', status: 'Success' },
-  1: { text: '禁用', status: 'Error' },
-  2: { text: '审核中', status: 'Processing' },
-  3: { text: '审核拒绝', status: 'Warning' },
-  4: { text: '审核忽略', status: 'Warning' },
-  '-1': { text: '删除', status: 'Default' }
+  normal: { text: '正常', status: 'Success' },
+  disable: { text: '禁用', status: 'Error' },
+  check: { text: '审核', status: 'Processing' },
+  reject: { text: '拒绝', status: 'Warning' },
+  ignore: { text: '忽略', status: 'Warning' },
+  delete: { text: '删除', status: 'Default' }
 }
 
 const arrToObj = (arr: string) => {
