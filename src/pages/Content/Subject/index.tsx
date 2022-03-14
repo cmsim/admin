@@ -124,7 +124,7 @@ const Subject: FC = () => {
             type="primary"
             key="primary"
             onClick={() => {
-              history.push('add')
+              history.push('subject/add')
             }}
           >
             <PlusOutlined /> 新建

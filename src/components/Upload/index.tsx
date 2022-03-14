@@ -5,6 +5,8 @@ import type { FC, ReactNode } from 'react'
 import { useEffect, useState } from 'react'
 import SparkMD5 from 'spark-md5'
 import COS from 'cos-js-sdk-v5'
+import Input from 'antd/lib/input/Input'
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 
 export interface IUploadImage {
   accept?: string
@@ -13,15 +15,34 @@ export interface IUploadImage {
   onChange?: (file: any, name?: string) => void // 上传后事件回调
   children?: ReactNode
   btnName?: string
+  isShowUrl?: boolean
   url?: string
+  listType?: 'picture-card' | 'text' | 'picture'
+  path?: string
+  sid?: number
+  aid?: number
 }
 
 const UploadImage: FC<IUploadImage> = props => {
-  const { onChange, maxFileSize = 200, minFileSize = 0, accept = '.jpg,.jpeg,.png,.gif,.pdf,.dmg', children, btnName, url } = props
+  const {
+    onChange,
+    maxFileSize = 200,
+    minFileSize = 0,
+    accept = '.jpg,.jpeg,.png,.gif,.pdf,.dmg',
+    children,
+    btnName,
+    url,
+    isShowUrl = false,
+    listType = 'picture-card',
+    path = 'subject',
+    sid = 1,
+    aid
+  } = props
   const [previewVisible, setPreviewVisible] = useState<boolean>(false)
   const [previewImage, setPreviewImage] = useState<string>('')
   const [percent, setPercent] = useState(0)
   const [http, setHttp] = useState(url)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     setHttp(url)
@@ -100,6 +121,7 @@ const UploadImage: FC<IUploadImage> = props => {
    */
   const beforeUpload = async (file: RcFile): Promise<any> => {
     console.log(file)
+    setLoading(true)
     const size = file.size / 1024 / 1024
     const isLtMax = size < maxFileSize!
     const isGtMin = size > minFileSize!
@@ -121,11 +143,11 @@ const UploadImage: FC<IUploadImage> = props => {
     return new Promise(async () => {
       if (isLtMax && isGtMin && isValid) {
         // 异步获取临时密钥
-        const res = await stsInit({ prefix: 'subject/*' })
+        const res = await stsInit({ prefix: `${path}/*` })
         const { bucket, region, credentials, startTime, expiredTime } = res.data
         // 初始化实例
         const cos = new COS({
-          getAuthorization: async (options: any, callback: any) => {
+          getAuthorization: async (options, callback) => {
             console.log(options, 2222)
             if (!res.data || !credentials) return console.error('credentials invalid')
             callback({
@@ -145,7 +167,7 @@ const UploadImage: FC<IUploadImage> = props => {
           {
             Bucket: bucket /* 必须 */,
             Region: region /* 存储桶所在地域，必须字段 */,
-            Key: `subject/${name}`,
+            Key: `${path}/${name}`,
             StorageClass: 'STANDARD',
             Body: file,
             onProgress: function (progressData) {
@@ -155,6 +177,7 @@ const UploadImage: FC<IUploadImage> = props => {
           },
           async (err, data) => {
             console.log(err, data)
+            setLoading(false)
             if (err) {
               setPercent(0)
               message.error('服务器错误，请重新上传')
@@ -179,10 +202,10 @@ const UploadImage: FC<IUploadImage> = props => {
                 handleChange(usedList.data?.list?.[0].url)
               } else {
                 const r = await attachmentAdd({
-                  sid: 1,
-                  aid: 1,
+                  sid,
+                  aid,
                   attachment,
-                  file_path: `subject/${name}`,
+                  file_path: `${path}/${name}`,
                   file_name: file.name,
                   file_type: file.type,
                   file_size: file.size,
@@ -197,17 +220,27 @@ const UploadImage: FC<IUploadImage> = props => {
     })
   }
 
+  const uploadButton = (
+    <div>
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </div>
+  )
+
   const upload = http ? (
     <>
+      {isShowUrl && <Input value={http} />}
       <img onClick={(e: React.MouseEvent) => handlePreview(e, http)} src={http} width="100" />
       <span onClick={handleRemove}>x</span>
     </>
   ) : (
-    <Upload accept={accept} beforeUpload={beforeUpload}>
+    <Upload accept={accept} beforeUpload={beforeUpload} listType={listType}>
       {btnName ? (
         <Button type="primary">
           {btnName} {percent > 0 && percent < 1 ? `${percent * 100}%` : ''}
         </Button>
+      ) : listType === 'picture-card' ? (
+        uploadButton
       ) : (
         children
       )}

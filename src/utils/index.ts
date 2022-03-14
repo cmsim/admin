@@ -25,15 +25,21 @@ export const findMcat = (mcat: IMcat[], find: string, format = false) => {
  * @returns array
  */
 
+type IValue = number | string
 export const getListFormat = (list: IList[]) => {
-  const data: { value: number | string; label: string; children?: any[] }[] = []
+  const data: { value: IValue; label: string; children?: { value: IValue; label: string }[] }[] = []
   list.forEach(item => {
     if (item.pid === '0') {
-      data.push({ value: item.id!, label: item.name!, children: [] })
+      data.push({ value: +item.id!, label: item.name!, children: [] })
     }
-    const i = data.findIndex(s => s.value === item.pid)
-    if (i !== -1 && data[i].children) {
-      data[i].children?.push({ value: item.id!, label: item.name! })
+  })
+  list.forEach(item => {
+    if (item.pid !== '0') {
+      data.forEach(i => {
+        if (String(i.value) === item.pid) {
+          i.children!.push({ value: +item.id!, label: item.name! })
+        }
+      })
     }
   })
   return data
@@ -233,3 +239,21 @@ export const statusType = {
   4: { text: '审核忽略', status: 'Warning' },
   '-1': { text: '删除', status: 'Default' }
 }
+
+const arrToObj = (arr: string) => {
+  const data = arr.split(',')
+  return data.reduce((obj, item, index) => {
+    obj[index + 1] = item
+    return obj
+  }, {})
+}
+
+export const areaEnum = arrToObj(
+  '中国大陆,中国香港,中国台湾,欧美,美国,日本,韩国,印度,英国,法国,德国,泰国,伊朗,瑞典,巴西,丹麦,新加坡,意大利,西班牙,加拿大,爱尔兰,俄罗斯,马来西亚,澳大利亚'
+)
+
+export const languageEnum = arrToObj('国语,日语,英语,粤语,韩语,闽南语')
+
+export const yearEnum = arrToObj(
+  '2023,2022,2021,2020,2019,2018,2017,2016,2015,2014,2013,2012,2011,2010,2009,2008,2007,2006,2005,2004,2003,2002,2001,2000,1990,1980,1970,1960,1950'
+)

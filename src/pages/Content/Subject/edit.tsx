@@ -10,8 +10,7 @@ import ProForm, {
   ProFormSwitch,
   ProFormText,
   ProFormTextArea,
-  ProFormTimePicker,
-  ProFormUploadButton
+  ProFormTimePicker
 } from '@ant-design/pro-form'
 import { PageContainer } from '@ant-design/pro-layout'
 import { EditableProTable } from '@ant-design/pro-table'
@@ -20,7 +19,7 @@ import Field from '@ant-design/pro-field'
 
 import styles from './style.less'
 import { useModel } from 'umi'
-import { getListFormat } from '@/utils'
+import { areaEnum, getListFormat, languageEnum, yearEnum } from '@/utils'
 import UploadImage from '@/components/Upload'
 
 const { Item } = Form
@@ -86,7 +85,7 @@ const columns: ProColumns<DataSourceType>[] = [
 
 const SubjectEdit: FC = () => {
   const [form] = ProForm.useForm()
-  const [editableKeys, setEditableRowKeys] = useState<React.Key[]>(() => defaultData.map(item => item.id))
+  const [editableKeys, setEditableRowKeys] = useState<React.Key[]>()
   const [color, setColor] = useState('')
   const [bgColor, setBgColor] = useState('')
   const { categoryList, getCategoryList } = useModel('useList')
@@ -122,38 +121,13 @@ const SubjectEdit: FC = () => {
         layout="horizontal"
         style={{ backgroundColor: '#fff', padding: 16 }}
       >
-        <UploadImage btnName="上传图片" />
         <ProForm.Group size={5}>
           <Item label="分类" name="cid">
-            <Cascader options={getListFormat(categoryList)} placeholder="分类" style={{ width: 130 }} />
+            <Cascader options={getListFormat(categoryList)} placeholder="分类" style={{ width: 120 }} />
           </Item>
-          <ProFormSelect
-            name="area"
-            width={80}
-            valueEnum={{
-              open: '解决',
-              closed: '已解'
-            }}
-            placeholder="地区"
-          />
-          <ProFormSelect
-            name="language"
-            width={80}
-            valueEnum={{
-              open: '未解',
-              closed: '已解'
-            }}
-            placeholder="语言"
-          />
-          <ProFormSelect
-            name="year"
-            width={80}
-            valueEnum={{
-              open: '未解',
-              closed: '解决'
-            }}
-            placeholder="年份"
-          />
+          <ProFormSelect name="area" width={100} valueEnum={areaEnum} placeholder="地区" />
+          <ProFormSelect name="language" width={90} valueEnum={languageEnum} placeholder="语言" />
+          <ProFormSelect name="year" width={80} valueEnum={yearEnum} placeholder="年份" />
           <ProFormSelect
             name="broadcast"
             width={80}
@@ -193,7 +167,7 @@ const SubjectEdit: FC = () => {
             name="bg_color"
             placeholder="背景色"
           />
-          <ProFormText width={100} name="inputer" placeholder="编辑" />
+          <ProFormText width={100} name="inputer" placeholder="发布人" />
           <ProFormSwitch name="isend" label="是否完结" />
         </ProForm.Group>
         <ProFormCheckbox.Group
@@ -206,8 +180,8 @@ const SubjectEdit: FC = () => {
         <ProForm.Group size={5}>
           <ProFormText width="lg" name="name" label="名称" placeholder="名称" />
           <ProFormText width="lg" name="foreign" placeholder="外文名" />
-          <ProFormDatePicker width={150} name="time" placeholder="放送时间" />
-          <ProFormTimePicker width={110} name="filmtime" fieldProps={{ format: 'HH:mm' }} placeholder="上映日期" />
+          <ProFormDatePicker width={150} name="filmtime" placeholder="上映日期" fieldProps={{ format: 'YYYY-MM-DD' }} />
+          <ProFormTimePicker width={110} name="time" fieldProps={{ format: 'HH:mm' }} placeholder="放送时间" />
         </ProForm.Group>
         <ProFormText name="aliases" label="别名" placeholder="别名" />
         <ProFormText name="star" label="明星" placeholder="明星" />
@@ -260,36 +234,18 @@ const SubjectEdit: FC = () => {
           <ProFormText width="lg" name="jumpurl" placeholder="跳转" />
         </ProForm.Group>
         <ProForm.Group>
-          <ProFormUploadButton
-            name="pic"
-            label="封面"
-            max={2}
-            fieldProps={{
-              name: 'file',
-              listType: 'picture-card'
-            }}
-            action="/upload.do"
-          />
-          <ProFormUploadButton
-            name="pic_thumb"
-            label="小图"
-            max={2}
-            fieldProps={{
-              name: 'file',
-              listType: 'picture-card'
-            }}
-            action="/upload.do"
-          />
-          <ProFormUploadButton
-            name="bigpic"
-            label="大图"
-            max={2}
-            fieldProps={{
-              name: 'file',
-              listType: 'picture-card'
-            }}
-            action="/upload.do"
-          />
+          <Item name="pic" label="封面">
+            <UploadImage />
+          </Item>
+          <Item name="pic_thumb" label="小图">
+            <UploadImage />
+          </Item>
+          <Item name="bigpic" label="大图">
+            <UploadImage />
+          </Item>
+          <Item name="bg" label="背景">
+            <UploadImage />
+          </Item>
         </ProForm.Group>
 
         <ProFormTextArea name="remark" label="简评" placeholder="简评" />

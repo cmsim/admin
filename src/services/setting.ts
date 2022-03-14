@@ -17,3 +17,12 @@ export async function settingAdd(body: ISetting, options?: Record<string, any>) 
     ...(options || {})
   })
 }
+
+/** 删除 POST /backend/feed/delete */
+export async function feedDelete(body: { id: number }, options?: Record<string, any>) {
+  return request<{ data: ISetting; status: number; message: string }>('/backend/feed/delete', {
+    method: 'DELETE',
+    data: body,
+    ...(options || {})
+  })
+}
