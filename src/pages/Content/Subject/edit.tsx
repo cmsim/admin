@@ -1,4 +1,4 @@
-import type { FC } from 'react'
+import { FC, useMemo } from 'react'
 import { useState, useEffect } from 'react'
 import { message, Cascader, Form } from 'antd'
 import ProForm, {
@@ -30,6 +30,7 @@ const SubjectEdit: FC = () => {
   const [bgColor, setBgColor] = useState('')
   const { categoryList, getCategoryList } = useModel('useList')
   const { mcat, getMcat } = useModel('useMcat')
+  const { play, getPlay } = useModel('usePlay')
 
   useEffect(() => {
     getMcat()
@@ -40,12 +41,23 @@ const SubjectEdit: FC = () => {
   }, [getCategoryList])
 
   useEffect(() => {
+    getPlay()
+  }, [getPlay])
+
+  useEffect(() => {
     form.setFieldsValue({ color })
   }, [color, form])
 
   useEffect(() => {
     form.setFieldsValue({ bg_color: bgColor })
   }, [bgColor, form])
+
+  const playEunm = useMemo(() => {
+    return play.reduce((obj, item) => {
+      obj[item.title!] = item.name
+      return obj
+    }, {}) as { [key: string]: string }
+  }, [play])
 
   return (
     <PageContainer>
@@ -217,19 +229,18 @@ const SubjectEdit: FC = () => {
               })
             }
           }}
-          name="url"
-          label="播放"
+          name="play"
           initialValue={[
             {
-              name: '1111',
-              play: 'youku'
+              urls: '',
+              title: 'iqiyi'
             }
           ]}
         >
-          <ProForm.Group key="group">
-            <ProFormText key="name" name="name" label="姓名" />
-            <ProFormSelect key="play" name="play" label="源" />
+          <ProForm.Group>
+            <ProFormSelect width="md" name="title" label="来源" valueEnum={playEunm} />
           </ProForm.Group>
+          <ProFormTextArea width={1000} fieldProps={{ rows: 4 }} name="urls" label="链接" placeholder="链接" />
         </ProFormList>
         <ProForm.Group>
           <ProFormText name="seo_title" label="标题" placeholder="seo标题" />

@@ -32,7 +32,7 @@ export interface IId {
   uid?: number
   sid?: number
   aid?: number
-  status?: number
+  status?: string
 }
 
 export interface IUser extends IDate {
