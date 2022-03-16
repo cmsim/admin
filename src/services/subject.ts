@@ -31,18 +31,9 @@ export async function subjectList(
   })
 }
 
-/** 添加剧集 POST /api/subject/add */
-export async function subjectAdd(body: API.LoginParams, options?: Record<string, any>) {
-  return request<API.LoginResult>('/backend/subject/add', {
-    method: 'POST',
-    data: body,
-    ...(options || {})
-  })
-}
-
-/** 编辑剧集 POST /api/subject/add */
-export async function subjectEdit(body: API.LoginParams, options?: Record<string, any>) {
-  return request<API.LoginResult>('/backend/subject/edit', {
+/** 添加/编辑剧集 POST /api/subject/add */
+export async function subjectAdd(body: ISubject, options?: Record<string, any>) {
+  return request<{ data: ISubject; status: number; message: string }>('/backend/subject/add', {
     method: 'POST',
     data: body,
     ...(options || {})

@@ -21,6 +21,7 @@ export interface IUploadImage {
   path?: string
   sid?: number
   aid?: number
+  value?: string
 }
 
 const UploadImage: FC<IUploadImage> = props => {
@@ -31,22 +32,22 @@ const UploadImage: FC<IUploadImage> = props => {
     accept = '.jpg,.jpeg,.png,.gif,.pdf,.dmg',
     children,
     btnName,
-    url,
     isShowUrl = false,
     listType = 'picture-card',
     path = 'subject',
     sid = 1,
-    aid
+    aid,
+    value
   } = props
   const [previewVisible, setPreviewVisible] = useState<boolean>(false)
   const [previewImage, setPreviewImage] = useState<string>('')
   const [percent, setPercent] = useState(0)
-  const [http, setHttp] = useState(url)
+  const [http, setHttp] = useState(value)
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    setHttp(url)
-  }, [url])
+    setHttp(value)
+  }, [value])
 
   /**
    * 查看预览

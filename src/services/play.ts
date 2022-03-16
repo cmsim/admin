@@ -11,7 +11,7 @@ export async function playList(options?: Record<string, any>) {
 
 /** 添加播放源 POST /backend/play/add */
 export async function playAdd(body: IPlay, options?: Record<string, any>) {
-  return request<{ data: IPlay[]; status: number; message: string }>('/backend/play/add', {
+  return request<{ data: IPlay; status: number; message: string }>('/backend/play/add', {
     method: 'POST',
     data: body,
     ...(options || {})

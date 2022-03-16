@@ -8,11 +8,10 @@ import type { IList, IMcat } from '@/services/typings'
  * @returns string
  */
 
-export const findMcat = (mcat: IMcat[], find: string, format = false) => {
-  const findArr = find.split(',')
+export const findMcat = (mcat: IMcat[], find: string[], format = false) => {
   const arr: IMcat[] = []
   mcat.forEach(item => {
-    if (findArr.includes(String(item.id))) {
+    if (find.includes(String(item.id))) {
       arr.push(item)
     }
   })

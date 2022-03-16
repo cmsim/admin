@@ -68,7 +68,7 @@ export interface IUser extends IDate {
   joined_at: string
 }
 
-export interface IFeed extends IHits, IDate, IId {
+export interface IFeed extends IHits, IDate, Omit<IId, 'cid'> {
   type: number
   ip: number
   expired_at: string
@@ -110,7 +110,7 @@ export interface IList extends Omit<IId, 'uid' | 'aid' | 'cid'> {
 }
 
 export interface ISubject extends IHits, IDate, Omit<IId, 'sid' | 'aid'> {
-  mcid: string
+  mcid: string[]
   mcat: IMcat[]
   name: string
   foreign: string
@@ -143,7 +143,7 @@ export interface ISubject extends IHits, IDate, Omit<IId, 'sid' | 'aid'> {
   seo_description: string
   filmtime: string
   length: string
-  url: string
+  roles: string
   content: string
   other: string
   prty: number
