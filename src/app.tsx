@@ -106,8 +106,8 @@ const errorHandler = (error: ResponseError) => {
 const authHeaderInterceptor = (url: string, options: RequestOptionsInit) => {
   const token = localStorage.getItem('token')
   const authHeader = { Authorization: `Bearer ${token}` }
-  if (url.endsWith(':id') && options[0]) {
-    url = url.replace(':id', options[0])
+  if (url.endsWith(':id') && options.id) {
+    url = url.replace(':id', options.id)
   }
   return {
     url,

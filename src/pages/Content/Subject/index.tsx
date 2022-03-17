@@ -8,7 +8,7 @@ import { subjectList } from '@/services/subject'
 import { Link, useHistory, useModel } from 'umi'
 import type { ISubject } from '@/services/typings'
 import { PlusOutlined } from '@ant-design/icons'
-import { findMcat } from '@/utils'
+import { areaEnum, findMcat, languageEnum } from '@/utils'
 
 const Subject: FC = () => {
   const history = useHistory()
@@ -65,17 +65,19 @@ const Subject: FC = () => {
     },
     {
       title: '语言',
-      dataIndex: 'language'
+      dataIndex: 'language',
+      valueEnum: languageEnum
     },
     {
       title: '地区',
-      dataIndex: 'area'
+      dataIndex: 'area',
+      valueEnum: areaEnum
     },
     {
       title: '连载',
       dataIndex: 'isend',
       hideInForm: true,
-      render: (_, entity) => (entity.isend ? <>"连载"({entity.serialized})</> : '完结'),
+      render: (_, entity) => (entity.isend ? <>连载({entity.serialized})</> : '完结'),
       valueEnum: {
         1: {
           text: '连载',
@@ -95,9 +97,15 @@ const Subject: FC = () => {
     },
     {
       title: '更新时间',
+      search: false,
+      dataIndex: 'updated_at'
+    },
+    {
+      title: '更新时间',
       sorter: true,
       dataIndex: 'updated_at',
-      valueType: 'dateRange'
+      valueType: 'dateRange',
+      hideInTable: true
     },
     {
       title: '操作',

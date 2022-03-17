@@ -242,8 +242,8 @@ export const statusType = {
 
 const arrToObj = (arr: string) => {
   const data = arr.split(',')
-  return data.reduce((obj, item, index) => {
-    obj[index + 1] = item
+  return data.reduce((obj, item) => {
+    obj['' + item] = item
     return obj
   }, {})
 }
