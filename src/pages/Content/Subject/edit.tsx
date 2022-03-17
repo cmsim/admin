@@ -3,6 +3,7 @@ import { message, Cascader, Form } from 'antd'
 import ProForm, {
   ProFormCheckbox,
   ProFormDatePicker,
+  ProFormDependency,
   ProFormDigit,
   ProFormInstance,
   ProFormList,
@@ -18,7 +19,7 @@ import Field from '@ant-design/pro-field'
 
 import styles from './style.less'
 import { useModel, useParams, useHistory } from 'umi'
-import { areaEnum, getListFormat, languageEnum, yearEnum } from '@/utils'
+import { areaEnum, getListFormat, languageEnum, statusType } from '@/utils'
 import UploadImage from '@/components/Upload'
 import { CloseOutlined, SnippetsOutlined } from '@ant-design/icons'
 import { subjectAdd, subjectDetail } from '@/services/subject'
@@ -81,6 +82,8 @@ const SubjectEdit: FC = () => {
           if (id) {
             const subject = await subjectDetail({ id })
             data = subject.data
+            setColor(data.color)
+            setBgColor(data.bg_color)
           }
           return data
         }}
@@ -93,9 +96,9 @@ const SubjectEdit: FC = () => {
           </Item>
           <ProFormSelect name="area" width={100} valueEnum={areaEnum} placeholder="地区" />
           <ProFormSelect name="language" width={90} valueEnum={languageEnum} placeholder="语言" />
-          <ProFormSelect name="year" width={80} valueEnum={yearEnum} placeholder="年份" />
-          <ProFormText width={90} name="letter" placeholder="首字母" />
-          <ProFormText width={150} name="letters" placeholder="拼音" />
+          <ProFormDatePicker width={90} name="year" placeholder="年份" fieldProps={{ picker: 'year', format: 'YYYY' }} />
+          <ProFormText allowClear={false} width={60} name="letter" placeholder="首字母" />
+          <ProFormText allowClear={false} width={150} name="letters" placeholder="拼音" />
           <ProFormDigit width={80} name="length" placeholder="片长" />
           <ProFormText
             allowClear={false}
@@ -123,7 +126,7 @@ const SubjectEdit: FC = () => {
             name="bg_color"
             placeholder="背景色"
           />
-          <ProFormText width={100} name="inputer" placeholder="发布人" />
+          <ProFormSelect name="status" width={90} valueEnum={statusType} placeholder="状态" />
           <ProFormSwitch name="broadcast" label="是否放送" />
           <ProFormSwitch name="isend" label="是否完结" />
         </ProForm.Group>
@@ -135,19 +138,27 @@ const SubjectEdit: FC = () => {
           })}
         />
         <ProForm.Group size={5}>
-          <ProFormText width="lg" name="name" label="名称" placeholder="名称" rules={[{ required: true }]} required={false} />
-          <ProFormText width="lg" name="foreign" placeholder="外文名" />
+          <ProFormText
+            allowClear={false}
+            width="lg"
+            name="name"
+            label="名称"
+            placeholder="名称"
+            rules={[{ required: true }]}
+            required={false}
+          />
+          <ProFormText allowClear={false} width="lg" name="foreign" placeholder="外文名" />
           <ProFormDatePicker width={150} name="filmtime" placeholder="上映日期" fieldProps={{ format: 'YYYY-MM-DD' }} />
           <ProFormTimePicker width={110} name="time" fieldProps={{ format: 'HH:mm' }} placeholder="放送时间" />
         </ProForm.Group>
-        <ProFormText name="aliases" label="别名" placeholder="别名" />
-        <ProFormText name="star" label="明星" placeholder="明星" />
+        <ProFormText allowClear={false} name="aliases" label="别名" placeholder="别名" />
+        <ProFormText allowClear={false} name="star" label="明星" placeholder="明星" />
         <ProForm.Group size={5}>
-          <ProFormText width="lg" name="tag" label="标签" placeholder="标签" />
-          <ProFormText name="original" placeholder="原作" />
-          <ProFormText name="director" placeholder="监督/导演" />
-          <ProFormText name="company" placeholder="公司" />
-          <ProFormText name="title" placeholder="副标题" />
+          <ProFormText allowClear={false} width="lg" name="tag" label="标签" placeholder="标签" />
+          <ProFormText allowClear={false} name="original" placeholder="原作" />
+          <ProFormText allowClear={false} name="director" placeholder="监督/导演" />
+          <ProFormText allowClear={false} name="company" placeholder="公司" />
+          <ProFormText allowClear={false} name="title" placeholder="副标题" />
         </ProForm.Group>
         <ProForm.Group size={5}>
           <ProFormSelect
@@ -177,18 +188,18 @@ const SubjectEdit: FC = () => {
             }}
             placeholder="推荐级别"
           />
-          <ProFormText width={150} name="label" placeholder="关联别名" />
-          <ProFormText width={100} name="uid" placeholder="用户id" />
-          <ProFormDigit width={110} name="serialized" placeholder="连载" />
-          <ProFormDigit width={110} name="total" placeholder="总集数" />
-          <ProFormText width={110} name="douban" placeholder="豆瓣" />
-          <ProFormText width={110} name="imdb" placeholder="IMDB" />
+          <ProFormText allowClear={false} width={150} name="label" placeholder="关联别名" />
+          <ProFormText allowClear={false} width={80} name="uid" placeholder="用户id" />
+          <ProFormText allowClear={false} width={120} name="inputer" placeholder="发布人" />
+          <ProFormDigit width={80} name="serialized" placeholder="连载" />
+          <ProFormDigit width={80} name="total" placeholder="总集数" />
+          <ProFormText allowClear={false} width={130} name="douban" placeholder="豆瓣" />
+          <ProFormText allowClear={false} width={130} name="imdb" placeholder="IMDB" />
           <ProFormRate name="stars" label="星级" />
         </ProForm.Group>
         <ProForm.Group size={5}>
-          <ProFormText width="lg" name="website" label="官网" placeholder="官网" />
-          <ProFormText width="lg" name="baike" placeholder="百科" />
-          <ProFormText width="lg" name="jumpurl" placeholder="跳转" />
+          <ProFormText allowClear={false} width="lg" name="website" label="官网" placeholder="官网" />
+          <ProFormText allowClear={false} width="lg" name="baike" placeholder="百科" />
         </ProForm.Group>
         <ProForm.Group>
           <Item name="pic" label="封面" rules={[{ required: true }]} required={false}>
@@ -237,16 +248,37 @@ const SubjectEdit: FC = () => {
           name="play"
         >
           <ProFormSelect key="title" width="md" name="title" label="来源" valueEnum={playEunm} />
-          <ProFormTextArea key="urls" width={1000} fieldProps={{ rows: 4 }} name="urls" label="链接" placeholder="链接" />
+          <ProFormTextArea key="urls" width={1000} fieldProps={{ rows: 6 }} name="urls" label="链接" placeholder="链接" />
         </ProFormList>
         <ProFormTextArea name="content" label="简介" placeholder="简介" />
         <ProFormTextArea name="remark" label="简评" placeholder="简评" />
         <ProFormTextArea name="other" label="其他" placeholder="其他" />
         <ProForm.Group>
-          <ProFormText name="seo_title" label="标题" placeholder="seo标题" />
-          <ProFormText name="seo_keywords" label="关键字" placeholder="seo关键字" />
+          <ProFormText allowClear={false} name="seo_title" label="标题" placeholder="seo标题" />
+          <ProFormText allowClear={false} name="seo_keywords" label="关键字" placeholder="seo关键字" />
+          <ProFormText allowClear={false} width="lg" name="jumpurl" label="跳转链接" placeholder="跳转链接" />
         </ProForm.Group>
         <ProFormTextArea name="seo_description" label="简介" placeholder="seo简介" />
+        <ProFormSwitch name="isShowMore" label="是否显示更多" />
+        <ProFormDependency name={['isShowMore']}>
+          {({ isShowMore }) => {
+            if (isShowMore) {
+              return (
+                <ProForm.Group>
+                  <ProFormDatePicker name="updated_at" placeholder="更新时间" label="更新" fieldProps={{ format: 'YYYY-MM-DD HH:mm:ss' }} />
+                  <ProFormDatePicker name="created_at" placeholder="更新时间" label="创建" fieldProps={{ format: 'YYYY-MM-DD HH:mm:ss' }} />
+                  <ProFormDigit width="xs" label="访问" name="hits" placeholder="总" />
+                  <ProFormDigit width="xs" label="日" name="hits_day" placeholder="日" />
+                  <ProFormDigit width="xs" label="周" name="hits_week" placeholder="周" />
+                  <ProFormDigit width="xs" label="月" name="hits_month" placeholder="月" />
+                  <ProFormDigit width="xs" label="顶" name="up" placeholder="顶" />
+                  <ProFormDigit width="xs" label="踩" name="down" placeholder="踩" />
+                </ProForm.Group>
+              )
+            }
+            return null
+          }}
+        </ProFormDependency>
       </ProForm>
     </PageContainer>
   )

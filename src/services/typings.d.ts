@@ -147,7 +147,7 @@ export interface ISubject extends IHits, IDate, Omit<IId, 'sid' | 'aid'> {
   content: string
   other: string
   prty: number
-  year: number
+  year: string
   serialized: number
   total: number
   isend: number
