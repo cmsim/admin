@@ -10,6 +10,16 @@ import type { ISubject } from '@/services/typings'
 import { PlusOutlined } from '@ant-design/icons'
 import { areaEnum, findMcat, languageEnum, statusType } from '@/utils'
 
+const weekdayEnum = {
+  1: '一',
+  2: '二',
+  3: '三',
+  4: '四',
+  5: '五',
+  6: '六',
+  7: '日'
+}
+
 const Subject: FC = () => {
   const history = useHistory()
   const actionRef = useRef<ActionType>()
@@ -72,6 +82,12 @@ const Subject: FC = () => {
       title: '地区',
       dataIndex: 'area',
       valueEnum: areaEnum
+    },
+    {
+      title: '星期',
+      dataIndex: 'weekday',
+      render: (_, entity) => weekdayEnum[entity.weekday?.[0]],
+      valueEnum: weekdayEnum
     },
     {
       title: '连载',
@@ -145,7 +161,7 @@ const Subject: FC = () => {
         ]}
         request={async params => {
           console.log(params, 'params')
-          const { current, pageSize, name: wd, mcid, language, area, isend, updated_at } = params
+          const { current, pageSize, name: wd, mcid, language, area, isend, updated_at, weekday } = params
           const param = {
             current,
             pageSize,
@@ -155,6 +171,7 @@ const Subject: FC = () => {
               language,
               area,
               isend,
+              weekday,
               created_at: updated_at?.join(',')
             })
           }

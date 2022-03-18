@@ -200,6 +200,7 @@ const SubjectEdit: FC = () => {
         <ProForm.Group size={5}>
           <ProFormText allowClear={false} width="lg" name="website" label="官网" placeholder="官网" />
           <ProFormText allowClear={false} width="lg" name="baike" placeholder="百科" />
+          <ProFormSelect width="lg" mode="tags" name="associate" placeholder="关联剧集" />
         </ProForm.Group>
         <ProForm.Group>
           <Item name="pic" label="封面" rules={[{ required: true }]} required={false}>
@@ -247,7 +248,9 @@ const SubjectEdit: FC = () => {
           }}
           name="play"
         >
-          <ProFormSelect key="title" width="md" name="title" label="来源" valueEnum={playEunm} />
+          <ProForm.Group key="group">
+            <ProFormSelect key="title" width="md" name="title" label="来源" valueEnum={playEunm} />
+          </ProForm.Group>
           <ProFormTextArea key="urls" width={1000} fieldProps={{ rows: 6 }} name="urls" label="链接" placeholder="链接" />
         </ProFormList>
         <ProFormTextArea name="content" label="简介" placeholder="简介" />

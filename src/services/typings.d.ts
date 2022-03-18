@@ -156,7 +156,7 @@ export interface ISubject extends IHits, IDate, Omit<IId, 'sid' | 'aid'> {
   down: number
   rank: number
   gold: number
-  weekday: number
+  weekday: string[]
   douban: number
   imdb: number
   broadcast: number
