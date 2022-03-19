@@ -22,7 +22,7 @@ import { useModel, useParams, useHistory } from 'umi'
 import { areaEnum, getListFormat, languageEnum, statusType } from '@/utils'
 import UploadImage from '@/components/Upload'
 import { CloseOutlined, SnippetsOutlined } from '@ant-design/icons'
-import { subjectAdd, subjectDetail } from '@/services/subject'
+import { subjectAdd, subjectDetail, subjectName } from '@/services/subject'
 import { ISubject } from '@/services/typings'
 
 const { Item } = Form
@@ -146,6 +146,14 @@ const SubjectEdit: FC = () => {
             placeholder="名称"
             rules={[{ required: true }]}
             required={false}
+            fieldProps={{
+              onBlur: async e => {
+                const result = await subjectName({ name: e.target.value })
+                if (result.data) {
+                  return message.warn('名称已存在')
+                }
+              }
+            }}
           />
           <ProFormText allowClear={false} width="lg" name="foreign" placeholder="外文名" />
           <ProFormDatePicker width={150} name="filmtime" placeholder="上映日期" fieldProps={{ format: 'YYYY-MM-DD' }} />

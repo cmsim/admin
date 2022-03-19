@@ -11,6 +11,22 @@ export async function subjectDetail(options?: Record<string, any>) {
   })
 }
 
+/** 获取是否有重名 GET /backend/subject/getName */
+export async function subjectName(
+  params: {
+    name: string
+  },
+  options?: Record<string, any>
+) {
+  return request<{
+    data: ISubject
+  }>('/backend/subject/getName', {
+    method: 'GET',
+    params,
+    ...(options || {})
+  })
+}
+
 /** 获取剧集列表 GET /backend/subject/list */
 export async function subjectList(
   params: {
