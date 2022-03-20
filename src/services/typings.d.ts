@@ -110,7 +110,7 @@ export interface IList extends Omit<IId, 'uid' | 'aid' | 'cid'> {
 }
 
 export interface ISubject extends IHits, IDate, Omit<IId, 'sid' | 'aid'> {
-  mcid: string[]
+  mcid: (string | number)[]
   mcat: IMcat[]
   name: string
   foreign: string
