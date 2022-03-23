@@ -2,6 +2,8 @@
   "editor.tabSize": 2,
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active",
   "editor.codeActionsOnSave": {
     // For ESLint
     "source.fixAll.eslint": true,
