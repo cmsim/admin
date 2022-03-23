@@ -76,7 +76,6 @@ const SubjectEdit: FC = () => {
     const { title, id } = play[index] || {}
     const res = await getVideo({ title, id })
     play[index].urls = res.data.join('')
-    console.log(index, play, res)
     formRef.current?.setFieldsValue({ play })
     setLoading(false)
   }
@@ -424,30 +423,42 @@ const SubjectEdit: FC = () => {
           <ProFormTextArea key="urls" width={1000} fieldProps={{ rows: 6 }} name="urls" label="链接" placeholder="链接" />
         </ProFormList>
         <ProFormTextArea name="content" label="简介" placeholder="简介" />
-        <ProFormTextArea name="remark" label="简评" placeholder="简评" />
-        <ProFormTextArea name="other" label="其他" placeholder="其他" />
-        <ProForm.Group>
-          <ProFormText allowClear={false} name="seo_title" label="标题" placeholder="seo标题" />
-          <ProFormText allowClear={false} name="seo_keywords" label="关键字" placeholder="seo关键字" />
-          <ProFormText allowClear={false} width="lg" name="jumpurl" label="跳转链接" placeholder="跳转链接" />
-          <ProFormRate name="stars" label="星级" />
-        </ProForm.Group>
-        <ProFormTextArea name="seo_description" label="简介" placeholder="seo简介" />
         <ProFormSwitch name="isShowMore" label="是否显示更多" />
         <ProFormDependency name={['isShowMore']}>
           {({ isShowMore }) => {
             if (isShowMore) {
               return (
-                <ProForm.Group>
-                  <ProFormDatePicker name="updated_at" placeholder="更新时间" label="更新" fieldProps={{ format: 'YYYY-MM-DD HH:mm:ss' }} />
-                  <ProFormDatePicker name="created_at" placeholder="更新时间" label="创建" fieldProps={{ format: 'YYYY-MM-DD HH:mm:ss' }} />
-                  <ProFormDigit width="xs" label="访问" name="hits" placeholder="总" />
-                  <ProFormDigit width="xs" label="日" name="hits_day" placeholder="日" />
-                  <ProFormDigit width="xs" label="周" name="hits_week" placeholder="周" />
-                  <ProFormDigit width="xs" label="月" name="hits_month" placeholder="月" />
-                  <ProFormDigit width="xs" label="顶" name="up" placeholder="顶" />
-                  <ProFormDigit width="xs" label="踩" name="down" placeholder="踩" />
-                </ProForm.Group>
+                <>
+                  <ProFormTextArea name="remark" label="简评" placeholder="简评" />
+                  <ProFormTextArea name="other" label="其他" placeholder="其他" />
+                  <ProForm.Group>
+                    <ProFormText allowClear={false} name="seo_title" label="标题" placeholder="seo标题" />
+                    <ProFormText allowClear={false} name="seo_keywords" label="关键字" placeholder="seo关键字" />
+                    <ProFormText allowClear={false} width="lg" name="jumpurl" label="跳转链接" placeholder="跳转链接" />
+                    <ProFormRate name="stars" label="星级" />
+                  </ProForm.Group>
+                  <ProFormTextArea name="seo_description" label="简介" placeholder="seo简介" />
+                  <ProForm.Group>
+                    <ProFormDatePicker
+                      name="updated_at"
+                      placeholder="更新时间"
+                      label="更新"
+                      fieldProps={{ format: 'YYYY-MM-DD HH:mm:ss' }}
+                    />
+                    <ProFormDatePicker
+                      name="created_at"
+                      placeholder="更新时间"
+                      label="创建"
+                      fieldProps={{ format: 'YYYY-MM-DD HH:mm:ss' }}
+                    />
+                    <ProFormDigit width="xs" label="访问" name="hits" placeholder="总" />
+                    <ProFormDigit width="xs" label="日" name="hits_day" placeholder="日" />
+                    <ProFormDigit width="xs" label="周" name="hits_week" placeholder="周" />
+                    <ProFormDigit width="xs" label="月" name="hits_month" placeholder="月" />
+                    <ProFormDigit width="xs" label="顶" name="up" placeholder="顶" />
+                    <ProFormDigit width="xs" label="踩" name="down" placeholder="踩" />
+                  </ProForm.Group>
+                </>
               )
             }
             return null
