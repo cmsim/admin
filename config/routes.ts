@@ -91,6 +91,12 @@ export default [
         name: '话题列表',
         component: './Content/Topic',
         parentKeys: ['/content/topic']
+      },
+      {
+        path: '/content/link',
+        name: '链接列表',
+        component: './Content/Link',
+        parentKeys: ['/content/link']
       }
     ]
   },

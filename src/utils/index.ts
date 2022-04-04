@@ -151,7 +151,8 @@ export enum modelName {
   TOPIC, // 话题表
   DETAILEDLIST, // 清单
   ACOTR, // 演员表
-  USER
+  USER, // 用户表
+  LINK // 链接
 }
 
 export const modelEnName = {
@@ -171,7 +172,8 @@ export const modelEnName = {
   [modelName.TOPIC]: 'topic',
   [modelName.DETAILEDLIST]: 'detailedlist',
   [modelName.ACOTR]: 'actor',
-  [modelName.USER]: 'user'
+  [modelName.USER]: 'user',
+  [modelName.LINK]: 'link'
 }
 
 export const modelType = {
@@ -191,7 +193,8 @@ export const modelType = {
   [modelName.TOPIC]: '话题',
   [modelName.DETAILEDLIST]: '清单',
   [modelName.ACOTR]: '演员',
-  [modelName.USER]: '用户'
+  [modelName.USER]: '用户',
+  [modelName.LINK]: '链接'
 }
 
 export const sidObj = [
@@ -211,7 +214,8 @@ export const sidObj = [
   { label: '话题', value: modelName.TOPIC },
   { label: '清单', value: modelName.DETAILEDLIST },
   { label: '演员', value: modelName.ACOTR },
-  { label: '用户', value: modelName.USER }
+  { label: '用户', value: modelName.USER },
+  { label: '链接', value: modelName.LINK }
 ]
 /**
  * 格式模型

@@ -359,6 +359,17 @@ export interface IStar extends IDate, IHits, Omit<IId, 'sid' | 'aid'> {
   down: number
 }
 
+export interface ILink extends IDate, IHits, Omit<IId, 'aid'> {
+  name: string
+  url: string
+  icon: string
+  color: string
+  text: string
+  content: string
+  is_home: boolean
+  ip: number
+}
+
 export interface ILog extends Omit<IDate, 'updated_at'> {
   id: number
   type: string
@@ -424,5 +435,9 @@ interface IPinTable extends IPin {
 }
 
 interface ITopicTable extends ITopic {
+  user: IUser
+}
+
+interface ILinkTable extends ILink {
   user: IUser
 }

@@ -5,7 +5,6 @@ import type { FC, ReactNode } from 'react'
 import { useEffect, useState } from 'react'
 import SparkMD5 from 'spark-md5'
 import COS from 'cos-js-sdk-v5'
-import Input from 'antd/lib/input/Input'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 
 export interface IUploadImage {
@@ -15,8 +14,6 @@ export interface IUploadImage {
   onChange?: (file: any, name?: string) => void // 上传后事件回调
   children?: ReactNode
   btnName?: string
-  isShowUrl?: boolean
-  url?: string
   listType?: 'picture-card' | 'text' | 'picture'
   path?: string
   sid?: number
@@ -32,7 +29,6 @@ const UploadImage: FC<IUploadImage> = props => {
     accept = '.jpg,.jpeg,.png,.gif,.pdf,.dmg',
     children,
     btnName,
-    isShowUrl = false,
     listType = 'picture-card',
     path = 'subject',
     sid = 1,
@@ -121,7 +117,7 @@ const UploadImage: FC<IUploadImage> = props => {
    *  上传前验证
    */
   const beforeUpload = async (file: RcFile): Promise<any> => {
-    console.log(file)
+    // console.log(file)
     setLoading(true)
     const size = file.size / 1024 / 1024
     const isLtMax = size < maxFileSize!
@@ -149,7 +145,7 @@ const UploadImage: FC<IUploadImage> = props => {
         // 初始化实例
         const cos = new COS({
           getAuthorization: async (options, callback) => {
-            console.log(options, 2222)
+            // console.log(options, 2222)
             if (!res.data || !credentials) return console.error('credentials invalid')
             callback({
               TmpSecretId: credentials.tmpSecretId,
@@ -177,7 +173,7 @@ const UploadImage: FC<IUploadImage> = props => {
             }
           },
           async (err, data) => {
-            console.log(err, data)
+            // console.log(err, data)
             setLoading(false)
             if (err) {
               setPercent(0)
@@ -198,7 +194,7 @@ const UploadImage: FC<IUploadImage> = props => {
                 })
               }
               const usedList = await attachmentList(param)
-              console.log(usedList)
+              // console.log(usedList)
               if (usedList.data?.list?.length) {
                 handleChange(usedList.data?.list?.[0].url)
               } else {
@@ -224,13 +220,12 @@ const UploadImage: FC<IUploadImage> = props => {
   const uploadButton = (
     <div>
       {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div style={{ marginTop: 8 }}>Upload</div>
+      <div style={{ marginTop: 8 }}>上传图片</div>
     </div>
   )
 
   const upload = http ? (
     <>
-      {isShowUrl && <Input value={http} />}
       <img onClick={(e: React.MouseEvent) => handlePreview(e, http)} src={http} width="100" />
       <span onClick={handleRemove}>x</span>
     </>
