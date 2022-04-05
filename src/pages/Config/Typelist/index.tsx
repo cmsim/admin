@@ -27,16 +27,15 @@ const Typelist = () => {
   }, [categoryList])
 
   const cateEnum = useMemo(() => {
-    let obj = { '0': '无' }
-    categoryList.forEach(item => {
-      obj = {
-        ...obj,
-        [item.id!]: {
-          text: item.name
-        }
-      }
-    })
-    return obj
+    return categoryList
+      .filter(item => item.pid === '0')
+      .reduce(
+        (pre, cur) => {
+          pre[cur.id!] = cur.name
+          return pre
+        },
+        { '0': '无' }
+      )
   }, [categoryList])
 
   const columns: ProColumns<IList>[] = [

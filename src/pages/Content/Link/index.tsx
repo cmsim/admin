@@ -33,11 +33,12 @@ const Pin: FC = () => {
 
   const cidList = useMemo(() => {
     // 获取sid为18的分类
-    const list = categoryList.filter(item => +item.sid! === 18 && +item.pid! !== 0)
-    return list.reduce((obj, item) => {
-      obj[item.id!] = item.name
-      return obj
-    }, {} as { [key: string]: number | string | undefined })
+    return categoryList
+      .filter(item => +item.sid! === 18 && +item.pid! !== 0)
+      .reduce((obj, item) => {
+        obj[item.id!] = item.name
+        return obj
+      }, {} as { [key: string]: number | string | undefined })
   }, [categoryList])
 
   const columns: ProColumns<ILinkTable>[] = [
@@ -112,6 +113,7 @@ const Pin: FC = () => {
           onClick={() => {
             setModalVisit(true)
             setEditData(entity)
+            setIcons(entity.icon)
           }}
         >
           编辑
@@ -130,6 +132,11 @@ const Pin: FC = () => {
   const url = (e: ChangeEvent<HTMLInputElement>) => {
     setIcons(e.target.value)
   }
+
+  useEffect(() => {
+    const params = { ...editData, cid: editData?.cid?.toString() }
+    formRef.current?.setFieldsValue(params)
+  }, [editData])
 
   return (
     <PageContainer>
@@ -191,7 +198,10 @@ const Pin: FC = () => {
         title="新建"
         autoFocusFirstInput
         modalProps={{
-          onCancel: () => console.log('run')
+          onCancel: () => {
+            formRef.current?.resetFields()
+            setIcons('')
+          }
         }}
         onFinish={async values => {
           console.log(values)
