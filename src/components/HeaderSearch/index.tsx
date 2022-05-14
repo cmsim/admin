@@ -1,4 +1,5 @@
 import { SearchOutlined } from '@ant-design/icons'
+import type { InputRef } from 'antd'
 import { AutoComplete, Input } from 'antd'
 import useMergedState from 'rc-util/es/hooks/useMergedState'
 import type { AutoCompleteProps } from 'antd/es/auto-complete'
@@ -23,7 +24,7 @@ export type HeaderSearchProps = {
 const HeaderSearch: React.FC<HeaderSearchProps> = props => {
   const { className, defaultValue, onVisibleChange, placeholder, visible, defaultVisible, ...restProps } = props
 
-  const inputRef = useRef<Input | null>(null)
+  const inputRef = useRef<InputRef | null>(null)
 
   const [value, setValue] = useMergedState<string | undefined>(defaultValue, {
     value: props.value,
@@ -61,7 +62,13 @@ const HeaderSearch: React.FC<HeaderSearchProps> = props => {
           cursor: 'pointer'
         }}
       />
-      <AutoComplete key="AutoComplete" className={inputClass} value={value} options={restProps.options} onChange={setValue}>
+      <AutoComplete
+        key="AutoComplete"
+        className={inputClass}
+        value={value}
+        options={restProps.options}
+        onChange={completeValue => setValue(completeValue)}
+      >
         <Input
           size="small"
           ref={inputRef}
