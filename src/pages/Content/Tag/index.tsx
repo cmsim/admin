@@ -1,14 +1,12 @@
-import { useRef, useState } from 'react'
-import { FooterToolbar, PageContainer } from '@ant-design/pro-layout'
-import type { ProColumns, ActionType } from '@ant-design/pro-table'
-import type { FC } from 'react'
-import ProTable from '@ant-design/pro-table'
-import { Button, message, Popconfirm } from 'antd'
-import type { ITag } from '@/services/typings'
-import { PlusOutlined } from '@ant-design/icons'
-import { modelType } from '@/utils'
-import { ModalForm, ProFormSelect, ProFormText } from '@ant-design/pro-form'
 import { tagAdd, tagDelete, tagList } from '@/services/tag'
+import type { ITag } from '@/services/typings'
+import { modelType } from '@/utils'
+import { PlusOutlined } from '@ant-design/icons'
+import type { ActionType, ProColumns } from '@ant-design/pro-components'
+import { FooterToolbar, ModalForm, PageContainer, ProFormSelect, ProFormText, ProTable } from '@ant-design/pro-components'
+import { Button, message, Popconfirm } from 'antd'
+import type { FC } from 'react'
+import { useRef, useState } from 'react'
 
 const Tag: FC = () => {
   const actionRef = useRef<ActionType>()

@@ -1,6 +1,13 @@
-import { FC, useMemo, useState, useEffect, useRef } from 'react'
-import { message, Cascader, Form, Button } from 'antd'
-import ProForm, {
+import UploadImage from '@/components/Upload'
+import { subjectAdd, subjectDetail, subjectName } from '@/services/subject'
+import { ISubject } from '@/services/typings'
+import { getVideo } from '@/services/video'
+import { areaEnum, getListFormat, languageEnum, statusType } from '@/utils'
+import { CloseOutlined, SnippetsOutlined } from '@ant-design/icons'
+import {
+  PageContainer,
+  ProCard,
+  ProForm,
   ProFormCheckbox,
   ProFormDatePicker,
   ProFormDependency,
@@ -13,17 +20,11 @@ import ProForm, {
   ProFormText,
   ProFormTextArea,
   ProFormTimePicker
-} from '@ant-design/pro-form'
-import { PageContainer } from '@ant-design/pro-layout'
-import ProCard from '@ant-design/pro-card'
-import { useModel, useParams, useHistory } from 'umi'
-import { areaEnum, getListFormat, languageEnum, statusType } from '@/utils'
-import UploadImage from '@/components/Upload'
-import { CloseOutlined, SnippetsOutlined } from '@ant-design/icons'
-import { subjectAdd, subjectDetail, subjectName } from '@/services/subject'
-import { ISubject } from '@/services/typings'
-import { getVideo } from '@/services/video'
+} from '@ant-design/pro-components'
+import { Button, Cascader, Form, message } from 'antd'
 import moment from 'moment'
+import { FC, useEffect, useMemo, useRef, useState } from 'react'
+import { useHistory, useModel, useParams } from 'umi'
 
 const { Item } = Form
 

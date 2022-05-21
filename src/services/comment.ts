@@ -1,5 +1,5 @@
 import { request } from 'umi'
-import type { IListResponse, ICommentTable, IComments } from './typings'
+import type { IComments, ICommentTable, IListResponse } from './typings'
 
 /** 添加动态 POST /backend/comment/add */
 export async function commentAdd(body: IComments, options?: Record<string, any>) {

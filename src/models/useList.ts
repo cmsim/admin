@@ -1,7 +1,7 @@
 import { list } from '@/services/list'
 import type { IList } from '@/services/typings'
 import { idToStr } from '@/utils'
-import { useState, useCallback } from 'react'
+import { useCallback, useState } from 'react'
 
 export default function useList() {
   const [categoryList, setCategoryList] = useState<IList[]>([])

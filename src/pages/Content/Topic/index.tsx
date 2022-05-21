@@ -1,15 +1,22 @@
-import { useRef, useState } from 'react'
-import { FooterToolbar, PageContainer } from '@ant-design/pro-layout'
-import type { ProColumns, ActionType } from '@ant-design/pro-table'
-import type { FC } from 'react'
-import ProTable from '@ant-design/pro-table'
-import { Button, message, Popconfirm, Popover } from 'antd'
-import type { ITopic, ITopicTable } from '@/services/typings'
-import { PlusOutlined } from '@ant-design/icons'
-import { modelType } from '@/utils'
-import { topicAdd, topicList } from '@/services/topic'
-import ProForm, { ModalForm, ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-form'
 import UploadImage from '@/components/Upload'
+import { topicAdd, topicList } from '@/services/topic'
+import type { ITopic, ITopicTable } from '@/services/typings'
+import { modelType } from '@/utils'
+import { PlusOutlined } from '@ant-design/icons'
+import type { ActionType, ProColumns } from '@ant-design/pro-components'
+import {
+  FooterToolbar,
+  ModalForm,
+  PageContainer,
+  ProForm,
+  ProFormSelect,
+  ProFormText,
+  ProFormTextArea,
+  ProTable
+} from '@ant-design/pro-components'
+import { Button, message, Popconfirm, Popover } from 'antd'
+import type { FC } from 'react'
+import { useRef, useState } from 'react'
 
 const { Item } = ProForm
 

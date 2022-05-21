@@ -1,14 +1,12 @@
-import { useRef, useState } from 'react'
-import { FooterToolbar, PageContainer } from '@ant-design/pro-layout'
-import type { ProColumns, ActionType } from '@ant-design/pro-table'
-import type { FC } from 'react'
-import ProTable from '@ant-design/pro-table'
-import { Button, message, Popconfirm, Popover } from 'antd'
 import { feedAdd, feedList } from '@/services/feed'
 import type { IFeed, IFeedTable } from '@/services/typings'
-import { PlusOutlined } from '@ant-design/icons'
 import { modelEnName, modelType, statusType } from '@/utils'
-import { ModalForm, ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-form'
+import { PlusOutlined } from '@ant-design/icons'
+import type { ActionType, ProColumns } from '@ant-design/pro-components'
+import { FooterToolbar, ModalForm, PageContainer, ProFormSelect, ProFormText, ProFormTextArea, ProTable } from '@ant-design/pro-components'
+import { Button, message, Popconfirm, Popover } from 'antd'
+import type { FC } from 'react'
+import { useRef, useState } from 'react'
 
 const Feed: FC = () => {
   const actionRef = useRef<ActionType>()

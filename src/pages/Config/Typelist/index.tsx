@@ -1,12 +1,11 @@
-import { Button, message } from 'antd'
-import type { ActionType, ProColumns } from '@ant-design/pro-table'
-import { EditableProTable } from '@ant-design/pro-table'
-import { PageContainer } from '@ant-design/pro-layout'
+import { listAdd } from '@/services/list'
 import type { IList } from '@/services/typings'
 import { getList, sidEnum } from '@/utils'
-import { listAdd } from '@/services/list'
-import { Link, useModel } from 'umi'
+import type { ActionType, ProColumns } from '@ant-design/pro-components'
+import { EditableProTable, PageContainer } from '@ant-design/pro-components'
+import { Button, message } from 'antd'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Link, useModel } from 'umi'
 
 const Typelist = () => {
   const actionRef = useRef<ActionType>()

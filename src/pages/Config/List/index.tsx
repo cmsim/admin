@@ -1,10 +1,9 @@
 import { settingAdd } from '@/services/setting'
 import type { ISetting } from '@/services/typings'
-import { PageContainer } from '@ant-design/pro-layout'
-import type { ActionType, ProColumns } from '@ant-design/pro-table'
-import { EditableProTable } from '@ant-design/pro-table'
+import type { ActionType, ProColumns } from '@ant-design/pro-components'
+import { EditableProTable, PageContainer } from '@ant-design/pro-components'
 import { Button, message } from 'antd'
-import { useCallback, useRef, useState, useEffect } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useModel } from 'umi'
 
 const Setting = () => {

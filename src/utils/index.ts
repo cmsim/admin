@@ -8,7 +8,7 @@ import type { IList, IMcat } from '@/services/typings'
  * @returns string
  */
 
-export const findMcat = (mcat: IMcat[], find: string[], format = false) => {
+export const findMcat = (mcat: IMcat[], find: (string | number)[], format = false) => {
   const arr: IMcat[] = []
   mcat.forEach(item => {
     if (find.includes(String(item.id))) {

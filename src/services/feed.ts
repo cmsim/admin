@@ -1,5 +1,5 @@
 import { request } from 'umi'
-import type { IFeed, IListResponse, IFeedTable } from './typings'
+import type { IFeed, IFeedTable, IListResponse } from './typings'
 
 /** 添加动态 POST /backend/feed/add */
 export async function feedAdd(body: IFeed, options?: Record<string, any>) {

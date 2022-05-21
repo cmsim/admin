@@ -1,15 +1,22 @@
-import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react'
-import { FooterToolbar, PageContainer } from '@ant-design/pro-layout'
-import type { ProColumns, ActionType } from '@ant-design/pro-table'
-import type { FC } from 'react'
-import ProTable from '@ant-design/pro-table'
-import { Button, FormInstance, message, Popconfirm, Popover } from 'antd'
+import UploadImage from '@/components/Upload'
 import { linkAdd, linkList } from '@/services/link'
 import type { ILink, ILinkTable } from '@/services/typings'
-import { PlusOutlined } from '@ant-design/icons'
 import { modelName } from '@/utils'
-import ProForm, { ModalForm, ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-form'
-import UploadImage from '@/components/Upload'
+import { PlusOutlined } from '@ant-design/icons'
+import type { ActionType, ProColumns } from '@ant-design/pro-components'
+import {
+  FooterToolbar,
+  ModalForm,
+  PageContainer,
+  ProForm,
+  ProFormSelect,
+  ProFormText,
+  ProFormTextArea,
+  ProTable
+} from '@ant-design/pro-components'
+import { Button, FormInstance, message, Popconfirm, Popover } from 'antd'
+import type { FC } from 'react'
+import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react'
 import { useModel } from 'umi'
 
 const { Item } = ProForm

@@ -1,5 +1,5 @@
 import { request } from 'umi'
-import type { ISubject, IListResponse } from './typings'
+import type { IListResponse, ISubject } from './typings'
 
 /** 获取剧集详情 GET /backend/subject/:id */
 export async function subjectDetail(options?: Record<string, any>) {

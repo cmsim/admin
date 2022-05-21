@@ -1,6 +1,6 @@
 import { getMcatDetail as getDetail } from '@/services/mcat'
 import type { IList } from '@/services/typings'
-import { useState, useCallback } from 'react'
+import { useCallback, useState } from 'react'
 
 export default function useMcatDetail() {
   const [mcatDetail, setMcatDetail] = useState<IList>()

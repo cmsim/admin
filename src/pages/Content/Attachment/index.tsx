@@ -1,13 +1,12 @@
-import { useRef, useState } from 'react'
-import { FooterToolbar, PageContainer } from '@ant-design/pro-layout'
-import type { ProColumns, ActionType } from '@ant-design/pro-table'
-import type { FC } from 'react'
-import ProTable from '@ant-design/pro-table'
-import { Button, Popconfirm, Popover } from 'antd'
 import { attachmentList } from '@/services/attachment'
-import { Link, useHistory } from 'umi'
 import type { IAttachment } from '@/services/typings'
 import { PlusOutlined } from '@ant-design/icons'
+import type { ActionType, ProColumns } from '@ant-design/pro-components'
+import { FooterToolbar, PageContainer, ProTable } from '@ant-design/pro-components'
+import { Button, Popconfirm, Popover } from 'antd'
+import type { FC } from 'react'
+import { useRef, useState } from 'react'
+import { Link, useHistory } from 'umi'
 
 const Attachment: FC = () => {
   const history = useHistory()

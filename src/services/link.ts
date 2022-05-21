@@ -1,5 +1,5 @@
 import { request } from 'umi'
-import type { ILink, IListResponse, ILinkTable } from './typings'
+import type { ILink, ILinkTable, IListResponse } from './typings'
 
 /** 添加链接 POST /backend/link/add */
 export async function linkAdd(body: ILink, options?: Record<string, any>) {

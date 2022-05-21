@@ -1,14 +1,13 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
-import { FooterToolbar, PageContainer } from '@ant-design/pro-layout'
-import type { ProColumns, ActionType } from '@ant-design/pro-table'
-import type { FC } from 'react'
-import ProTable from '@ant-design/pro-table'
-import { Button, Popconfirm, Popover } from 'antd'
 import { subjectList } from '@/services/subject'
-import { Link, useHistory, useModel } from 'umi'
 import type { ISubject } from '@/services/typings'
-import { PlusOutlined } from '@ant-design/icons'
 import { areaEnum, findMcat, languageEnum, statusType } from '@/utils'
+import { PlusOutlined } from '@ant-design/icons'
+import type { ActionType, ProColumns } from '@ant-design/pro-components'
+import { FooterToolbar, PageContainer, ProTable } from '@ant-design/pro-components'
+import { Button, Popconfirm, Popover } from 'antd'
+import type { FC } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { Link, useHistory, useModel } from 'umi'
 
 const weekdayEnum = {
   1: '一',

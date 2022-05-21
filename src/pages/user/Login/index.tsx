@@ -1,11 +1,11 @@
-import { LockOutlined, UserOutlined } from '@ant-design/icons'
-import { Alert, message } from 'antd'
-import React, { useEffect, useState } from 'react'
-import { ProFormCheckbox, ProFormText, LoginForm } from '@ant-design/pro-form'
-import { history, useModel } from 'umi'
 import Footer from '@/components/Footer'
 import { login } from '@/services/user'
+import { LockOutlined, UserOutlined } from '@ant-design/icons'
+import { LoginForm, ProFormCheckbox, ProFormText } from '@ant-design/pro-components'
+import { Alert, message } from 'antd'
 import md5 from 'md5'
+import React, { useEffect, useState } from 'react'
+import { history, useModel } from 'umi'
 import styles from './index.less'
 
 const LoginMessage: React.FC<{

@@ -1,5 +1,5 @@
 import { request } from 'umi'
-import type { ITag, IListResponse } from './typings'
+import type { IListResponse, ITag } from './typings'
 
 /** 添加标签 POST /backend/tag/add */
 export async function tagAdd(body: ITag, options?: Record<string, any>) {

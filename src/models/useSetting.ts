@@ -1,6 +1,6 @@
 import { settingList } from '@/services/setting'
 import type { ISetting } from '@/services/typings'
-import { useState, useCallback } from 'react'
+import { useCallback, useState } from 'react'
 
 export default function useMcat() {
   const [setting, setSetting] = useState<ISetting[]>([])

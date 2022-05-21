@@ -1,12 +1,11 @@
-import { message } from 'antd'
-import type { ActionType, ProColumns } from '@ant-design/pro-table'
-import ProTable, { EditableProTable } from '@ant-design/pro-table'
-import { PageContainer } from '@ant-design/pro-layout'
+import { mcatAdd } from '@/services/mcat'
 import type { IList, IMcat } from '@/services/typings'
 import { getListMcat, sidEnum } from '@/utils'
-import { Link, useModel } from 'umi'
-import { mcatAdd } from '@/services/mcat'
+import type { ActionType, ProColumns } from '@ant-design/pro-components'
+import { EditableProTable, PageContainer, ProTable } from '@ant-design/pro-components'
+import { message } from 'antd'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Link, useModel } from 'umi'
 
 const columns: ProColumns<IList>[] = [
   {

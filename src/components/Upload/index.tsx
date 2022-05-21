@@ -1,11 +1,11 @@
 import { attachmentAdd, attachmentList, stsInit } from '@/services/attachment'
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { Button, message, Modal, Upload } from 'antd'
 import type { RcFile } from 'antd/lib/upload'
+import COS from 'cos-js-sdk-v5'
 import type { FC, ReactNode } from 'react'
 import { useEffect, useState } from 'react'
 import SparkMD5 from 'spark-md5'
-import COS from 'cos-js-sdk-v5'
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 
 export interface IUploadImage {
   accept?: string

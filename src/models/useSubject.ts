@@ -1,6 +1,6 @@
 import { subjectDetail } from '@/services/subject'
 import type { ISubject } from '@/services/typings'
-import { useState, useCallback } from 'react'
+import { useCallback, useState } from 'react'
 
 export default function useMcat() {
   const [subject, setSubject] = useState<ISubject>()

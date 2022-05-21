@@ -1,7 +1,7 @@
 import { mcatList } from '@/services/mcat'
 import type { IMcat } from '@/services/typings'
 import { idToStr } from '@/utils'
-import { useState, useCallback } from 'react'
+import { useCallback, useState } from 'react'
 
 export default function useMcat() {
   const [mcat, setMcat] = useState<IMcat[]>([])

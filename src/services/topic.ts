@@ -1,5 +1,5 @@
 import { request } from 'umi'
-import type { ITopic, IListResponse, ITopicTable } from './typings'
+import type { IListResponse, ITopic, ITopicTable } from './typings'
 
 /** 添加话题 POST /backend/topic/add */
 export async function topicAdd(body: ITopic, options?: Record<string, any>) {

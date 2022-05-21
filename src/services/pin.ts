@@ -1,5 +1,5 @@
 import { request } from 'umi'
-import type { IPin, IListResponse, IPinTable } from './typings'
+import type { IListResponse, IPin, IPinTable } from './typings'
 
 /** 添加动态 POST /backend/pin/add */
 export async function pinAdd(body: IPin, options?: Record<string, any>) {
