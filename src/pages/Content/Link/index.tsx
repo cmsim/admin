@@ -208,6 +208,7 @@ const Pin: FC = () => {
           onCancel: () => {
             formRef.current?.resetFields()
             setIcons('')
+            setEditData(undefined)
           }
         }}
         onFinish={async values => {
