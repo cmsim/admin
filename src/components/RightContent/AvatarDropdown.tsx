@@ -18,14 +18,16 @@ export type GlobalHeaderRightProps = {
  */
 const loginOut = async () => {
   await outLogin()
-  const { query = {}, pathname } = history.location
-  const { redirect } = query
+  const { search, pathname } = history.location
+  const urlParams = new URL(window.location.href).searchParams
+  /** 此方法会跳转到 redirect 参数所在的位置 */
+  const redirect = urlParams.get('redirect')
   // Note: There may be security issues, please note
   if (window.location.pathname !== '/user/login' && !redirect) {
     history.replace({
       pathname: '/user/login',
       search: stringify({
-        redirect: pathname
+        redirect: pathname + search
       })
     })
   }
@@ -95,6 +97,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   ]
 
   const menuHeaderDropdown = <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick} items={menuItems} />
+
   return (
     <HeaderDropdown overlay={menuHeaderDropdown}>
       <span className={`${styles.action} ${styles.account}`}>

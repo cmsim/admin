@@ -1,10 +1,11 @@
-@import '~antd/es/style/themes/default.less';
+@import (reference) '~antd/es/style/themes/index';
+
+@pro-header-hover-bg: rgba(0, 0, 0, 0.025);
 
 .menu {
   :global(.anticon) {
     margin-right: 8px;
   }
-
   :global(.ant-dropdown-menu-item) {
     min-width: 160px;
   }
@@ -16,7 +17,6 @@
   height: 48px;
   margin-left: auto;
   overflow: hidden;
-
   .action {
     display: flex;
     align-items: center;
@@ -24,34 +24,28 @@
     padding: 0 12px;
     cursor: pointer;
     transition: all 0.3s;
-
     > span {
       vertical-align: middle;
     }
-
     &:hover {
-      background: rgb(0 0 0 / 2.5%);
+      background: @pro-header-hover-bg;
     }
-
     &:global(.opened) {
-      background: rgb(0 0 0 / 2.5%);
+      background: @pro-header-hover-bg;
     }
   }
-
   .search {
     padding: 0 12px;
-
     &:hover {
       background: transparent;
     }
   }
-
   .account {
     .avatar {
       margin-right: 8px;
       color: @primary-color;
       vertical-align: top;
-      background: rgb(255 255 255 / 85%);
+      background: rgba(255, 255, 255, 0.85);
     }
   }
 }
@@ -60,22 +54,18 @@
   :global(.ant-divider-vertical) {
     vertical-align: unset;
   }
-
   .name {
     display: none;
   }
-
   .right {
     position: absolute;
     top: 0;
     right: 12px;
-
     .account {
       .avatar {
         margin-right: 0;
       }
     }
-
     .search {
       display: none;
     }

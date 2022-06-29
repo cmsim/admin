@@ -14,10 +14,11 @@ export default defineConfig({
   model: {},
   layout: {
     // https://umijs.org/zh-CN/plugins/plugin-layout
+    locale: false,
     siderWidth: 208,
-    locale: false, // 默认开启，如无需菜单国际化可关闭
     ...defaultSettings
   },
+
   targets: {
     ie: 11
   },
@@ -26,7 +27,6 @@ export default defineConfig({
   access: {},
   // Theme for antd: https://ant.design/docs/react/customize-theme-cn
   theme: {
-    'primary-color': defaultSettings.primaryColor,
     // 如果不想要 configProvide 动态设置主题需要把这个设置为 default
     // 只有设置为 variable， 才能使用 configProvide 动态设置主色调
     // https://ant.design/docs/react/customize-theme-variable-cn

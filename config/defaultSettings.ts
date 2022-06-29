@@ -1,18 +1,18 @@
-import { Settings as LayoutSettings } from '@ant-design/pro-layout'
+import { Settings as LayoutSettings } from '@ant-design/pro-components'
 
 const Settings: LayoutSettings & {
   pwa?: boolean
   logo?: string
 } = {
-  navTheme: 'dark',
+  navTheme: 'light',
   // 拂晓蓝
   primaryColor: '#1890ff',
-  layout: 'side',
+  layout: 'mix',
   contentWidth: 'Fluid',
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false,
-  title: 'CWG',
+  title: 'Cang Wang Ge',
   pwa: false,
   logo: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
   iconfontUrl: ''

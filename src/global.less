@@ -1,4 +1,4 @@
-@import '~antd/es/style/themes/default.less';
+@import '~antd/es/style/variable.less';
 
 html,
 body,
@@ -6,10 +6,13 @@ body,
   height: 100%;
 }
 
+.colorWeak {
+  filter: invert(80%);
+}
+
 .ant-layout {
   min-height: 100vh;
 }
-
 .ant-pro-sider.ant-layout-sider.ant-pro-sider-fixed {
   left: unset;
 }
@@ -19,7 +22,7 @@ canvas {
 }
 
 body {
-  text-rendering: optimizelegibility;
+  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -33,13 +36,11 @@ ol {
   .ant-table {
     width: 100%;
     overflow-x: auto;
-
     &-thead > tr,
     &-tbody > tr {
       > th,
       > td {
         white-space: pre;
-
         > span {
           display: block;
         }

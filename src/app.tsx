@@ -2,6 +2,7 @@ import Footer from '@/components/Footer'
 import RightContent from '@/components/RightContent'
 import { LinkOutlined } from '@ant-design/icons'
 import type { Settings as LayoutSettings } from '@ant-design/pro-components'
+import { SettingDrawer } from '@ant-design/pro-components'
 import type { AxiosResponse, RequestConfig, RunTimeLayoutConfig } from '@umijs/max'
 import { history, Link } from '@umijs/max'
 import { message, notification } from 'antd'
@@ -121,7 +122,7 @@ export const request: RequestConfig = {
 }
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
-export const layout: RunTimeLayoutConfig = ({ initialState }) => {
+export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
   return {
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
@@ -138,15 +139,37 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     },
     links: isDev
       ? [
-          <Link to="/">
+          <Link key="openapi" to="/umi/plugin/openapi" target="_blank">
             <LinkOutlined />
-            <span>文档</span>
+            <span>OpenAPI 文档</span>
           </Link>
         ]
       : [],
     menuHeaderRender: undefined,
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,
+    // 增加一个 loading 的状态
+    childrenRender: (children, props) => {
+      // if (initialState?.loading) return <PageLoading />;
+      return (
+        <>
+          {children}
+          {!props.location?.pathname?.includes('/login') && (
+            <SettingDrawer
+              disableUrlParams
+              enableDarkTheme
+              settings={initialState?.settings}
+              onSettingChange={settings => {
+                setInitialState(preInitialState => ({
+                  ...preInitialState,
+                  settings
+                }))
+              }}
+            />
+          )}
+        </>
+      )
+    },
     ...initialState?.settings
   }
 }
