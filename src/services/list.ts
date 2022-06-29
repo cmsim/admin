@@ -1,4 +1,4 @@
-import { request } from 'umi'
+import { request } from '@umijs/max'
 import type { IList } from './typings'
 
 /** 栏目列表 GET /backend/list/list */

@@ -1,11 +1,11 @@
 import { outLogin } from '@/services/user'
 import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons'
+import { history, useModel } from '@umijs/max'
 import { Avatar, Menu, Spin } from 'antd'
 import type { ItemType } from 'antd/lib/menu/hooks/useItems'
 import { stringify } from 'querystring'
 import type { MenuInfo } from 'rc-menu/lib/interface'
 import React, { useCallback } from 'react'
-import { history, useModel } from 'umi'
 import HeaderDropdown from '../HeaderDropdown'
 import styles from './index.less'
 

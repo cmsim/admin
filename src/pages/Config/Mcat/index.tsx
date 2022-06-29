@@ -3,9 +3,9 @@ import type { IList, IMcat } from '@/services/typings'
 import { getListMcat, sidEnum } from '@/utils'
 import type { ActionType, ProColumns } from '@ant-design/pro-components'
 import { EditableProTable, PageContainer, ProTable } from '@ant-design/pro-components'
+import { Link, useModel } from '@umijs/max'
 import { message } from 'antd'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Link, useModel } from 'umi'
 
 const columns: ProColumns<IList>[] = [
   {

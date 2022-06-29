@@ -12,7 +12,7 @@ export interface IResponse {
   message?: string
 }
 
-type IPages = {
+export type IPages = {
   current?: number
   pageSize?: number
   total?: number
@@ -418,26 +418,26 @@ export interface IListResponse<T> extends IResponse {
   }
 }
 
-interface IFeedTable extends IFeed {
+export interface IFeedTable extends IFeed {
   subject: ISubject
   user: IUser
 }
 
-interface ICommentTable extends IComments {
+export interface ICommentTable extends IComments {
   subject: ISubject
   user: IUser
 }
 
-interface IPinTable extends IPin {
+export interface IPinTable extends IPin {
   subject: ISubject
   user: IUser
   topic: ITopic
 }
 
-interface ITopicTable extends ITopic {
+export interface ITopicTable extends ITopic {
   user: IUser
 }
 
-interface ILinkTable extends ILink {
+export interface ILinkTable extends ILink {
   user: IUser
 }

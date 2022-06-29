@@ -1,4 +1,4 @@
-import { request } from 'umi'
+import { request } from '@umijs/max'
 import type { IPlay } from './typings'
 
 /** 播放源列表 GET /backend/play/list */

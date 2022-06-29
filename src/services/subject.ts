@@ -1,4 +1,4 @@
-import { request } from 'umi'
+import { request } from '@umijs/max'
 import type { IListResponse, ISubject } from './typings'
 
 /** 获取剧集详情 GET /backend/subject/:id */

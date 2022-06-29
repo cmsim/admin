@@ -1,4 +1,4 @@
-import { request } from 'umi'
+import { request } from '@umijs/max'
 import type { ISetting } from './typings'
 
 /** 配置列表 GET /backend/setting/list */

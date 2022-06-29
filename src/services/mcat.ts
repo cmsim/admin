@@ -1,4 +1,4 @@
-import { request } from 'umi'
+import { request } from '@umijs/max'
 import type { IMcat } from './typings'
 
 /** 小分类列表 GET /backend/mcat/list */

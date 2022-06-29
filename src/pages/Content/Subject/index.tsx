@@ -4,10 +4,10 @@ import { areaEnum, findMcat, languageEnum, statusType } from '@/utils'
 import { PlusOutlined } from '@ant-design/icons'
 import type { ActionType, ProColumns } from '@ant-design/pro-components'
 import { FooterToolbar, PageContainer, ProTable } from '@ant-design/pro-components'
+import { history, Link, useModel } from '@umijs/max'
 import { Button, Popconfirm, Popover } from 'antd'
 import type { FC } from 'react'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Link, useHistory, useModel } from 'umi'
 
 const weekdayEnum = {
   1: '一',
@@ -20,7 +20,6 @@ const weekdayEnum = {
 }
 
 const Subject: FC = () => {
-  const history = useHistory()
   const actionRef = useRef<ActionType>()
   const [selectedRowsState, setSelectedRows] = useState<ISubject[]>([])
   const { mcat, getMcat } = useModel('useMcat')
@@ -69,7 +68,7 @@ const Subject: FC = () => {
     {
       title: '小分类',
       dataIndex: 'mcid',
-      render: (_, entity) => findMcat(mcat, entity.mcid, true),
+      render: (_, entity) => findMcat(mcat, entity.mcid, true) as any,
       valueEnum: mcatEnum
     },
     {
@@ -132,7 +131,7 @@ const Subject: FC = () => {
       dataIndex: 'option',
       valueType: 'option',
       render: (_, entity) => [
-        <Link key="edit" to={`subject/edit/${entity.id}`}>
+        <Link key="edit" to={`./edit/${entity.id}`}>
           编辑
         </Link>,
         <Popconfirm key="delete" onConfirm={() => del(entity.id)} title="确定要删除吗？">

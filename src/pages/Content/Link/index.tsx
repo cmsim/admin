@@ -14,10 +14,10 @@ import {
   ProFormTextArea,
   ProTable
 } from '@ant-design/pro-components'
+import { useModel } from '@umijs/max'
 import { Button, FormInstance, message, Popconfirm, Popover } from 'antd'
 import type { FC } from 'react'
 import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react'
-import { useModel } from 'umi'
 
 const { Item } = ProForm
 

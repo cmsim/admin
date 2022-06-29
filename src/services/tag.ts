@@ -1,4 +1,4 @@
-import { request } from 'umi'
+import { request } from '@umijs/max'
 import type { IListResponse, ITag } from './typings'
 
 /** 添加标签 POST /backend/tag/add */

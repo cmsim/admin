@@ -21,16 +21,15 @@ import {
   ProFormTextArea,
   ProFormTimePicker
 } from '@ant-design/pro-components'
+import { history, useModel, useParams } from '@umijs/max'
 import { Button, Cascader, Form, message } from 'antd'
 import moment from 'moment'
 import { FC, useEffect, useMemo, useRef, useState } from 'react'
-import { useHistory, useModel, useParams } from 'umi'
 
 const { Item } = Form
 
 const SubjectEdit: FC = () => {
   const { id } = useParams<{ id: string }>()
-  const history = useHistory()
   const formRef = useRef<ProFormInstance<ISubject>>()
   const [loading, setLoading] = useState(false)
   const [doubanLoading, setDoubanLoading] = useState(false)

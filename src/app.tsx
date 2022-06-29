@@ -1,21 +1,15 @@
 import Footer from '@/components/Footer'
 import RightContent from '@/components/RightContent'
-import { BookOutlined, LinkOutlined } from '@ant-design/icons'
+import { LinkOutlined } from '@ant-design/icons'
 import type { Settings as LayoutSettings } from '@ant-design/pro-components'
-import { PageLoading } from '@ant-design/pro-components'
+import type { AxiosResponse, RequestConfig, RunTimeLayoutConfig } from '@umijs/max'
+import { history, Link } from '@umijs/max'
 import { message, notification } from 'antd'
-import type { RequestConfig, RunTimeLayoutConfig } from 'umi'
-import { history, Link } from 'umi'
 import type { RequestOptionsInit, ResponseError } from 'umi-request'
 import { currentUser as queryCurrentUser } from './services/user'
 
 const isDev = process.env.NODE_ENV === 'development'
 const loginPath = '/login'
-
-/** 获取用户信息比较慢的时候会展示一个 loading */
-export const initialStateConfig = {
-  loading: <PageLoading />
-}
 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
@@ -103,28 +97,24 @@ const errorHandler = (error: ResponseError) => {
 }
 
 // 请求前拦截
-const authHeaderInterceptor = (url: string, options: RequestOptionsInit) => {
+const authHeaderInterceptor = (options: RequestOptionsInit) => {
   const token = localStorage.getItem('token')
   const authHeader = { Authorization: `Bearer ${token}` }
-  if (url.endsWith(':id') && options.id) {
-    url = url.replace(':id', options.id)
+  if (options.url.endsWith(':id') && options.id) {
+    options.url = options.url.replace(':id', options.id)
   }
-  return {
-    url,
-    options: { ...options, interceptors: true, headers: authHeader }
-  }
+  return { ...options, interceptors: true, headers: authHeader }
 }
 // 请求后拦截
-const responseInterceptor = async (response: Response) => {
-  const data = await response.clone().json()
-  if (data.status !== 200) {
-    message.error(data.message)
+const responseInterceptor = (response: AxiosResponse<any>) => {
+  if (response.status !== 200) {
+    message.error(response.statusText)
   }
   return response
 }
 
 export const request: RequestConfig = {
-  errorHandler,
+  errorConfig: { errorHandler },
   // 新增自动添加AccessToken的请求前拦截器
   requestInterceptors: [authHeaderInterceptor],
   responseInterceptors: [responseInterceptor]
@@ -151,10 +141,6 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
           <Link to="/">
             <LinkOutlined />
             <span>文档</span>
-          </Link>,
-          <Link to="/~docs">
-            <BookOutlined />
-            <span>业务组件文档</span>
           </Link>
         ]
       : [],

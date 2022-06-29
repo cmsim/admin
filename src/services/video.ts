@@ -1,4 +1,4 @@
-import { request } from 'umi'
+import { request } from '@umijs/max'
 
 /** 获取视频网站URL GET /backend/video/${title} */
 export async function getVideo(

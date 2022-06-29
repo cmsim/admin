@@ -1,4 +1,4 @@
-import { request } from 'umi'
+import { request } from '@umijs/max'
 import type { IAttachment, IListResponse, ISts } from './typings'
 
 /** 异步获取临时密钥 GET /backend/sts/init */

@@ -2,9 +2,9 @@ import { settingAdd } from '@/services/setting'
 import type { ISetting } from '@/services/typings'
 import type { ActionType, ProColumns } from '@ant-design/pro-components'
 import { EditableProTable, PageContainer } from '@ant-design/pro-components'
+import { Link, useModel } from '@umijs/max'
 import { Button, message } from 'antd'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Link, useModel } from 'umi'
 
 const Setting = () => {
   const actionRef = useRef<ActionType>()

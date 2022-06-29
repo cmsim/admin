@@ -2,10 +2,10 @@ import Footer from '@/components/Footer'
 import { login } from '@/services/user'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { LoginForm, ProFormCheckbox, ProFormText } from '@ant-design/pro-components'
+import { history, useModel } from '@umijs/max'
 import { Alert, message } from 'antd'
 import md5 from 'md5'
 import React, { useEffect, useState } from 'react'
-import { history, useModel } from 'umi'
 import styles from './index.less'
 
 const LoginMessage: React.FC<{
@@ -35,11 +35,8 @@ const Login: React.FC = () => {
       await setInitialState(s => ({ ...s, currentUser: userInfo }))
       /** 此方法会跳转到 redirect 参数所在的位置 */
       if (!history) return
-      const { query } = history.location
-      const { redirect } = query as {
-        redirect: string
-      }
-      return history.push(redirect || '/')
+      const urlParams = new URL(window.location.href).searchParams
+      history.push(urlParams.get('redirect') || '/')
     }
   }
 
@@ -59,6 +56,7 @@ const Login: React.FC = () => {
 
       setUserLoginState(res)
     } catch (error) {
+      console.log(error, 'error')
       message.error('登录失败，请重试！')
     }
   }

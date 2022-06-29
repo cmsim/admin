@@ -1,6 +1,6 @@
 // @ts-ignore
 /* eslint-disable */
-import { request } from 'umi'
+import { request } from '@umijs/max'
 import { IListResponse, IUser } from './typings'
 
 /** 获取当前的用户 GET /backend/user/info */

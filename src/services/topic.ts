@@ -1,4 +1,4 @@
-import { request } from 'umi'
+import { request } from '@umijs/max'
 import type { IListResponse, ITopic, ITopicTable } from './typings'
 
 /** 添加话题 POST /backend/topic/add */

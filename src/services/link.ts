@@ -1,4 +1,4 @@
-import { request } from 'umi'
+import { request } from '@umijs/max'
 import type { ILink, ILinkTable, IListResponse } from './typings'
 
 /** 添加链接 POST /backend/link/add */

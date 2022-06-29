@@ -3,14 +3,13 @@ import { userList } from '@/services/user'
 import { PlusOutlined } from '@ant-design/icons'
 import type { ActionType, ProColumns } from '@ant-design/pro-components'
 import { FooterToolbar, PageContainer, ProTable } from '@ant-design/pro-components'
+import { history, Link } from '@umijs/max'
 import { Button, Popconfirm, Popover } from 'antd'
 import moment from 'moment'
 import type { FC } from 'react'
 import { useRef, useState } from 'react'
-import { Link, useHistory } from 'umi'
 
 const UserList: FC = () => {
-  const history = useHistory()
   const actionRef = useRef<ActionType>()
   const [selectedRowsState, setSelectedRows] = useState<IUser[]>([])
 

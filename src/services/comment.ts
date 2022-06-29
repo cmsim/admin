@@ -1,4 +1,4 @@
-import { request } from 'umi'
+import { request } from '@umijs/max'
 import type { IComments, ICommentTable, IListResponse } from './typings'
 
 /** 添加动态 POST /backend/comment/add */

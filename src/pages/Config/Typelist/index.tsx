@@ -3,9 +3,9 @@ import type { IList } from '@/services/typings'
 import { getList, sidEnum } from '@/utils'
 import type { ActionType, ProColumns } from '@ant-design/pro-components'
 import { EditableProTable, PageContainer } from '@ant-design/pro-components'
+import { Link, useModel } from '@umijs/max'
 import { Button, message } from 'antd'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Link, useModel } from 'umi'
 
 const Typelist = () => {
   const actionRef = useRef<ActionType>()

@@ -1,9 +1,9 @@
 import { PageContainer } from '@ant-design/pro-components'
 import { Alert, Card, Typography } from 'antd'
-import React from 'react'
+import React, { ReactNode } from 'react'
 import styles from './Welcome.less'
 
-const CodePreview: React.FC = ({ children }) => (
+const CodePreview: React.FC<{ children: ReactNode }> = ({ children }) => (
   <pre className={styles.pre}>
     <code>
       <Typography.Text copyable>{children}</Typography.Text>
