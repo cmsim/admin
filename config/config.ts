@@ -18,7 +18,6 @@ export default defineConfig({
     siderWidth: 208,
     ...defaultSettings
   },
-
   targets: {
     ie: 11
   },
