@@ -31,7 +31,7 @@ const Pin: FC = () => {
   const { categoryList, getCategoryList } = useModel('useList')
 
   useEffect(() => {
-    getCategoryList()
+    getCategoryList({ sid: 18, pid: 4 })
   }, [getCategoryList])
 
   const del = (id?: number | string) => {
@@ -39,13 +39,10 @@ const Pin: FC = () => {
   }
 
   const cidList = useMemo(() => {
-    // 获取sid为18的分类
-    return categoryList
-      .filter(item => +item.sid! === 18 && +item.pid! !== 0)
-      .reduce((obj, item) => {
-        obj[item.id!] = item.name
-        return obj
-      }, {} as { [key: string]: number | string | undefined })
+    return categoryList.reduce((obj, item) => {
+      obj[item.id!] = item.name
+      return obj
+    }, {} as { [key: string]: number | string | undefined })
   }, [categoryList])
 
   const columns: ProColumns<ILinkTable>[] = [
@@ -158,12 +155,7 @@ const Pin: FC = () => {
         ]}
         request={async params => {
           console.log(params, 'params')
-          const { current, pageSize } = params
-          const param = {
-            current,
-            pageSize
-          }
-          const res = await linkList(param)
+          const res = await linkList(params)
           return {
             data: res.data?.list,
             total: res.data?.total,
@@ -225,7 +217,8 @@ const Pin: FC = () => {
             actionRef.current?.reload()
             return true
           } else {
-            return message.error(res.message)
+            message.error(res.message)
+            return false
           }
         }}
         onVisibleChange={setModalVisit}

@@ -6,8 +6,8 @@ import { useCallback, useState } from 'react'
 export default function useList() {
   const [categoryList, setCategoryList] = useState<IList[]>([])
 
-  const getCategoryList = useCallback(async () => {
-    const res = await list()
+  const getCategoryList = useCallback(async (params?: { pid?: number; sid?: number }) => {
+    const res = await list(params)
     setCategoryList(res.data)
   }, [])
 

@@ -1,7 +1,7 @@
 import UploadImage from '@/components/Upload'
 import { topicAdd, topicList } from '@/services/topic'
 import type { ITopic, ITopicTable } from '@/services/typings'
-import { modelType } from '@/utils'
+import { modelName, modelType } from '@/utils'
 import { PlusOutlined } from '@ant-design/icons'
 import type { ActionType, ProColumns } from '@ant-design/pro-components'
 import {
@@ -14,20 +14,44 @@ import {
   ProFormTextArea,
   ProTable
 } from '@ant-design/pro-components'
-import { Button, message, Popconfirm, Popover } from 'antd'
-import type { FC } from 'react'
-import { useRef, useState } from 'react'
+import { useModel } from '@umijs/max'
+import { Button, FormInstance, message, Popconfirm, Popover } from 'antd'
+import { FC, useEffect, useMemo, useRef, useState } from 'react'
 
 const { Item } = ProForm
 
 const Topic: FC = () => {
   const actionRef = useRef<ActionType>()
+  const formRef = useRef<FormInstance>()
   const [selectedRowsState, setSelectedRows] = useState<ITopicTable[]>([])
   const [modalVisit, setModalVisit] = useState(false)
   const [editData, setEditData] = useState<ITopicTable>()
+  const [icons, setIcons] = useState('')
+  const { categoryList, getCategoryList } = useModel('useList')
+
+  useEffect(() => {
+    getCategoryList({ sid: modelName.TOPIC, pid: 10 })
+  }, [getCategoryList])
+
+  useEffect(() => {
+    const params = { ...editData, cid: editData?.cid?.toString() }
+    formRef.current?.setFieldsValue(params)
+  }, [editData])
 
   const del = (id?: number | string) => {
     console.log(id)
+  }
+
+  const cidList = useMemo(() => {
+    return categoryList.reduce((obj, item) => {
+      obj[item.id!] = item.name
+      return obj
+    }, {} as { [key: string]: number | string | undefined })
+  }, [categoryList])
+
+  const icon = (file: string) => {
+    formRef.current?.setFieldsValue({ icon: file })
+    setIcons(file)
   }
 
   const columns: ProColumns<ITopicTable>[] = [
@@ -103,6 +127,7 @@ const Topic: FC = () => {
           key="edit"
           onClick={() => {
             setModalVisit(true)
+            setIcons(entity.icon)
             setEditData(entity)
           }}
         >
@@ -175,12 +200,16 @@ const Topic: FC = () => {
       <ModalForm<ITopic>
         visible={modalVisit}
         title="新建"
+        formRef={formRef}
         autoFocusFirstInput
         modalProps={{
-          onCancel: () => console.log('run')
+          onCancel: () => {
+            formRef.current?.resetFields()
+            setIcons('')
+            setEditData(undefined)
+          }
         }}
         onFinish={async values => {
-          console.log(values)
           const res = await topicAdd({ ...values, id: editData?.id })
           if (res.status === 200) {
             if (editData?.id) {
@@ -188,20 +217,23 @@ const Topic: FC = () => {
             } else {
               message.success('添加成功')
             }
+            setIcons('')
+            formRef.current?.resetFields()
             actionRef.current?.reload()
             return true
           } else {
-            return message.error(res.message)
+            message.error(res.message)
+            return false
           }
         }}
         onVisibleChange={setModalVisit}
       >
         <ProFormText name="name" label="名称" placeholder="请输入名称" rules={[{ required: true }]} />
-        <ProFormSelect options={Object.keys(modelType).map(item => ({ label: modelType[item], value: item }))} name="sid" label="模型" />
+        <ProFormSelect name="cid" label="分类" valueEnum={cidList} placeholder="请选择分类" rules={[{ required: true }]} />
         <ProFormText name="dir" label="目录" placeholder="请输入目录" />
         <ProFormTextArea label="简介" name="summary" />
-        <Item label="Icon" name="icon">
-          <UploadImage btnName="上传图片" />
+        <Item label="Icon" name="icon" rules={[{ required: true }]}>
+          <UploadImage onChange={icon} value={icons} />
         </Item>
       </ModalForm>
     </PageContainer>

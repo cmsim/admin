@@ -1,27 +1,22 @@
-import UploadImage from '@/components/Upload'
 import { pinAdd, pinList } from '@/services/pin'
 import type { IPin, IPinTable } from '@/services/typings'
-import { modelEnName, modelType } from '@/utils'
 import { PlusOutlined } from '@ant-design/icons'
-import type { ActionType, ProColumns } from '@ant-design/pro-components'
 import {
+  ActionType,
   FooterToolbar,
   ModalForm,
   PageContainer,
-  ProForm,
+  ProColumns,
   ProFormSelect,
-  ProFormText,
   ProFormTextArea,
   ProTable
 } from '@ant-design/pro-components'
-import { Button, message, Popconfirm, Popover } from 'antd'
-import type { FC } from 'react'
-import { useRef, useState } from 'react'
-
-const { Item } = ProForm
+import { Button, FormInstance, message, Popconfirm } from 'antd'
+import { FC, useEffect, useRef, useState } from 'react'
 
 const Pin: FC = () => {
   const actionRef = useRef<ActionType>()
+  const formRef = useRef<FormInstance>()
   const [selectedRowsState, setSelectedRows] = useState<IPinTable[]>([])
   const [modalVisit, setModalVisit] = useState(false)
   const [editData, setEditData] = useState<IPinTable>()
@@ -30,29 +25,25 @@ const Pin: FC = () => {
     console.log(id)
   }
 
+  useEffect(() => {
+    const params = { ...editData, cid: editData?.cid?.toString() }
+    formRef.current?.setFieldsValue(params)
+  }, [editData])
+
+  const onSearchForAid = (value: string) => {
+    console.log(value)
+  }
+
+  const onSearchForTid = (value: string) => {
+    console.log(value)
+  }
+
+  useEffect(() => {
+    const params = { ...editData, cid: editData?.cid?.toString() }
+    formRef.current?.setFieldsValue(params)
+  }, [editData])
+
   const columns: ProColumns<IPinTable>[] = [
-    {
-      title: '名称',
-      dataIndex: 'name',
-      copyable: true,
-      render: (_, entity) =>
-        entity.aid ? (
-          <Popover
-            content={
-              <img
-                src={entity[modelEnName[entity.sid!]]?.pic}
-                style={{
-                  width: 200
-                }}
-              />
-            }
-          >
-            {entity[modelEnName[entity.sid!]]?.name}
-          </Popover>
-        ) : (
-          '-'
-        )
-    },
     {
       title: '话题',
       dataIndex: 'tid',
@@ -63,11 +54,6 @@ const Pin: FC = () => {
           {entity.topic?.name}
         </>
       )
-    },
-    {
-      title: '模型',
-      dataIndex: 'sid',
-      valueEnum: modelType
     },
     {
       title: '用户名',
@@ -169,10 +155,14 @@ const Pin: FC = () => {
       )}
       <ModalForm<IPin>
         visible={modalVisit}
+        formRef={formRef}
         title="新建"
         autoFocusFirstInput
         modalProps={{
-          onCancel: () => console.log('run')
+          onCancel: () => {
+            formRef.current?.resetFields()
+            setEditData(undefined)
+          }
         }}
         onFinish={async values => {
           console.log(values)
@@ -183,21 +173,19 @@ const Pin: FC = () => {
             } else {
               message.success('添加成功')
             }
+            formRef.current?.resetFields()
             actionRef.current?.reload()
             return true
           } else {
-            return message.error(res.message)
+            message.error(res.message)
+            return false
           }
         }}
         onVisibleChange={setModalVisit}
       >
-        <ProFormText name="name" label="名称" placeholder="请输入名称" rules={[{ required: true }]} />
-        <ProFormSelect options={Object.keys(modelType).map(item => ({ label: modelType[item], value: item }))} name="sid" label="模型" />
-        <ProFormText name="dir" label="目录" placeholder="请输入目录" />
-        <ProFormTextArea label="简介" name="summary" />
-        <Item label="Icon" name="icon">
-          <UploadImage btnName="上传图片" />
-        </Item>
+        <ProFormSelect showSearch name="aid" label="关联内容ID" fieldProps={{ onSearch: onSearchForAid }} />
+        <ProFormSelect showSearch name="tid" label="关联话题ID" fieldProps={{ onSearch: onSearchForTid }} />
+        <ProFormTextArea name="content" label="内容" rules={[{ required: true }]} />
       </ModalForm>
     </PageContainer>
   )

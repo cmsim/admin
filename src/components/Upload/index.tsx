@@ -1,5 +1,6 @@
 import { attachmentAdd, attachmentList, stsInit } from '@/services/attachment'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
+import { useModel } from '@umijs/max'
 import { Button, message, Modal, Upload } from 'antd'
 import type { RcFile } from 'antd/lib/upload'
 import COS from 'cos-js-sdk-v5'
@@ -17,11 +18,15 @@ export interface IUploadImage {
   listType?: 'picture-card' | 'text' | 'picture'
   path?: string
   sid?: number
-  aid?: number
   value?: string
 }
 
 const UploadImage: FC<IUploadImage> = props => {
+  const { initialState } = useModel('@@initialState')
+  if (!initialState || !initialState.currentUser) {
+    return null
+  }
+  const { currentUser } = initialState
   const {
     onChange,
     maxFileSize = 200,
@@ -32,7 +37,6 @@ const UploadImage: FC<IUploadImage> = props => {
     listType = 'picture-card',
     path = 'subject',
     sid = 1,
-    aid,
     value
   } = props
   const [previewVisible, setPreviewVisible] = useState<boolean>(false)
@@ -139,69 +143,69 @@ const UploadImage: FC<IUploadImage> = props => {
     // stsInit
     return new Promise(async () => {
       if (isLtMax && isGtMin && isValid) {
-        // 异步获取临时密钥
-        const res = await stsInit({ prefix: `${path}/*` })
-        const { bucket, region, credentials, startTime, expiredTime } = res.data
-        // 初始化实例
-        const cos = new COS({
-          getAuthorization: async (options, callback) => {
-            // console.log(options, 2222)
-            if (!res.data || !credentials) return console.error('credentials invalid')
-            callback({
-              TmpSecretId: credentials.tmpSecretId,
-              TmpSecretKey: credentials.tmpSecretKey,
-              SecurityToken: credentials.sessionToken,
-              // 建议返回服务器时间作为签名的开始时间，避免用户浏览器本地时间偏差过大导致签名错误
-              StartTime: startTime, // 时间戳，单位秒，如：1580000000
-              ExpiredTime: expiredTime // 时间戳，单位秒，如：1580000900
-            })
-          }
-        })
         const md5 = await getMd5(file)
         const name = `${md5}.${getFileExt(file.name)}`
-        // 分片上传文件
-        cos.putObject(
-          {
-            Bucket: bucket /* 必须 */,
-            Region: region /* 存储桶所在地域，必须字段 */,
-            Key: `${path}/${name}`,
-            StorageClass: 'STANDARD',
-            Body: file,
-            onProgress: function (progressData) {
-              setPercent(progressData.percent)
-              console.log('上传中', JSON.stringify(progressData))
+        const attachment = md5 as string
+        const param = {
+          current: 1,
+          pageSize: 10,
+          filter: JSON.stringify({
+            attachment,
+            up: 1,
+            aid: currentUser.id,
+            sid: 1
+          })
+        }
+        const usedList = await attachmentList(param)
+        console.log(usedList)
+        if (usedList.data?.list?.length) {
+          handleChange(usedList.data?.list?.[0].url)
+        } else {
+          // 异步获取临时密钥
+          const res = await stsInit({ prefix: `${path}/*` })
+          const { bucket, region, credentials, startTime, expiredTime } = res.data
+          // 初始化实例
+          const cos = new COS({
+            getAuthorization: async (options, callback) => {
+              // console.log(options, 2222)
+              if (!res.data || !credentials) return console.error('credentials invalid')
+              callback({
+                TmpSecretId: credentials.tmpSecretId,
+                TmpSecretKey: credentials.tmpSecretKey,
+                SecurityToken: credentials.sessionToken,
+                // 建议返回服务器时间作为签名的开始时间，避免用户浏览器本地时间偏差过大导致签名错误
+                StartTime: startTime, // 时间戳，单位秒，如：1580000000
+                ExpiredTime: expiredTime // 时间戳，单位秒，如：1580000900
+              })
             }
-          },
-          async (err, data) => {
-            // console.log(err, data)
-            setLoading(false)
-            if (err) {
-              setPercent(0)
-              message.error('服务器错误，请重新上传')
-            }
-
-            if (data) {
-              message.success('上传成功')
-              const attachment = md5 as string
-              const param = {
-                current: 1,
-                pageSize: 10,
-                filter: JSON.stringify({
-                  attachment,
-                  up: 1,
-                  aid: 1,
-                  sid: 1
-                })
+          })
+          // 分片上传文件
+          cos.putObject(
+            {
+              Bucket: bucket /* 必须 */,
+              Region: region /* 存储桶所在地域，必须字段 */,
+              Key: `${path}/${name}`,
+              StorageClass: 'STANDARD',
+              Body: file,
+              onProgress: function (progressData) {
+                setPercent(progressData.percent)
+                console.log('上传中', JSON.stringify(progressData))
               }
-              const usedList = await attachmentList(param)
-              // console.log(usedList)
-              if (usedList.data?.list?.length) {
-                handleChange(usedList.data?.list?.[0].url)
-              } else {
+            },
+            async (err, data) => {
+              console.log(err, data)
+              setLoading(false)
+              if (err) {
+                setPercent(0)
+                return message.error('服务器错误，请重新上传')
+              }
+
+              if (data) {
+                message.success('上传成功')
                 const r = await attachmentAdd({
                   sid,
-                  aid,
                   attachment,
+                  aid: currentUser.id,
                   file_path: `${path}/${name}`,
                   file_name: file.name,
                   file_type: file.type,
@@ -211,8 +215,8 @@ const UploadImage: FC<IUploadImage> = props => {
                 handleChange(r.data.url)
               }
             }
-          }
-        )
+          )
+        }
       }
     })
   }
