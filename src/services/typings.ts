@@ -434,6 +434,12 @@ export interface IPinTable extends IPin {
   topic: ITopic
 }
 
+export interface IAttachmentTable extends IAttachment {
+  subject: ISubject
+  user: IUser
+  topic: ITopic
+}
+
 export interface ITopicTable extends ITopic {
   user: IUser
 }

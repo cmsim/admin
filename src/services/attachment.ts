@@ -1,5 +1,5 @@
 import { request } from '@umijs/max'
-import type { IAttachment, IListResponse, ISts } from './typings'
+import type { IAttachment, IAttachmentTable, IListResponse, ISts } from './typings'
 
 /** 异步获取临时密钥 GET /backend/sts/init */
 export async function stsInit(params?: { prefix?: string }, options?: Record<string, any>) {
@@ -14,7 +14,7 @@ export async function stsInit(params?: { prefix?: string }, options?: Record<str
 
 /** 添加附件 POST /backend/attachment/add */
 export async function attachmentAdd(body: IAttachment, options?: Record<string, any>) {
-  return request<{ data: IAttachment }>('/backend/attachment/add', {
+  return request<{ data: IAttachment; status: number; message: string }>('/backend/attachment/add', {
     method: 'POST',
     data: body,
     ...(options || {})
@@ -41,7 +41,7 @@ export async function attachmentList(
   },
   options?: Record<string, any>
 ) {
-  return request<IListResponse<IAttachment>>('/backend/attachment/list', {
+  return request<IListResponse<IAttachmentTable>>('/backend/attachment/list', {
     method: 'GET',
     params: {
       ...params

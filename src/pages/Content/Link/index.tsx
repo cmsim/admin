@@ -17,7 +17,7 @@ import {
 import { useModel } from '@umijs/max'
 import { Button, FormInstance, message, Popconfirm, Popover } from 'antd'
 import type { FC } from 'react'
-import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 const { Item } = ProForm
 
@@ -27,7 +27,6 @@ const Pin: FC = () => {
   const [selectedRowsState, setSelectedRows] = useState<ILinkTable[]>([])
   const [modalVisit, setModalVisit] = useState(false)
   const [editData, setEditData] = useState<ILinkTable>()
-  const [icons, setIcons] = useState('')
   const { categoryList, getCategoryList } = useModel('useList')
 
   useEffect(() => {
@@ -117,7 +116,6 @@ const Pin: FC = () => {
           onClick={() => {
             setModalVisit(true)
             setEditData(entity)
-            setIcons(entity.icon)
           }}
         >
           编辑
@@ -128,14 +126,6 @@ const Pin: FC = () => {
       ]
     }
   ]
-  const icon = (file: string) => {
-    formRef.current?.setFieldsValue({ icon: file })
-    setIcons(file)
-  }
-
-  const url = (e: ChangeEvent<HTMLInputElement>) => {
-    setIcons(e.target.value)
-  }
 
   useEffect(() => {
     const params = { ...editData, cid: editData?.cid?.toString() }
@@ -199,12 +189,10 @@ const Pin: FC = () => {
         modalProps={{
           onCancel: () => {
             formRef.current?.resetFields()
-            setIcons('')
             setEditData(undefined)
           }
         }}
         onFinish={async values => {
-          console.log(values)
           const res = await linkAdd({ ...values, id: editData?.id, sid: modelName.LINK, cid: values.cid })
           if (res.status === 200) {
             if (editData?.id) {
@@ -212,7 +200,6 @@ const Pin: FC = () => {
             } else {
               message.success('添加成功')
             }
-            setIcons('')
             formRef.current?.resetFields()
             actionRef.current?.reload()
             return true
@@ -229,9 +216,8 @@ const Pin: FC = () => {
         <ProFormText name="text" label="网标文字" placeholder="请输入网标文字" />
         <ProFormText name="color" label="网标颜色" placeholder="请输入网标颜色" fieldProps={{ type: 'color' }} />
         <ProFormTextArea label="简介" name="content" />
-        <Item label="图标">
-          <ProFormText name="icon" placeholder="请输入图标地址" fieldProps={{ onChange: url }} />
-          <UploadImage onChange={icon} value={icons} />
+        <Item label="图标" name="icon">
+          <UploadImage sid={modelName.LINK} isUrl />
         </Item>
       </ModalForm>
     </PageContainer>

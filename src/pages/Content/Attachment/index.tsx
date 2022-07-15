@@ -1,26 +1,29 @@
-import { attachmentList } from '@/services/attachment'
-import type { IAttachment } from '@/services/typings'
+import { attachmentAdd, attachmentList } from '@/services/attachment'
+import type { IAttachment, IAttachmentTable } from '@/services/typings'
+import { modelEnName, modelType } from '@/utils'
 import { PlusOutlined } from '@ant-design/icons'
-import type { ActionType, ProColumns } from '@ant-design/pro-components'
-import { FooterToolbar, PageContainer, ProTable } from '@ant-design/pro-components'
-import { history, Link } from '@umijs/max'
-import { Button, Popconfirm, Popover } from 'antd'
+import { ActionType, FooterToolbar, ModalForm, PageContainer, ProColumns, ProFormTextArea, ProTable } from '@ant-design/pro-components'
+import { Button, FormInstance, message, Popconfirm, Popover } from 'antd'
 import type { FC } from 'react'
 import { useRef, useState } from 'react'
 
 const Attachment: FC = () => {
   const actionRef = useRef<ActionType>()
+  const formRef = useRef<FormInstance>()
   const [selectedRowsState, setSelectedRows] = useState<IAttachment[]>([])
+  const [modalVisit, setModalVisit] = useState(false)
+  const [editData, setEditData] = useState<IAttachment>()
 
   const del = (id?: number | string) => {
     console.log(id)
   }
 
-  const columns: ProColumns<IAttachment>[] = [
+  const columns: ProColumns<IAttachmentTable>[] = [
     {
       title: '名称',
       dataIndex: 'name',
       copyable: true,
+      ellipsis: true,
       render: (_, entity) => (
         <Popover
           content={
@@ -37,6 +40,22 @@ const Attachment: FC = () => {
       )
     },
     {
+      title: '关联',
+      search: false,
+      dataIndex: 'associate',
+      render: (_, entity) => {
+        const name = entity[modelEnName[entity.sid!]]?.name
+        const type = modelType[entity.sid!]
+        return name ? `${name}${type ? `(${type})` : ''}` : '-'
+      }
+    },
+    {
+      title: '用户名',
+      search: false,
+      dataIndex: 'username',
+      render: (_, entity) => entity.user?.username
+    },
+    {
       title: '类型',
       search: false,
       dataIndex: 'file_type'
@@ -49,6 +68,8 @@ const Attachment: FC = () => {
     {
       title: '路径',
       search: false,
+      ellipsis: true,
+      tooltip: true,
       dataIndex: 'file_path'
     },
     {
@@ -69,9 +90,15 @@ const Attachment: FC = () => {
       dataIndex: 'option',
       valueType: 'option',
       render: (_, entity) => [
-        <Link key="edit" to={`attachment/edit/${entity.id}`}>
+        <a
+          key="edit"
+          onClick={() => {
+            setModalVisit(true)
+            setEditData(entity)
+          }}
+        >
           编辑
-        </Link>,
+        </a>,
         <Popconfirm key="delete" onConfirm={() => del(entity.id)} title="确定要删除吗？">
           <a>删除</a>
         </Popconfirm>
@@ -80,18 +107,12 @@ const Attachment: FC = () => {
   ]
   return (
     <PageContainer>
-      <ProTable<IAttachment>
+      <ProTable<IAttachmentTable>
         headerTitle={'查询表格'}
         actionRef={actionRef}
         rowKey="id"
         toolBarRender={() => [
-          <Button
-            type="primary"
-            key="primary"
-            onClick={() => {
-              history.push('attachment/add')
-            }}
-          >
+          <Button type="primary" key="primary" onClick={() => setModalVisit(true)}>
             <PlusOutlined /> 新建
           </Button>
         ]}
@@ -135,6 +156,38 @@ const Attachment: FC = () => {
           <Button type="primary">批量审批</Button>
         </FooterToolbar>
       )}
+      <ModalForm<IAttachment>
+        visible={modalVisit}
+        formRef={formRef}
+        title="新建"
+        autoFocusFirstInput
+        modalProps={{
+          onCancel: () => {
+            formRef.current?.resetFields()
+            setEditData(undefined)
+          }
+        }}
+        onFinish={async values => {
+          console.log(values)
+          const res = await attachmentAdd({ ...values, id: editData?.id })
+          if (res.status === 200) {
+            if (editData?.id) {
+              message.success('修改成功')
+            } else {
+              message.success('添加成功')
+            }
+            formRef.current?.resetFields()
+            actionRef.current?.reload()
+            return true
+          } else {
+            message.error(res.message)
+            return false
+          }
+        }}
+        onVisibleChange={setModalVisit}
+      >
+        <ProFormTextArea name="content" label="内容" rules={[{ required: true }]} />
+      </ModalForm>
     </PageContainer>
   )
 }

@@ -11,7 +11,7 @@ import {
   ProFormTextArea,
   ProTable
 } from '@ant-design/pro-components'
-import { Button, FormInstance, message, Popconfirm } from 'antd'
+import { Button, FormInstance, message, Popconfirm, Popover } from 'antd'
 import { FC, useEffect, useRef, useState } from 'react'
 
 const Pin: FC = () => {
@@ -44,6 +44,13 @@ const Pin: FC = () => {
   }, [editData])
 
   const columns: ProColumns<IPinTable>[] = [
+    {
+      title: '名称',
+      dataIndex: 'content',
+      copyable: true,
+      ellipsis: true,
+      render: content => <Popover content={content}>{content}</Popover>
+    },
     {
       title: '话题',
       dataIndex: 'tid',
@@ -129,9 +136,6 @@ const Pin: FC = () => {
           onChange: (_, selectedRows) => {
             setSelectedRows(selectedRows)
           }
-        }}
-        expandable={{
-          expandedRowRender: record => <p style={{ margin: 0 }}>{record.content}</p>
         }}
       />
       {selectedRowsState?.length > 0 && (

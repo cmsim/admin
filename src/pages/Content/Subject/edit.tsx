@@ -2,7 +2,7 @@ import UploadImage from '@/components/Upload'
 import { subjectAdd, subjectDetail, subjectName } from '@/services/subject'
 import { ISubject } from '@/services/typings'
 import { getVideo } from '@/services/video'
-import { areaEnum, getListFormat, languageEnum, statusType } from '@/utils'
+import { areaEnum, getListFormat, languageEnum, modelName, statusType } from '@/utils'
 import { CloseOutlined, SnippetsOutlined } from '@ant-design/icons'
 import {
   PageContainer,
@@ -307,16 +307,16 @@ const SubjectEdit: FC = () => {
         </ProForm.Group>
         <ProForm.Group>
           <Item name="pic" label="封面" rules={[{ required: true }]} required={false}>
-            <UploadImage />
+            <UploadImage sid={modelName.SUBJECT} />
           </Item>
           <Item name="pic_thumb" label="小图">
-            <UploadImage />
+            <UploadImage sid={modelName.SUBJECT} />
           </Item>
           <Item name="bigpic" label="大图">
-            <UploadImage />
+            <UploadImage sid={modelName.SUBJECT} />
           </Item>
           <Item name="bg" label="背景">
-            <UploadImage />
+            <UploadImage sid={modelName.SUBJECT} />
           </Item>
           <ProFormText width={110} label="文字颜色" name="color" placeholder="文字颜色" fieldProps={{ type: 'color' }} />
           <ProFormText width={110} label="背景色" name="bg_color" placeholder="背景色" fieldProps={{ type: 'color' }} />

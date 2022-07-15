@@ -10,12 +10,12 @@ const Settings: LayoutSettings & {
   fixSiderbar: true,
   headerHeight: 56,
   primaryColor: '#1677FF',
-  splitMenus: true,
+  splitMenus: false,
   fixedHeader: true,
-  colorWeak: false,
-  title: 'Cang Wang Ge',
   pwa: false,
   logo: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
+  colorWeak: false,
+  title: 'Cang Wang Ge',
   iconfontUrl: ''
 }
 

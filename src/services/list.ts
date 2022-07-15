@@ -3,7 +3,6 @@ import type { IList } from './typings'
 
 /** 栏目列表 GET /backend/list/list */
 export async function list(options?: Record<string, any>) {
-  console.log(options, 'options-list')
   return request<{ data: IList[] }>('/backend/list/list', {
     method: 'GET',
     params: { ...(options || {}) }

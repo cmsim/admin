@@ -3,10 +3,10 @@ import RightContent from '@/components/RightContent'
 import { LinkOutlined } from '@ant-design/icons'
 import type { Settings as LayoutSettings } from '@ant-design/pro-components'
 import { SettingDrawer } from '@ant-design/pro-components'
-import type { AxiosResponse, RequestConfig, RunTimeLayoutConfig } from '@umijs/max'
+import type { RunTimeLayoutConfig } from '@umijs/max'
 import { history, Link } from '@umijs/max'
-import { message, notification } from 'antd'
-import type { RequestOptionsInit, ResponseError } from 'umi-request'
+import defaultSettings from '../config/defaultSettings'
+import { errorConfig } from './requestErrorConfig'
 import { currentUser as queryCurrentUser } from './services/user'
 
 const isDev = process.env.NODE_ENV === 'development'
@@ -22,7 +22,9 @@ export async function getInitialState(): Promise<{
 }> {
   const fetchUserInfo = async () => {
     try {
-      const res = await queryCurrentUser()
+      const res = await queryCurrentUser({
+        skipErrorHandler: true
+      })
       return res.data
     } catch (error) {
       history.push(loginPath)
@@ -35,90 +37,13 @@ export async function getInitialState(): Promise<{
     return {
       fetchUserInfo,
       currentUser,
-      settings: {}
+      settings: defaultSettings
     }
   }
   return {
     fetchUserInfo,
-    settings: {}
+    settings: defaultSettings
   }
-}
-
-const codeMessage = {
-  200: '服务器成功返回请求的数据。',
-  201: '新建或修改数据成功。',
-  202: '一个请求已经进入后台排队（异步任务）。',
-  204: '删除数据成功。',
-  400: '发出的请求有错误，服务器没有进行新建或修改数据的操作。',
-  401: '用户没有权限（令牌、用户名、密码错误）。',
-  403: '用户得到授权，但是访问是被禁止的。',
-  404: '发出的请求针对的是不存在的记录，服务器没有进行操作。',
-  406: '请求的格式不可得。',
-  410: '请求的资源被永久删除，且不会再得到的。',
-  422: '当创建一个对象时，发生一个验证错误。',
-  500: '服务器发生错误，请检查服务器。',
-  502: '网关错误。',
-  503: '服务不可用，服务器暂时过载或维护。',
-  504: '网关超时。'
-}
-
-/**
- * 异常处理程序
- */
-const errorHandler = (error: ResponseError) => {
-  console.log(error, 'app')
-  const { response } = error
-  const errortext = codeMessage[response?.status] || response?.statusText
-  const { status, url } = response
-
-  if (status === 401) {
-    notification.error({
-      message: '未登录或登录已过期，请重新登录。'
-    })
-
-    history.push(loginPath)
-    return
-  }
-  notification.error({
-    message: `请求错误 ${status}: ${url}`,
-    description: errortext
-  })
-  // environment should not be used
-  if (status === 403) {
-    history.push('/exception/403')
-    return
-  }
-  if (status <= 504 && status >= 500) {
-    history.push('/exception/500')
-    return
-  }
-  if (status >= 404 && status < 422) {
-    history.push('/exception/404')
-  }
-}
-
-// 请求前拦截
-const authHeaderInterceptor = (options: RequestOptionsInit) => {
-  const token = localStorage.getItem('token')
-  const authHeader = { Authorization: `Bearer ${token}` }
-  if (options.url.endsWith(':id') && options.id) {
-    options.url = options.url.replace(':id', options.id)
-  }
-  return { ...options, interceptors: true, headers: authHeader }
-}
-// 请求后拦截
-const responseInterceptor = (response: AxiosResponse<any>) => {
-  if (response.status !== 200) {
-    message.error(response.statusText)
-  }
-  return response
-}
-
-export const request: RequestConfig = {
-  errorConfig: { errorHandler },
-  // 新增自动添加AccessToken的请求前拦截器
-  requestInterceptors: [authHeaderInterceptor],
-  responseInterceptors: [responseInterceptor]
 }
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
@@ -172,4 +97,13 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     },
     ...initialState?.settings
   }
+}
+
+/**
+ * @name request 配置，可以配置错误处理
+ * 它基于 axios 和 ahooks 的 useRequest 提供了一套统一的网络请求和错误处理方案。
+ * @doc https://umijs.org/docs/max/request#配置
+ */
+export const request = {
+  ...errorConfig
 }

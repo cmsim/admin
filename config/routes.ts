@@ -67,20 +67,6 @@ export default [
         parentKeys: ['/content/attachment']
       },
       {
-        hideInMenu: true,
-        path: '/content/attachment/add',
-        name: '添加附件',
-        component: './Content/Attachment/edit',
-        parentKeys: ['/content/attachment']
-      },
-      {
-        hideInMenu: true,
-        path: '/content/attachment/edit/:id',
-        name: '编辑附件',
-        component: './Content/Attachment/edit',
-        parentKeys: ['/content/attachment']
-      },
-      {
         path: '/content/pin',
         name: '动态列表',
         component: './Content/Pin',
@@ -164,5 +150,5 @@ export default [
   },
   { path: '/chat', name: 'chat', icon: 'smile', component: './Chat' },
   { hideInMenu: true, path: '/login', layout: false, name: '登录', component: './User/Login' },
-  { component: './404' }
+  { path: '*', component: './404' }
 ]

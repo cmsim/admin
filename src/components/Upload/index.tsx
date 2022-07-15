@@ -1,7 +1,7 @@
 import { attachmentAdd, attachmentList, stsInit } from '@/services/attachment'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { useModel } from '@umijs/max'
-import { Button, message, Modal, Upload } from 'antd'
+import { Button, Input, message, Modal, Upload } from 'antd'
 import type { RcFile } from 'antd/lib/upload'
 import COS from 'cos-js-sdk-v5'
 import type { FC, ReactNode } from 'react'
@@ -19,6 +19,7 @@ export interface IUploadImage {
   path?: string
   sid?: number
   value?: string
+  isUrl?: boolean
 }
 
 const UploadImage: FC<IUploadImage> = props => {
@@ -37,7 +38,8 @@ const UploadImage: FC<IUploadImage> = props => {
     listType = 'picture-card',
     path = 'subject',
     sid = 1,
-    value
+    value,
+    isUrl
   } = props
   const [previewVisible, setPreviewVisible] = useState<boolean>(false)
   const [previewImage, setPreviewImage] = useState<string>('')
@@ -153,7 +155,7 @@ const UploadImage: FC<IUploadImage> = props => {
             attachment,
             up: 1,
             aid: currentUser.id,
-            sid: 1
+            sid
           })
         }
         const usedList = await attachmentList(param)
@@ -232,6 +234,16 @@ const UploadImage: FC<IUploadImage> = props => {
     <>
       <img onClick={(e: React.MouseEvent) => handlePreview(e, http)} src={http} width="100" />
       <span onClick={handleRemove}>x</span>
+      {isUrl && (
+        <Input
+          style={{ marginTop: 10 }}
+          value={http}
+          onChange={e => {
+            setHttp(e.target.value)
+            onChange && onChange(e.target.value)
+          }}
+        />
+      )}
     </>
   ) : (
     <Upload accept={accept} beforeUpload={beforeUpload} listType={listType}>

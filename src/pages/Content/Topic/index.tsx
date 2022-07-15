@@ -26,7 +26,6 @@ const Topic: FC = () => {
   const [selectedRowsState, setSelectedRows] = useState<ITopicTable[]>([])
   const [modalVisit, setModalVisit] = useState(false)
   const [editData, setEditData] = useState<ITopicTable>()
-  const [icons, setIcons] = useState('')
   const { categoryList, getCategoryList } = useModel('useList')
 
   useEffect(() => {
@@ -48,11 +47,6 @@ const Topic: FC = () => {
       return obj
     }, {} as { [key: string]: number | string | undefined })
   }, [categoryList])
-
-  const icon = (file: string) => {
-    formRef.current?.setFieldsValue({ icon: file })
-    setIcons(file)
-  }
 
   const columns: ProColumns<ITopicTable>[] = [
     {
@@ -127,7 +121,6 @@ const Topic: FC = () => {
           key="edit"
           onClick={() => {
             setModalVisit(true)
-            setIcons(entity.icon)
             setEditData(entity)
           }}
         >
@@ -205,7 +198,6 @@ const Topic: FC = () => {
         modalProps={{
           onCancel: () => {
             formRef.current?.resetFields()
-            setIcons('')
             setEditData(undefined)
           }
         }}
@@ -217,7 +209,6 @@ const Topic: FC = () => {
             } else {
               message.success('添加成功')
             }
-            setIcons('')
             formRef.current?.resetFields()
             actionRef.current?.reload()
             return true
@@ -233,7 +224,7 @@ const Topic: FC = () => {
         <ProFormText name="dir" label="目录" placeholder="请输入目录" />
         <ProFormTextArea label="简介" name="summary" />
         <Item label="Icon" name="icon" rules={[{ required: true }]}>
-          <UploadImage onChange={icon} value={icons} />
+          <UploadImage sid={modelName.TOPIC} isUrl />
         </Item>
       </ModalForm>
     </PageContainer>

@@ -18,9 +18,6 @@ export default defineConfig({
     siderWidth: 208,
     ...defaultSettings
   },
-  targets: {
-    ie: 11
-  },
   // umi routes: https://umijs.org/docs/routing
   routes,
   access: {},
