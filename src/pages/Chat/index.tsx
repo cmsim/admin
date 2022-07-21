@@ -1,3 +1,4 @@
+import UploadImage from '@/components/Upload'
 import { useEffect } from 'react'
 import io from 'socket.io-client'
 
@@ -43,7 +44,12 @@ const Chat = () => {
       log('#error')
     })
   }, [])
-  return <div id="console">chat</div>
+  return (
+    <div id="console">
+      chat
+      <UploadImage multiple />
+    </div>
+  )
 }
 
 export default Chat

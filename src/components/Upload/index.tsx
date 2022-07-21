@@ -4,8 +4,7 @@ import { useModel } from '@umijs/max'
 import { Button, Input, message, Modal, Upload } from 'antd'
 import type { RcFile } from 'antd/lib/upload'
 import COS from 'cos-js-sdk-v5'
-import type { FC, ReactNode } from 'react'
-import { useEffect, useState } from 'react'
+import { forwardRef, Fragment, memo, ReactNode, useEffect, useImperativeHandle, useState } from 'react'
 import SparkMD5 from 'spark-md5'
 
 export interface IUploadImage {
@@ -20,9 +19,10 @@ export interface IUploadImage {
   sid?: number
   value?: string
   isUrl?: boolean
+  multiple?: boolean // 是否支持多选文件
 }
 
-const UploadImage: FC<IUploadImage> = props => {
+const UploadImage = forwardRef((props: IUploadImage, ref) => {
   const { initialState } = useModel('@@initialState')
   if (!initialState || !initialState.currentUser) {
     return null
@@ -39,17 +39,23 @@ const UploadImage: FC<IUploadImage> = props => {
     path = 'subject',
     sid = 1,
     value,
-    isUrl
+    isUrl,
+    multiple = false
   } = props
   const [previewVisible, setPreviewVisible] = useState<boolean>(false)
   const [previewImage, setPreviewImage] = useState<string>('')
   const [percent, setPercent] = useState(0)
   const [http, setHttp] = useState(value)
+  const [more, setMore] = useState<string[]>([])
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     setHttp(value)
   }, [value])
+
+  useEffect(() => {
+    http && setMore([...more, http])
+  }, [http])
 
   /**
    * 查看预览
@@ -97,7 +103,7 @@ const UploadImage: FC<IUploadImage> = props => {
     let r = ''
     if (typeof fileUrl === 'string') {
       const index = (fileUrl && fileUrl?.lastIndexOf('.')) || 0
-      const ext = fileUrl?.substr(index + 1)
+      const ext = fileUrl?.substring(index + 1)
       r = ext.toLowerCase()
     }
     return r
@@ -123,7 +129,7 @@ const UploadImage: FC<IUploadImage> = props => {
    *  上传前验证
    */
   const beforeUpload = async (file: RcFile): Promise<any> => {
-    // console.log(file)
+    console.log(file)
     setLoading(true)
     const size = file.size / 1024 / 1024
     const isLtMax = size < maxFileSize!
@@ -159,9 +165,9 @@ const UploadImage: FC<IUploadImage> = props => {
           })
         }
         const usedList = await attachmentList(param)
-        console.log(usedList)
         if (usedList.data?.list?.length) {
-          handleChange(usedList.data?.list?.[0].url)
+          const url = usedList.data.list[0].url
+          handleChange(url)
         } else {
           // 异步获取临时密钥
           const res = await stsInit({ prefix: `${path}/*` })
@@ -230,34 +236,57 @@ const UploadImage: FC<IUploadImage> = props => {
     </div>
   )
 
-  const upload = http ? (
-    <>
-      <img onClick={(e: React.MouseEvent) => handlePreview(e, http)} src={http} width="100" />
-      <span onClick={handleRemove}>x</span>
-      {isUrl && (
-        <Input
-          style={{ marginTop: 10 }}
-          value={http}
-          onChange={e => {
-            setHttp(e.target.value)
-            onChange && onChange(e.target.value)
-          }}
-        />
-      )}
-    </>
-  ) : (
-    <Upload accept={accept} beforeUpload={beforeUpload} listType={listType}>
-      {btnName ? (
-        <Button type="primary">
-          {btnName} {percent > 0 && percent < 1 ? `${percent * 100}%` : ''}
-        </Button>
-      ) : listType === 'picture-card' ? (
-        uploadButton
-      ) : (
-        children
-      )}
-    </Upload>
-  )
+  useImperativeHandle(ref, () => ({
+    handlePreview,
+    handleRemove,
+    getData: () => more
+  }))
+
+  const preview = (url: string) => {
+    return (
+      <Fragment key={url}>
+        <img onClick={e => handlePreview(e, url)} src={url} width="100" />
+        <span onClick={handleRemove}>x</span>
+        {isUrl && (
+          <Input
+            style={{ marginTop: 10 }}
+            value={url}
+            onChange={e => {
+              setHttp(e.target.value)
+              onChange && onChange(e.target.value)
+            }}
+          />
+        )}
+      </Fragment>
+    )
+  }
+
+  console.log(more, 'more')
+
+  const upload =
+    multiple && more.length ? (
+      more.map(item => preview(item))
+    ) : http ? (
+      preview(http)
+    ) : (
+      <Upload
+        accept={accept}
+        beforeUpload={beforeUpload}
+        listType={listType}
+        multiple={multiple}
+        onChange={info => console.log(info, 'file')}
+      >
+        {btnName ? (
+          <Button type="primary">
+            {btnName} {percent > 0 && percent < 1 ? `${percent * 100}%` : ''}
+          </Button>
+        ) : listType === 'picture-card' ? (
+          uploadButton
+        ) : (
+          children
+        )}
+      </Upload>
+    )
 
   return (
     <>
@@ -267,6 +296,6 @@ const UploadImage: FC<IUploadImage> = props => {
       </Modal>
     </>
   )
-}
+})
 
-export default UploadImage
+export default memo(UploadImage)
