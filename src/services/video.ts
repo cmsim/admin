@@ -18,3 +18,11 @@ export async function getVideo(
     ...(options || {})
   })
 }
+
+export async function postqq(body?: any, options?: Record<string, any>) {
+  return request<{ data: any; status: number; message: string }>('/backend/video/postqq', {
+    method: 'POST',
+    data: body,
+    ...(options || {})
+  })
+}

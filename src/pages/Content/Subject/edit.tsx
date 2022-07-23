@@ -252,7 +252,7 @@ const SubjectEdit: FC = () => {
           <ProFormTimePicker width={110} name="time" fieldProps={{ format: 'HH:mm' }} placeholder="放送时间" />
         </ProForm.Group>
         <ProFormText name="aliases" label="别名" placeholder="别名" />
-        <ProFormText name="star" label="明星" placeholder="明星" />
+        <ProFormText name="star" label="配音" placeholder="配音" />
         <ProForm.Group size={5}>
           <ProFormText width="lg" name="tag" label="标签" placeholder="标签" />
           <ProFormText name="original" placeholder="原作" />

@@ -4,10 +4,11 @@ import { areaEnum, findMcat, languageEnum, statusType } from '@/utils'
 import { PlusOutlined } from '@ant-design/icons'
 import type { ActionType, ProColumns } from '@ant-design/pro-components'
 import { FooterToolbar, PageContainer, ProTable } from '@ant-design/pro-components'
-import { history, Link, useModel } from '@umijs/max'
+import { useModel } from '@umijs/max'
 import { Button, Popconfirm, Popover } from 'antd'
 import type { FC } from 'react'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import EditSubject from './EditSubject'
 
 const weekdayEnum = {
   1: '一',
@@ -23,6 +24,8 @@ const Subject: FC = () => {
   const actionRef = useRef<ActionType>()
   const [selectedRowsState, setSelectedRows] = useState<ISubject[]>([])
   const { mcat, getMcat } = useModel('useMcat')
+  const [modalVisit, setModalVisit] = useState(false)
+  const [editData, setEditData] = useState<ISubject>()
 
   const del = (id?: number | string) => {
     console.log(id)
@@ -131,9 +134,15 @@ const Subject: FC = () => {
       dataIndex: 'option',
       valueType: 'option',
       render: (_, entity) => [
-        <Link key="edit" to={`./edit/${entity.id}`}>
-          编辑
-        </Link>,
+        <span
+          key="edit"
+          onClick={() => {
+            setModalVisit(true)
+            setEditData(entity)
+          }}
+        >
+          <a>编辑</a>
+        </span>,
         <Popconfirm key="delete" onConfirm={() => del(entity.id)} title="确定要删除吗？">
           <a>删除</a>
         </Popconfirm>
@@ -150,9 +159,10 @@ const Subject: FC = () => {
           <Button
             type="primary"
             key="primary"
-            onClick={() => {
-              history.push('subject/add')
-            }}
+            onClick={() => setModalVisit(true)}
+            // onClick={() => {
+            //   history.push('subject/add')
+            // }}
           >
             <PlusOutlined /> 新建
           </Button>
@@ -205,6 +215,9 @@ const Subject: FC = () => {
         >
           <Button type="primary">批量审批</Button>
         </FooterToolbar>
+      )}
+      {modalVisit && (
+        <EditSubject visible={modalVisit} setVisible={setModalVisit} editData={editData} setEditData={setEditData} actionRef={actionRef} />
       )}
     </PageContainer>
   )

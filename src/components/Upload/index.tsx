@@ -261,8 +261,6 @@ const UploadImage = forwardRef((props: IUploadImage, ref) => {
     )
   }
 
-  console.log(more, 'more')
-
   const upload =
     multiple && more.length ? (
       more.map(item => preview(item))
