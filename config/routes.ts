@@ -15,20 +15,6 @@ export default [
         parentKeys: ['/content/subject']
       },
       {
-        hideInMenu: true,
-        path: '/content/subject/add',
-        name: '添加剧集',
-        component: './Content/Subject/edit',
-        parentKeys: ['/content/subject']
-      },
-      {
-        hideInMenu: true,
-        path: '/content/subject/edit/:id',
-        name: '编辑剧集',
-        component: './Content/Subject/edit',
-        parentKeys: ['/content/subject']
-      },
-      {
         path: '/content/feed',
         name: 'feed列表',
         component: './Content/Feed',

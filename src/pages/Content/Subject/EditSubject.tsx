@@ -247,7 +247,7 @@ const SubjectEdit: FC<IEdit> = props => {
         <ProFormDigit width={80} name="length" placeholder="片长" />
         <ProFormSelect name="status" width={90} valueEnum={statusType} placeholder="状态" />
         <ProFormSwitch name="broadcast" label="是否放送" />
-        <ProFormSwitch name="isend" label="是否连载" />
+        <ProFormSwitch name="isend" label="是否完结" />
       </ProForm.Group>
       <ProFormCheckbox.Group
         name="mcid"
