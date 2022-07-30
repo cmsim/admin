@@ -156,19 +156,11 @@ const Subject: FC = () => {
         actionRef={actionRef}
         rowKey="id"
         toolBarRender={() => [
-          <Button
-            type="primary"
-            key="primary"
-            onClick={() => setModalVisit(true)}
-            // onClick={() => {
-            //   history.push('subject/add')
-            // }}
-          >
+          <Button type="primary" key="primary" onClick={() => setModalVisit(true)}>
             <PlusOutlined /> 新建
           </Button>
         ]}
         request={async params => {
-          console.log(params, 'params')
           const { current, pageSize, name: wd, mcid, language, area, isend, updated_at, weekday } = params
           const param = {
             current,

@@ -26,6 +26,7 @@ import { useModel } from '@umijs/max'
 import { Button, Cascader, Form, message } from 'antd'
 import moment from 'moment'
 import { FC, useEffect, useMemo, useRef, useState } from 'react'
+import Association from './Association'
 
 const { Item } = Form
 
@@ -39,8 +40,8 @@ interface IEdit {
 
 const SubjectEdit: FC<IEdit> = props => {
   const formRef = useRef<ProFormInstance<ISubject>>()
-  // const formRef = useRef<FormInstance>()
   const [loading, setLoading] = useState(false)
+  const [data, setData] = useState<ISubject>()
   const [doubanLoading, setDoubanLoading] = useState(false)
   const [biliLoading, setBiliLoading] = useState(false)
   const { categoryList, getCategoryList } = useModel('useList')
@@ -198,9 +199,9 @@ const SubjectEdit: FC<IEdit> = props => {
     <ModalForm<ISubject>
       visible={visible}
       formRef={formRef}
-      title="新建"
+      title={editData?.id ? editData.name : '新建'}
       autoFocusFirstInput
-      width={1200}
+      width={1340}
       layout="horizontal"
       modalProps={{
         onCancel: () => {
@@ -213,6 +214,7 @@ const SubjectEdit: FC<IEdit> = props => {
         if (editData?.id) {
           const subject = await subjectDetail({ id: editData?.id })
           data = subject.data
+          setData(data)
         }
         return data
       }}
@@ -318,21 +320,19 @@ const SubjectEdit: FC<IEdit> = props => {
           placeholder="推荐级别"
         />
         <ProFormText width={150} name="label" placeholder="关联别名" />
-        <ProFormText width={80} name="uid" placeholder="用户id" />
-        <ProFormText width={120} name="inputer" placeholder="发布人" />
         <ProFormDigit width={80} name="serialized" placeholder="连载" />
         <ProFormDigit width={80} name="total" placeholder="总集数" />
         <ProFormDigit width={60} name="gold" placeholder="评分" />
         <ProFormText width={130} name="douban" placeholder="豆瓣" />
+        <ProFormText width={130} name="imdb" placeholder="IMDB" />
         <Button type="link" onClick={getDouban} loading={doubanLoading}>
           获取
         </Button>
-        <ProFormText width={130} name="imdb" placeholder="IMDB" />
+        {editData?.id && <Association {...data!} />}
       </ProForm.Group>
       <ProForm.Group size={5}>
         <ProFormText width="lg" name="website" label="官网" placeholder="官网" />
         <ProFormText width="lg" name="baike" placeholder="百科" />
-        <ProFormSelect width="lg" mode="tags" name="associate" placeholder="关联剧集" />
       </ProForm.Group>
       <ProForm.Group>
         <Item name="pic" label="封面" rules={[{ required: true }]} required={false}>
@@ -412,9 +412,9 @@ const SubjectEdit: FC<IEdit> = props => {
           <ProFormSelect key="title" width="md" name="title" label="来源" valueEnum={playEunm} />
           <ProFormText key="id" width="md" name="id" label="源id" />
         </ProForm.Group>
-        <ProFormTextArea key="urls" width={1000} fieldProps={{ rows: 6 }} name="urls" label="链接" placeholder="链接" />
+        <ProFormTextArea key="urls" width={1200} fieldProps={{ rows: 6 }} name="urls" label="链接" placeholder="链接" />
       </ProFormList>
-      <ProFormTextArea name="content" label="简介" placeholder="简介" />
+      <ProFormTextArea name="content" label="简介" placeholder="简介" fieldProps={{ rows: 6 }} />
       <ProFormSwitch name="isShowMore" label="是否显示更多" />
       <ProFormDependency name={['isShowMore']}>
         {({ isShowMore }) => {
@@ -439,6 +439,8 @@ const SubjectEdit: FC<IEdit> = props => {
                   <ProFormDigit width="xs" label="月" name="hits_month" placeholder="月" />
                   <ProFormDigit width="xs" label="顶" name="up" placeholder="顶" />
                   <ProFormDigit width="xs" label="踩" name="down" placeholder="踩" />
+                  <ProFormText width="xs" name="uid" placeholder="用户id" />
+                  <ProFormText width="xs" name="inputer" placeholder="发布人" />
                 </ProForm.Group>
               </>
             )
