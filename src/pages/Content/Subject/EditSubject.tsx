@@ -1,3 +1,4 @@
+import Association from '@/components/Association/subject'
 import UploadImage from '@/components/Upload'
 import { subjectAdd, subjectDetail, subjectName } from '@/services/subject'
 import { ISubject } from '@/services/typings'
@@ -26,7 +27,6 @@ import { useModel } from '@umijs/max'
 import { Button, Cascader, Form, message } from 'antd'
 import moment from 'moment'
 import { FC, useEffect, useMemo, useRef, useState } from 'react'
-import Association from './Association'
 
 const { Item } = Form
 
@@ -41,7 +41,6 @@ interface IEdit {
 const SubjectEdit: FC<IEdit> = props => {
   const formRef = useRef<ProFormInstance<ISubject>>()
   const [loading, setLoading] = useState(false)
-  const [data, setData] = useState<ISubject>()
   const [doubanLoading, setDoubanLoading] = useState(false)
   const [biliLoading, setBiliLoading] = useState(false)
   const { categoryList, getCategoryList } = useModel('useList')
@@ -214,7 +213,6 @@ const SubjectEdit: FC<IEdit> = props => {
         if (editData?.id) {
           const subject = await subjectDetail({ id: editData?.id })
           data = subject.data
-          setData(data)
         }
         return data
       }}
@@ -328,7 +326,11 @@ const SubjectEdit: FC<IEdit> = props => {
         <Button type="link" onClick={getDouban} loading={doubanLoading}>
           获取
         </Button>
-        {editData?.id && <Association {...data!} />}
+      </ProForm.Group>
+      <ProForm.Group size={5}>
+        <Item label="关联" name="associate">
+          {editData?.id && <Association />}
+        </Item>
       </ProForm.Group>
       <ProForm.Group size={5}>
         <ProFormText width="lg" name="website" label="官网" placeholder="官网" />

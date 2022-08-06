@@ -1,3 +1,4 @@
+import TagForm from '@/components/TagForm'
 import { pinAdd, pinList } from '@/services/pin'
 import type { IPin, IPinTable } from '@/services/typings'
 import { PlusOutlined } from '@ant-design/icons'
@@ -7,12 +8,16 @@ import {
   ModalForm,
   PageContainer,
   ProColumns,
+  ProForm,
   ProFormSelect,
   ProFormTextArea,
   ProTable
 } from '@ant-design/pro-components'
+import { useModel } from '@umijs/max'
 import { Button, FormInstance, message, Popconfirm, Popover } from 'antd'
 import { FC, useEffect, useRef, useState } from 'react'
+
+const { Item } = ProForm
 
 const Pin: FC = () => {
   const actionRef = useRef<ActionType>()
@@ -20,6 +25,7 @@ const Pin: FC = () => {
   const [selectedRowsState, setSelectedRows] = useState<IPinTable[]>([])
   const [modalVisit, setModalVisit] = useState(false)
   const [editData, setEditData] = useState<IPinTable>()
+  const { topicList, getTopicList } = useModel('useTopic')
 
   const del = (id?: number | string) => {
     console.log(id)
@@ -30,13 +36,15 @@ const Pin: FC = () => {
     formRef.current?.setFieldsValue(params)
   }, [editData])
 
+  useEffect(() => {
+    getTopicList()
+  }, [getTopicList])
+
   const onSearchForAid = (value: string) => {
     console.log(value)
   }
 
-  const onSearchForTid = (value: string) => {
-    console.log(value)
-  }
+  console.log(topicList, 'topicList')
 
   useEffect(() => {
     const params = { ...editData, cid: editData?.cid?.toString() }
@@ -188,7 +196,10 @@ const Pin: FC = () => {
         onVisibleChange={setModalVisit}
       >
         <ProFormSelect showSearch name="aid" label="关联内容ID" fieldProps={{ onSearch: onSearchForAid }} />
-        <ProFormSelect showSearch name="tid" label="关联话题ID" fieldProps={{ onSearch: onSearchForTid }} />
+        {/* <ProFormSelect showSearch name="tid" label="关联话题ID" fieldProps={{ onSearch: onSearchForTid }} /> */}
+        <Item name="tid" label="关联话题ID">
+          <TagForm list={topicList} />
+        </Item>
         <ProFormTextArea name="content" label="内容" rules={[{ required: true }]} />
       </ModalForm>
     </PageContainer>
