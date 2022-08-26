@@ -64,7 +64,7 @@
     "@types/react-helmet": "^6.1.5",
     "@types/spark-md5": "^3.0.2",
     "@umijs/fabric": "^3.0.0",
-    "@umijs/max": "v4.0.14",
+    "@umijs/max": "^4.0.14",
     "cross-env": "^7.0.3",
     "eslint": "^8.22.0",
     "gh-pages": "^4.0.0",
