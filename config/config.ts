@@ -15,7 +15,6 @@ export default defineConfig({
   layout: {
     // https://umijs.org/zh-CN/plugins/plugin-layout
     locale: false,
-    siderWidth: 208,
     ...defaultSettings
   },
   // umi routes: https://umijs.org/docs/routing
