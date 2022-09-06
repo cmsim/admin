@@ -50,15 +50,15 @@ export const getListFormat = (list: IList[]) => {
  * @returns array
  */
 
-export const getList = (list: IList[]) => {
-  const data: ({ sub?: IList[] } & IList)[] = []
+export const getList = <T extends IList>(list: T[]) => {
+  const data: ({ sub?: T[] } & T)[] = []
   list.forEach(item => {
-    if (item.pid === '0') {
+    if (+item.pid! === 0) {
       data.push({ ...item, sub: [] })
     }
   })
   data.forEach(item => {
-    const arr = list.filter(s => s.pid === item.id)
+    const arr = list.filter(s => +s.pid! === +item.id!)
     if (arr.length) {
       item.sub = arr
     }

@@ -40,7 +40,7 @@
   ],
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
-    "@ant-design/pro-components": "^1.1.19",
+    "@ant-design/pro-components": "^2.3.2",
     "antd": "^4.22.7",
     "classnames": "^2.3.1",
     "cos-js-sdk-v5": "^1.4.1",

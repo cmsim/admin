@@ -361,6 +361,17 @@ export interface IStar extends IDate, IHits, Omit<IId, 'sid' | 'aid'> {
   down: number
 }
 
+export interface ILinkCategory extends Omit<IId, 'sid' | 'aid' | 'cid'> {
+  pid: number
+  rank: number
+  name: string
+  dir: string
+  icon: string
+  password: string
+  content: string
+  salt: string
+}
+
 export interface ILink extends IDate, IHits, Omit<IId, 'aid'> {
   name: string
   url: string

@@ -102,6 +102,12 @@ export default [
         name: '播放源',
         component: './Config/Play',
         parentKeys: ['/config/play']
+      },
+      {
+        path: '/config/linkCategory',
+        name: '链接分类',
+        component: './Config/LinkCategory',
+        parentKeys: ['/config/linkCategory']
       }
     ]
   },
