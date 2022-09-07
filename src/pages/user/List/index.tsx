@@ -79,22 +79,22 @@ const UserList: FC = () => {
     }
   ]
   return (
-    <PageContainer>
+    <PageContainer
+      extra={
+        <Button
+          type="primary"
+          key="primary"
+          onClick={() => {
+            history.push('add')
+          }}
+        >
+          <PlusOutlined /> 新建
+        </Button>
+      }
+    >
       <ProTable<IUser>
-        headerTitle="用户列表"
         actionRef={actionRef}
         rowKey="id"
-        toolBarRender={() => [
-          <Button
-            type="primary"
-            key="primary"
-            onClick={() => {
-              history.push('add')
-            }}
-          >
-            <PlusOutlined /> 新建
-          </Button>
-        ]}
         request={async params => {
           console.log(params, 'params')
           const { current, pageSize } = params

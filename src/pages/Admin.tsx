@@ -1,10 +1,10 @@
 import { HeartTwoTone, SmileTwoTone } from '@ant-design/icons'
-import { PageHeaderWrapper } from '@ant-design/pro-components'
+import { PageContainer } from '@ant-design/pro-components'
 import { Alert, Card, Typography } from 'antd'
 import React from 'react'
 export default (): React.ReactNode => {
   return (
-    <PageHeaderWrapper content={' 这个页面只有 admin 权限才能查看'}>
+    <PageContainer content={' 这个页面只有 admin 权限才能查看'}>
       <Card>
         <Alert
           message={'更快更强的重型组件，已经发布。'}
@@ -37,6 +37,6 @@ export default (): React.ReactNode => {
         </a>
         。
       </p>
-    </PageHeaderWrapper>
+    </PageContainer>
   )
 }

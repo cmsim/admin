@@ -47,11 +47,11 @@ const Feed: FC = () => {
       title: '类型',
       dataIndex: 'type',
       valueEnum: {
-        1: { text: '关注', status: 1 },
-        2: { text: '评分', status: 2 },
-        3: { text: '评价', status: 3 },
-        4: { text: '添加', status: 4 },
-        5: { text: '更新', status: 5 }
+        1: '关注',
+        2: '评分',
+        3: '评价',
+        4: '添加',
+        5: '更新'
       }
     },
     {
@@ -104,22 +104,22 @@ const Feed: FC = () => {
     }
   ]
   return (
-    <PageContainer>
+    <PageContainer
+      extra={
+        <Button
+          type="primary"
+          key="primary"
+          onClick={() => {
+            setModalVisit(true)
+          }}
+        >
+          <PlusOutlined /> 新建
+        </Button>
+      }
+    >
       <ProTable<IFeedTable>
-        headerTitle={'查询表格'}
         actionRef={actionRef}
         rowKey="id"
-        toolBarRender={() => [
-          <Button
-            type="primary"
-            key="primary"
-            onClick={() => {
-              setModalVisit(true)
-            }}
-          >
-            <PlusOutlined /> 新建
-          </Button>
-        ]}
         request={async params => {
           console.log(params, 'params')
           const { current, pageSize } = params

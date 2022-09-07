@@ -133,16 +133,16 @@ const Pin: FC = () => {
   }, [editData])
 
   return (
-    <PageContainer>
+    <PageContainer
+      extra={
+        <Button type="primary" key="primary" onClick={() => setModalVisit(true)}>
+          <PlusOutlined /> 新建
+        </Button>
+      }
+    >
       <ProTable<ILinkTable>
-        headerTitle={'查询表格'}
         actionRef={actionRef}
         rowKey="id"
-        toolBarRender={() => [
-          <Button type="primary" key="primary" onClick={() => setModalVisit(true)}>
-            <PlusOutlined /> 新建
-          </Button>
-        ]}
         request={async params => {
           console.log(params, 'params')
           const res = await linkList(params)

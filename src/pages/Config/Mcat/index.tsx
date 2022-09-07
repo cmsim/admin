@@ -202,7 +202,6 @@ const Mcatlist = () => {
         }}
         search={false}
         dateFormatter="string"
-        headerTitle="小分类列表"
         options={false}
       />
     </PageContainer>

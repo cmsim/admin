@@ -2,8 +2,8 @@ import { settingAdd } from '@/services/setting'
 import type { ISetting } from '@/services/typings'
 import type { ActionType, ProColumns } from '@ant-design/pro-components'
 import { EditableProTable, PageContainer } from '@ant-design/pro-components'
-import { Link, useModel } from '@umijs/max'
-import { Button, message } from 'antd'
+import { useModel } from '@umijs/max'
+import { message } from 'antd'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 const Setting = () => {
@@ -77,13 +77,7 @@ const Setting = () => {
         pagination={false}
         search={false}
         dateFormatter="string"
-        headerTitle="配置列表"
         options={false}
-        toolBarRender={() => [
-          <Link key="primary" to="typelist/add">
-            <Button type="primary">创建应用</Button>
-          </Link>
-        ]}
         value={setting}
         recordCreatorProps={{
           record: () => ({ id: (Math.random() * 1000000).toFixed(0) } as ISetting)

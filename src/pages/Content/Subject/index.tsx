@@ -150,16 +150,16 @@ const Subject: FC = () => {
     }
   ]
   return (
-    <PageContainer>
+    <PageContainer
+      extra={
+        <Button type="primary" key="primary" onClick={() => setModalVisit(true)}>
+          <PlusOutlined /> 新建
+        </Button>
+      }
+    >
       <ProTable<ISubject>
-        headerTitle={'查询表格'}
         actionRef={actionRef}
         rowKey="id"
-        toolBarRender={() => [
-          <Button type="primary" key="primary" onClick={() => setModalVisit(true)}>
-            <PlusOutlined /> 新建
-          </Button>
-        ]}
         request={async params => {
           const { current, pageSize, name: wd, mcid, language, area, isend, updated_at, weekday } = params
           const param = {

@@ -106,16 +106,16 @@ const Attachment: FC = () => {
     }
   ]
   return (
-    <PageContainer>
+    <PageContainer
+      extra={
+        <Button type="primary" key="primary" onClick={() => setModalVisit(true)}>
+          <PlusOutlined /> 新建
+        </Button>
+      }
+    >
       <ProTable<IAttachmentTable>
-        headerTitle={'查询表格'}
         actionRef={actionRef}
         rowKey="id"
-        toolBarRender={() => [
-          <Button type="primary" key="primary" onClick={() => setModalVisit(true)}>
-            <PlusOutlined /> 新建
-          </Button>
-        ]}
         request={async params => {
           console.log(params, 'params')
           const { current, pageSize } = params

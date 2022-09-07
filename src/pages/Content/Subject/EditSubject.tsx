@@ -250,6 +250,7 @@ const SubjectEdit: FC<IEdit> = props => {
         <ProFormSwitch name="isend" label="是否完结" />
       </ProForm.Group>
       <ProFormCheckbox.Group
+        layout="vertical"
         name="mcid"
         label="小类"
         options={mcat.map(item => {
@@ -278,7 +279,17 @@ const SubjectEdit: FC<IEdit> = props => {
         />
         <ProFormText width="lg" name="foreign" placeholder="外文名" />
         <ProFormDatePicker width={150} name="filmtime" placeholder="上映日期" fieldProps={{ format: 'YYYY-MM-DD' }} />
-        <ProFormTimePicker width={110} name="time" fieldProps={{ format: 'HH:mm' }} placeholder="放送时间" />
+        <ProFormTimePicker
+          getValueProps={value => {
+            return {
+              value: moment(value, 'HH:mm')
+            }
+          }}
+          width={110}
+          name="time"
+          fieldProps={{ format: 'HH:mm' }}
+          placeholder="放送时间"
+        />
       </ProForm.Group>
       <ProFormText name="aliases" label="别名" placeholder="别名" />
       <ProFormText name="star" label="配音" placeholder="配音" />

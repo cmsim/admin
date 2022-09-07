@@ -33,20 +33,6 @@ export default [
         parentKeys: ['/content/tag']
       },
       {
-        hideInMenu: true,
-        path: '/content/tag/add',
-        name: '添加标签',
-        component: './Content/Tag/edit',
-        parentKeys: ['/content/tag']
-      },
-      {
-        hideInMenu: true,
-        path: '/content/tag/edit/:id',
-        name: '编辑标签',
-        component: './Content/Tag/edit',
-        parentKeys: ['/content/tag']
-      },
-      {
         path: '/content/attachment',
         name: '附件列表',
         component: './Content/Attachment',
@@ -123,24 +109,10 @@ export default [
         name: '用户管理',
         component: './User/List',
         parentKeys: ['/user/list']
-      },
-      {
-        hideInMenu: true,
-        path: '/user/add',
-        name: '添加用户',
-        component: './404',
-        parentKeys: ['/user/list']
-      },
-      {
-        hideInMenu: true,
-        path: '/user/edit/:id',
-        name: '编辑用户',
-        component: './404',
-        parentKeys: ['/content/list']
       }
     ]
   },
   { path: '/chat', name: 'chat', icon: 'smile', component: './Chat' },
   { hideInMenu: true, path: '/login', layout: false, name: '登录', component: './User/Login' },
-  { path: '*', component: './404' }
+  { path: '*', layout: false, component: './404' }
 ]

@@ -85,7 +85,7 @@ export const errorConfig: RequestConfig = {
 
   // 请求拦截器
   requestInterceptors: [
-    options => {
+    (options: { url: string; id: any }) => {
       // 拦截请求配置，进行个性化处理。
       const token = localStorage.getItem('token')
       const authHeader = { Authorization: `Bearer ${token}` }

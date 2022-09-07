@@ -3,8 +3,8 @@ import type { ILinkCategory } from '@/services/typings'
 import { getList } from '@/utils'
 import type { ActionType, ProColumns } from '@ant-design/pro-components'
 import { EditableProTable, PageContainer } from '@ant-design/pro-components'
-import { Link, useModel } from '@umijs/max'
-import { Button, message } from 'antd'
+import { useModel } from '@umijs/max'
+import { message } from 'antd'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 const LinkCategory = () => {
@@ -27,7 +27,7 @@ const LinkCategory = () => {
 
   const cateEnum = useMemo(() => {
     return linkCategory
-      .filter(item => item.pid === '0')
+      .filter(item => item.pid === 0)
       .reduce(
         (pre, cur) => {
           pre[cur.id!] = cur.name
@@ -161,13 +161,7 @@ const LinkCategory = () => {
         }}
         search={false}
         dateFormatter="string"
-        headerTitle="栏目列表"
         options={false}
-        toolBarRender={() => [
-          <Link key="primary" to="typelist/add">
-            <Button type="primary">创建应用</Button>
-          </Link>
-        ]}
         value={getList<ILinkCategory>(linkCategory)}
         recordCreatorProps={{
           record: () => ({ id: (Math.random() * 1000000).toFixed(0) } as ILinkCategory)
