@@ -4,6 +4,8 @@ import { subjectAdd, subjectDetail, subjectName } from '@/services/subject'
 import { ISubject } from '@/services/typings'
 import { getVideo } from '@/services/video'
 import { areaEnum, getListFormat, languageEnum, modelName, statusType } from '@/utils'
+import useBilibili from '@/utils/hooks/useBilibili'
+import useDouban from '@/utils/hooks/useDouban'
 import { CloseOutlined, SnippetsOutlined } from '@ant-design/icons'
 import {
   ActionType,
@@ -41,12 +43,12 @@ interface IEdit {
 const SubjectEdit: FC<IEdit> = props => {
   const formRef = useRef<ProFormInstance<ISubject>>()
   const [loading, setLoading] = useState(false)
-  const [doubanLoading, setDoubanLoading] = useState(false)
-  const [biliLoading, setBiliLoading] = useState(false)
   const { categoryList, getCategoryList } = useModel('useList')
   const { mcat, getMcat } = useModel('useMcat')
   const { play, getPlay } = useModel('usePlay')
   const { actionRef, visible, setVisible, setEditData, editData } = props
+  const { biliLoading, getBilibili } = useBilibili()
+  const { doubanLoading, getDoubanDetail } = useDouban()
 
   useEffect(() => {
     getMcat()
@@ -89,109 +91,17 @@ const SubjectEdit: FC<IEdit> = props => {
   }
 
   const getBili = async (index: number) => {
-    setBiliLoading(true)
     const play = formRef.current?.getFieldValue('play')
     const { id } = play[index] || {}
-    if (!id) {
-      setBiliLoading(false)
-      return message.warn('ID未填')
-    }
-    const res = await getVideo({ title: 'biliinfo', id })
-    const removPlace = (str: string) => str.replace(/\s*/g, '')
-    const { actors, staff, title, alias, origin_name, evaluate, areas, styles, publish, episode_index } = res.data
-    const actorsArr = actors ? actors.split(/\n/) : []
-    const actor: string[] = []
-    const role: string[] = []
-    const params: any = {}
-    params.name = title
-    params.aliases = alias
-    params.foreign = origin_name
-    params.content = evaluate
-    params.area = areas[0].name
-    params.mcid = findMcid(styles.map((item: { name: string }) => item.name))
-    params.filmtime = publish.pub_date ? publish.pub_date : null
-    const day = moment(params.filmtime).day()
-    params.weekday = params.filmtime ? [String(day === 0 ? 7 : day)] : null
-    params.broadcast = episode_index.id !== 0
-    params.isend = episode_index.is_new === 1
-    params.serialized = +episode_index.index || null
-    params.year = '' + moment(publish.pub_date).year()
-    params.tag = `${params.name}${params.foreign ? `,${params.foreign}` : ''}${
-      params.aliases && params.aliases !== params.name ? `,${params.aliases}` : ''
-    }`
-    params.status = 'normal'
-    actorsArr?.forEach((item: string) => {
-      const arr = item.split('：')
-      actor.push(removPlace(arr[1].split('（')[0]))
-      role.push(removPlace(arr[0]))
-      params.star = actor.join(',')
-      params.role = role.join(',')
-    })
-    const staffArr = staff ? staff.split(/\n/) : []
-    staffArr?.forEach((item: string) => {
-      const arr = item.split('：')
-      if (arr[0] === '监督' || arr[0] === '导演') {
-        params.director = arr[1]
-      }
-      if (arr[0] === '动画制作') {
-        params.company = arr[1]
-      }
-      if (arr[0] === '原作') {
-        params.original = arr[1]
-      }
-    })
+    const params = await getBilibili(id, findMcid)
     formRef.current?.setFieldsValue(params)
-    setBiliLoading(false)
   }
 
   const getDouban = async () => {
-    setDoubanLoading(true)
     const id = formRef.current?.getFieldValue('douban')
-    if (!id) {
-      setDoubanLoading(false)
-      return message.warn('豆瓣ID未填')
-    }
-    const res = await getVideo({ title: 'douban', id })
-    console.log(res, 'res')
-    if (res) {
-      const {
-        title,
-        original_title,
-        intro,
-        languages,
-        actors,
-        aka,
-        countries,
-        directors,
-        pubdate,
-        year,
-        durations,
-        genres,
-        episodes_count,
-        rating
-      } = res.data
-      const filmtime = pubdate?.[0]?.split('(')?.[0] || null
-      const params: any = {
-        name: title,
-        aliases: aka.join(','),
-        foreign: original_title,
-        content: intro,
-        language: languages[0] === '汉语普通话' ? '国语' : languages[0],
-        star: actors.map((item: { name: string }) => item.name).join(','),
-        area: countries[0],
-        director: directors.map((item: { name: string }) => item.name).join(','),
-        filmtime,
-        year,
-        length: durations[0].match(/^(\d)*/)?.[0],
-        mcid: findMcid(genres),
-        total: episodes_count || null,
-        tag: `${title}${aka.length ? `,${aka.join(',')}` : ''}`,
-        gold: rating.value || null,
-        weekday: filmtime ? [String(moment(filmtime).day())] : null
-      }
-      formRef.current?.setFieldsValue(params)
-    }
-    setDoubanLoading(false)
+    const params = await getDoubanDetail(id, findMcid)
+    console.log(params, 'douban')
+    formRef.current?.setFieldsValue(params)
   }
 
   return (
