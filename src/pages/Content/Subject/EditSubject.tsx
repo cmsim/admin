@@ -1,4 +1,3 @@
-import Association from '@/components/Association/subject'
 import UploadImage from '@/components/Upload'
 import { subjectAdd, subjectDetail, subjectName } from '@/services/subject'
 import { ISubject } from '@/services/typings'
@@ -160,7 +159,6 @@ const SubjectEdit: FC<IEdit> = props => {
         <ProFormSwitch name="isend" label="是否完结" />
       </ProForm.Group>
       <ProFormCheckbox.Group
-        layout="vertical"
         name="mcid"
         label="小类"
         options={mcat.map(item => {
@@ -192,7 +190,7 @@ const SubjectEdit: FC<IEdit> = props => {
         <ProFormTimePicker
           getValueProps={value => {
             return {
-              value: moment(value, 'HH:mm')
+              value: value ? moment(value, 'HH:mm') : null
             }
           }}
           width={110}
@@ -247,11 +245,6 @@ const SubjectEdit: FC<IEdit> = props => {
         <Button type="link" onClick={getDouban} loading={doubanLoading}>
           获取
         </Button>
-      </ProForm.Group>
-      <ProForm.Group size={5}>
-        <Item label="关联" name="associate">
-          {editData?.id && <Association />}
-        </Item>
       </ProForm.Group>
       <ProForm.Group size={5}>
         <ProFormText width="lg" name="website" label="官网" placeholder="官网" />

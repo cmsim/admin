@@ -1,4 +1,5 @@
 import { subjectList } from '@/services/subject'
+import { ISubject } from '@/services/typings'
 import { ModalForm } from '@ant-design/pro-components'
 import { Button, Col, Input, List, Row, Skeleton, Tag, Typography } from 'antd'
 import { FC, useCallback, useEffect, useState } from 'react'
@@ -6,16 +7,14 @@ import { FC, useCallback, useEffect, useState } from 'react'
 const { Search } = Input
 const { Title } = Typography
 
-type ValueType = { id: number | string; name: string }
-
 interface IAssociationProps {
-  value?: ValueType[]
-  onChange?: (value: ValueType[]) => void
+  value?: ISubject[]
+  onChange?: (value: ISubject[]) => void
 }
 
 const Association: FC<IAssociationProps> = props => {
   const { onChange, value } = props
-  const [data, setData] = useState<ValueType[]>()
+  const [data, setData] = useState<ISubject[]>()
   const [initLoading, setInitLoading] = useState(true)
   const [wd, setWd] = useState('')
   const [page, setPage] = useState(1)
@@ -26,7 +25,7 @@ const Association: FC<IAssociationProps> = props => {
       filter: JSON.stringify(params)
     }
     const res = await subjectList(param)
-    const list = res.data?.list?.map(item => ({ id: item.id!, name: item.name })) || []
+    const list = res.data?.list || []
     setInitLoading(false)
     if (current! > 1) {
       setData([...data!, ...list])
@@ -59,15 +58,18 @@ const Association: FC<IAssociationProps> = props => {
     </div>
   ) : null
 
-  const onAdd = (item: ValueType) => {
+  const onAdd = (item: ISubject) => {
     const newValue = [...value!, item]
     onChange && onChange(newValue)
   }
 
-  const onDel = (item: ValueType) => {
+  const onDel = (item: ISubject) => {
+    console.log(item, 'item', value)
     const newValue = value!.filter(i => i.id !== item.id)
     onChange && onChange(newValue)
   }
+
+  console.log(value)
 
   return (
     <>

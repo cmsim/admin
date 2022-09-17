@@ -2,12 +2,13 @@ import { subjectList } from '@/services/subject'
 import type { ISubject } from '@/services/typings'
 import { areaEnum, findMcat, languageEnum, statusType } from '@/utils'
 import { PlusOutlined } from '@ant-design/icons'
-import type { ActionType, ProColumns } from '@ant-design/pro-components'
+import { ActionType, ProColumns } from '@ant-design/pro-components'
 import { FooterToolbar, PageContainer, ProTable } from '@ant-design/pro-components'
 import { useModel } from '@umijs/max'
 import { Button, Popconfirm, Popover } from 'antd'
 import type { FC } from 'react'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import Association from './Association'
 import EditSubject from './EditSubject'
 
 const weekdayEnum = {
@@ -25,6 +26,7 @@ const Subject: FC = () => {
   const [selectedRowsState, setSelectedRows] = useState<ISubject[]>([])
   const { mcat, getMcat } = useModel('useMcat')
   const [modalVisit, setModalVisit] = useState(false)
+  const [assOpen, setAssOpen] = useState(false)
   const [editData, setEditData] = useState<ISubject>()
 
   const del = (id?: number | string) => {
@@ -143,6 +145,15 @@ const Subject: FC = () => {
         >
           <a>编辑</a>
         </span>,
+        <a
+          key="subject"
+          onClick={() => {
+            setAssOpen(true)
+            setEditData(entity)
+          }}
+        >
+          关联剧集
+        </a>,
         <Popconfirm key="delete" onConfirm={() => del(entity.id)} title="确定要删除吗？">
           <a>删除</a>
         </Popconfirm>
@@ -150,16 +161,10 @@ const Subject: FC = () => {
     }
   ]
   return (
-    <PageContainer
-      extra={
-        <Button type="primary" key="primary" onClick={() => setModalVisit(true)}>
-          <PlusOutlined /> 新建
-        </Button>
-      }
-    >
+    <PageContainer header={{ title: false }}>
       <ProTable<ISubject>
+        columns={columns}
         actionRef={actionRef}
-        rowKey="id"
         request={async params => {
           const { current, pageSize, name: wd, mcid, language, area, isend, updated_at, weekday } = params
           const param = {
@@ -182,12 +187,18 @@ const Subject: FC = () => {
             success: true
           }
         }}
-        columns={columns}
+        dateFormatter="string"
+        toolBarRender={() => [
+          <Button key="primary" type="primary" onClick={() => setModalVisit(true)}>
+            <PlusOutlined /> 新建
+          </Button>
+        ]}
         rowSelection={{
           onChange: (_, selectedRows) => {
             setSelectedRows(selectedRows)
           }
         }}
+        rowKey="id"
       />
       {selectedRowsState?.length > 0 && (
         <FooterToolbar
@@ -211,6 +222,7 @@ const Subject: FC = () => {
       {modalVisit && (
         <EditSubject visible={modalVisit} setVisible={setModalVisit} editData={editData} setEditData={setEditData} actionRef={actionRef} />
       )}
+      {assOpen && <Association {...editData!} visible={assOpen} setVisible={setAssOpen} />}
     </PageContainer>
   )
 }

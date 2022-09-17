@@ -52,7 +52,7 @@ export default () => {
       return params
     }
   }
-  console.log(doubanLoading)
+
   return {
     doubanLoading,
     getDoubanDetail
