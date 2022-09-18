@@ -1,6 +1,6 @@
 {
-  "name": "ant-design-pro",
-  "version": "6.0.0",
+  "name": "cms-admin",
+  "version": "1.0.0",
   "private": true,
   "description": "An out-of-box UI solution for enterprise applications",
   "scripts": {
@@ -67,6 +67,7 @@
     "@umijs/max": "^4.0.21",
     "cross-env": "^7.0.3",
     "eslint": "^8.23.1",
+    "eslint-plugin-unicorn": "^43.0.2",
     "gh-pages": "^4.0.0",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.2",

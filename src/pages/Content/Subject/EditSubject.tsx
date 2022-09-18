@@ -1,13 +1,13 @@
 import UploadImage from '@/components/Upload'
 import { subjectAdd, subjectDetail, subjectName } from '@/services/subject'
-import { ISubject } from '@/services/typings'
+import type { ISubject } from '@/services/typings'
 import { getVideo } from '@/services/video'
 import { areaEnum, getListFormat, languageEnum, modelName, statusType } from '@/utils'
 import useBilibili from '@/utils/hooks/useBilibili'
 import useDouban from '@/utils/hooks/useDouban'
 import { CloseOutlined, SnippetsOutlined } from '@ant-design/icons'
+import type { ActionType, ProFormInstance } from '@ant-design/pro-components'
 import {
-  ActionType,
   ModalForm,
   ProCard,
   ProForm,
@@ -15,7 +15,6 @@ import {
   ProFormDatePicker,
   ProFormDependency,
   ProFormDigit,
-  ProFormInstance,
   ProFormList,
   ProFormRate,
   ProFormSelect,
@@ -27,7 +26,8 @@ import {
 import { useModel } from '@umijs/max'
 import { Button, Cascader, Form, message } from 'antd'
 import moment from 'moment'
-import { FC, useEffect, useMemo, useRef, useState } from 'react'
+import type { FC } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 const { Item } = Form
 
@@ -65,17 +65,17 @@ const SubjectEdit: FC<IEdit> = props => {
     return play.reduce((obj, item) => {
       obj[item.title!] = item.name
       return obj
-    }, {}) as { [key: string]: string }
+    }, {}) as Record<string, string>
   }, [play])
 
   const getMedia = async (index: number) => {
     setLoading(true)
-    const play = formRef.current?.getFieldValue('play')
-    const { title, id } = play[index] || {}
+    const playArr = formRef.current?.getFieldValue('play')
+    const { title, id } = playArr[index] || {}
     const res = await getVideo({ title, id })
     if (res.data) {
-      play[index].urls = res.data.join('')
-      formRef.current?.setFieldsValue({ play })
+      playArr[index].urls = res.data.join('')
+      formRef.current?.setFieldsValue({ play: playArr })
     }
     setLoading(false)
   }
@@ -90,8 +90,8 @@ const SubjectEdit: FC<IEdit> = props => {
   }
 
   const getBili = async (index: number) => {
-    const play = formRef.current?.getFieldValue('play')
-    const { id } = play[index] || {}
+    const playArr = formRef.current?.getFieldValue('play')
+    const { id } = playArr[index] || {}
     const params = await getBilibili(id, findMcid)
     formRef.current?.setFieldsValue(params)
   }

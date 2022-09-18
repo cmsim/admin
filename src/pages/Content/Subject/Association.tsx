@@ -1,8 +1,9 @@
 import { subjectDetail, subjectList } from '@/services/subject'
-import { ISubject } from '@/services/typings'
+import type { ISubject } from '@/services/typings'
 import { ModalForm, ProCard } from '@ant-design/pro-components'
 import { Button, Input, List, Skeleton, Tag } from 'antd'
-import { FC, useCallback, useEffect, useState } from 'react'
+import type { FC } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 const { Search } = Input
 
@@ -64,9 +65,13 @@ const Association: FC<ISubject & { visible: boolean; setVisible: (visible: boole
     </div>
   ) : null
 
-  const onAdd = (item: ISubject) => {}
+  const onAdd = (item: ISubject) => {
+    console.log(item)
+  }
 
-  const onDel = (item: ISubject) => {}
+  const onDel = (item: ISubject) => {
+    console.log(item)
+  }
 
   return (
     <ModalForm visible={visible} title={name} submitter={false} onVisibleChange={setVisible}>
@@ -88,9 +93,9 @@ const Association: FC<ISubject & { visible: boolean; setVisible: (visible: boole
       <Search
         style={{ marginTop: 10 }}
         placeholder="请输入名称"
-        onSearch={wd => {
-          getList({ wd })
-          setWd(wd)
+        onSearch={word => {
+          getList({ wd: word })
+          setWd(word)
         }}
         enterButton
       />
@@ -101,7 +106,13 @@ const Association: FC<ISubject & { visible: boolean; setVisible: (visible: boole
         loadMore={loadMore}
         dataSource={data}
         renderItem={item => (
-          <List.Item actions={[<a key="list-loadmore-edit">关联</a>]}>
+          <List.Item
+            actions={[
+              <a key="list-loadmore-edit" onClick={() => onAdd(item)}>
+                关联
+              </a>
+            ]}
+          >
             <Skeleton avatar title={false} loading={initLoading} active>
               <List.Item.Meta title={item.name} />
             </Skeleton>
