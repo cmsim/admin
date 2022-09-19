@@ -164,6 +164,7 @@ export interface ISubject extends IHits, IDate, Omit<IId, 'sid' | 'aid'> {
   comment_count: number
   like_count: number
   forward_count: number
+  association?: IAssociation
   associate1: ISubject[]
   associate2: ISubject[]
 }
