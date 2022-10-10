@@ -25,10 +25,6 @@ const Login: React.FC = () => {
   const [userLoginState, setUserLoginState] = useState<API.LoginResult>({})
   const { initialState, setInitialState } = useModel('@@initialState')
 
-  useEffect(() => {
-    fetchUserInfo()
-  }, [])
-
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.()
     if (userInfo) {
@@ -40,20 +36,20 @@ const Login: React.FC = () => {
     }
   }
 
+  useEffect(() => {
+    fetchUserInfo()
+  }, [])
+
   const handleSubmit = async (values: API.LoginParams) => {
     try {
       // 登录
       const res = await login({ ...values, password: md5(values.password!) })
-
       if (res.status === 200) {
         message.success('登录成功！')
         localStorage.token = res?.data
         await fetchUserInfo()
         return
       }
-
-      console.log(res) // 如果失败去设置用户错误信息
-
       setUserLoginState(res)
     } catch (error) {
       console.log(error, 'error')
