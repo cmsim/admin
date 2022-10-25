@@ -18,7 +18,6 @@
     "lint:js": "eslint --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./src",
     "lint:prettier": "prettier -c --write \"src/**/*\" --end-of-line auto",
     "openapi": "max openapi",
-    "playwright": "playwright install && playwright test",
     "prepare": "husky install",
     "prettier": "prettier -c --write \"src/**/*\"",
     "serve": "umi-serve",
@@ -40,10 +39,10 @@
   ],
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
-    "@ant-design/pro-components": "^2.3.13",
-    "antd": "4.23.4",
+    "@ant-design/pro-components": "^2.3.24",
+    "antd": "4.23.6",
     "classnames": "^2.3.2",
-    "cos-js-sdk-v5": "^1.4.6",
+    "cos-js-sdk-v5": "^1.4.10",
     "lodash": "^4.17.21",
     "md5": "^2.3.0",
     "moment": "^2.29.4",
@@ -51,21 +50,21 @@
     "react": "^18.2.0",
     "react-dev-inspector": "^1.8.1",
     "react-dom": "^18.2.0",
-    "socket.io-client": "^4.5.2",
+    "socket.io-client": "^4.5.3",
     "spark-md5": "^3.0.2"
   },
   "devDependencies": {
     "@ant-design/pro-cli": "^3.0.0",
     "@types/lodash": "^4.14.186",
     "@types/md5": "^2.3.2",
-    "@types/react": "^18.0.21",
-    "@types/react-dom": "^18.0.6",
+    "@types/react": "^18.0.22",
+    "@types/react-dom": "^18.0.7",
     "@types/react-helmet": "^6.1.5",
     "@types/spark-md5": "^3.0.2",
     "@umijs/fabric": "^3.0.0",
-    "@umijs/max": "^4.0.24",
+    "@umijs/max": "^4.0.26",
     "cross-env": "^7.0.3",
-    "eslint": "^8.25.0",
+    "eslint": "^8.26.0",
     "eslint-plugin-unicorn": "^44.0.2",
     "gh-pages": "^4.0.0",
     "husky": "^8.0.1",
@@ -73,7 +72,7 @@
     "prettier": "^2.7.1",
     "typescript": "^4.8.4",
     "typescript-plugin-css-modules": "^3.4.0",
-    "umi-presets-pro": "^1.0.5"
+    "umi-presets-pro": "^1.0.7"
   },
   "engines": {
     "node": ">=14.0.0"

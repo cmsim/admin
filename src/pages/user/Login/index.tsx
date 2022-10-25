@@ -6,6 +6,7 @@ import { history, useModel } from '@umijs/max'
 import { Alert, message } from 'antd'
 import md5 from 'md5'
 import React, { useEffect, useState } from 'react'
+import { flushSync } from 'react-dom'
 import styles from './index.less'
 
 const LoginMessage: React.FC<{
@@ -28,7 +29,12 @@ const Login: React.FC = () => {
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.()
     if (userInfo) {
-      await setInitialState(s => ({ ...s, currentUser: userInfo }))
+      flushSync(() => {
+        setInitialState(s => ({
+          ...s,
+          currentUser: userInfo
+        }))
+      })
       /** 此方法会跳转到 redirect 参数所在的位置 */
       if (!history) return
       const urlParams = new URL(window.location.href).searchParams

@@ -11,7 +11,6 @@ export default defineConfig({
   antd: {},
   request: {},
   initialState: {},
-  clickToComponent: {},
   model: {},
   layout: {
     // https://umijs.org/zh-CN/plugins/plugin-layout

@@ -5,6 +5,7 @@ import { Avatar, Menu, Spin } from 'antd'
 import type { ItemType } from 'antd/es/menu/hooks/useItems'
 import { stringify } from 'querystring'
 import React, { useCallback } from 'react'
+import { flushSync } from 'react-dom'
 import HeaderDropdown from '../HeaderDropdown'
 import styles from './index.less'
 
@@ -41,7 +42,9 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
     (event: MenuInfo) => {
       const { key } = event
       if (key === 'logout') {
-        setInitialState(s => ({ ...s, currentUser: undefined }))
+        flushSync(() => {
+          setInitialState(s => ({ ...s, currentUser: undefined }))
+        })
         loginOut()
         return
       }
