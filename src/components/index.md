@@ -45,7 +45,7 @@ export default () => {
     </Menu>
   )
   return (
-    <HeaderDropdown overlay={menuHeaderDropdown}>
+    <HeaderDropdown menu={{ items: [] }}>
       <Button>hover 展示菜单</Button>
     </HeaderDropdown>
   )

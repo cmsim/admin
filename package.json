@@ -39,10 +39,10 @@
   ],
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
-    "@ant-design/pro-components": "^2.3.24",
-    "antd": "4.23.6",
+    "@ant-design/pro-components": "^2.3.30",
+    "antd": "4.24.1",
     "classnames": "^2.3.2",
-    "cos-js-sdk-v5": "^1.4.10",
+    "cos-js-sdk-v5": "^1.4.11",
     "lodash": "^4.17.21",
     "md5": "^2.3.0",
     "moment": "^2.29.4",
@@ -54,25 +54,25 @@
     "spark-md5": "^3.0.2"
   },
   "devDependencies": {
-    "@ant-design/pro-cli": "^3.0.0",
-    "@types/lodash": "^4.14.186",
+    "@ant-design/pro-cli": "^3.0.1",
+    "@types/lodash": "^4.14.188",
     "@types/md5": "^2.3.2",
-    "@types/react": "^18.0.22",
-    "@types/react-dom": "^18.0.7",
+    "@types/react": "^18.0.25",
+    "@types/react-dom": "^18.0.8",
     "@types/react-helmet": "^6.1.5",
     "@types/spark-md5": "^3.0.2",
     "@umijs/fabric": "^3.0.0",
-    "@umijs/max": "^4.0.26",
+    "@umijs/max": "^4.0.30",
     "cross-env": "^7.0.3",
-    "eslint": "^8.26.0",
+    "eslint": "^8.27.0",
     "eslint-plugin-unicorn": "^44.0.2",
     "gh-pages": "^4.0.0",
-    "husky": "^8.0.1",
+    "husky": "^8.0.2",
     "lint-staged": "^13.0.2",
     "prettier": "^2.7.1",
     "typescript": "^4.8.4",
     "typescript-plugin-css-modules": "^3.4.0",
-    "umi-presets-pro": "^1.0.7"
+    "umi-presets-pro": "^1.0.8"
   },
   "engines": {
     "node": ">=14.0.0"

@@ -1,10 +1,10 @@
 import { outLogin } from '@/services/user'
 import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons'
 import { history, useModel } from '@umijs/max'
-import { Avatar, Menu, Spin } from 'antd'
+import { Avatar, Spin } from 'antd'
 import type { ItemType } from 'antd/es/menu/hooks/useItems'
 import { stringify } from 'querystring'
-import React, { useCallback } from 'react'
+import React from 'react'
 import { flushSync } from 'react-dom'
 import HeaderDropdown from '../HeaderDropdown'
 import styles from './index.less'
@@ -27,9 +27,9 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
     /** 此方法会跳转到 redirect 参数所在的位置 */
     const redirect = urlParams.get('redirect')
     // Note: There may be security issues, please note
-    if (window.location.pathname !== '/user/login' && !redirect) {
+    if (window.location.pathname !== '/login' && !redirect) {
       history.replace({
-        pathname: '/user/login',
+        pathname: '/login',
         search: stringify({
           redirect: pathname + search
         })
@@ -37,21 +37,6 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
     }
   }
   const { initialState, setInitialState } = useModel('@@initialState')
-
-  const onMenuClick = useCallback(
-    (event: MenuInfo) => {
-      const { key } = event
-      if (key === 'logout') {
-        flushSync(() => {
-          setInitialState(s => ({ ...s, currentUser: undefined }))
-        })
-        loginOut()
-        return
-      }
-      history.push(`/account/${key}`)
-    },
-    [setInitialState]
-  )
 
   const loading = (
     <span className={`${styles.action} ${styles.account}`}>
@@ -96,14 +81,23 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
     {
       key: 'logout',
       icon: <LogoutOutlined />,
-      label: '退出登录'
+      label: (
+        <a
+          onClick={() => {
+            flushSync(() => {
+              setInitialState(s => ({ ...s, currentUser: undefined }))
+            })
+            loginOut()
+          }}
+        >
+          退出登录
+        </a>
+      )
     }
   ]
 
-  const menuHeaderDropdown = <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick} items={menuItems} />
-
   return (
-    <HeaderDropdown overlay={menuHeaderDropdown}>
+    <HeaderDropdown menu={{ items: menuItems }}>
       <span className={`${styles.action} ${styles.account}`}>
         <Avatar size="small" className={styles.avatar} src={currentUser.avatar} alt="avatar" />
         <span className={`${styles.name} anticon`}>{currentUser.username}</span>
