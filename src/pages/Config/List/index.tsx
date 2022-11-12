@@ -86,7 +86,7 @@ const Setting = () => {
           type: 'multiple',
           editableKeys,
           onSave: async (_, data) => {
-            if (typeof data.id === 'string') {
+            if (typeof data.id === 'string' && data.id.length === 6) {
               delete data.id
             }
             settingAdd({ ...data }).then(res => {

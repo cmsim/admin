@@ -119,7 +119,7 @@ const Typelist = () => {
           type: 'multiple',
           editableKeys,
           onSave: async (rowKey, data, row) => {
-            if (typeof data.id === 'string') {
+            if (typeof data.id === 'string' && data.id.length === 6) {
               delete data.id
             }
             listAdd({ ...data }).then(res => {

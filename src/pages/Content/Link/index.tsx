@@ -15,7 +15,8 @@ import {
   ProTable
 } from '@ant-design/pro-components'
 import { useModel } from '@umijs/max'
-import { Button, FormInstance, message, Popconfirm, Popover } from 'antd'
+import type { FormInstance } from 'antd'
+import { Button, message, Popconfirm, Popover } from 'antd'
 import type { FC } from 'react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 
@@ -41,7 +42,7 @@ const Pin: FC = () => {
     return categoryList.reduce((obj, item) => {
       obj[item.id!] = item.name
       return obj
-    }, {} as { [key: string]: number | string | undefined })
+    }, {} as Record<string, number | string | undefined>)
   }, [categoryList])
 
   const columns: ProColumns<ILinkTable>[] = [
@@ -64,19 +65,13 @@ const Pin: FC = () => {
             {name}
           </Popover>
         ) : (
-          '-'
+          name || '-'
         )
     },
     {
       title: '分类',
       dataIndex: 'cid',
       valueEnum: cidList
-    },
-    {
-      title: '用户名',
-      search: false,
-      dataIndex: 'username',
-      render: (_, entity) => entity.user?.username
     },
     {
       title: '颜色',
@@ -89,21 +84,8 @@ const Pin: FC = () => {
       dataIndex: 'text'
     },
     {
-      title: '更新时间',
-      search: false,
-      dataIndex: 'updated_at'
-    },
-    {
-      title: '更新时间',
-      sorter: true,
-      dataIndex: 'updated_at',
-      valueType: 'dateRange',
-      hideInTable: true
-    },
-    {
-      title: '创建时间',
-      sorter: true,
-      dataIndex: 'created_at',
+      title: 'url',
+      dataIndex: 'url',
       search: false
     },
     {
@@ -146,6 +128,7 @@ const Pin: FC = () => {
         request={async params => {
           console.log(params, 'params')
           const res = await linkList(params)
+          console.log(res, 'res')
           return {
             data: res.data?.list,
             total: res.data?.total,
